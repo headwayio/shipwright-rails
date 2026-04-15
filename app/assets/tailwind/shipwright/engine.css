@@ -1,0 +1,28 @@
+/* Shipwright Design System — Tailwind 4 Theme Tokens
+ *
+ * Do NOT add @import "tailwindcss" here — the host app provides it.
+ *
+ * @source directives tell Tailwind to scan Shipwright's component
+ * templates for utility classes so they are not purged.
+ */
+@source "../../components/**/*.html.erb";
+@source "../../components/**/*.rb";
+
+@theme {
+  /* Colors — semantic naming for future dark mode support */
+  --color-primary: oklch(0.6 0.2 260);
+  --color-secondary: oklch(0.65 0.15 330);
+  --color-surface: oklch(0.98 0 0);
+  --color-on-surface: oklch(0.2 0 0);
+  --color-muted: oklch(0.55 0.02 260);
+  --color-destructive: oklch(0.55 0.25 30);
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-default: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+}
