@@ -1,0 +1,2 @@
+# This dummy app uses the parent gem's Gemfile
+eval_gemfile File.expand_path("../../Gemfile", __dir__)
