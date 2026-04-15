@@ -5,8 +5,8 @@
  * @source directives tell Tailwind to scan Shipwright's component
  * templates for utility classes so they are not purged.
  */
-@source "../../components/**/*.html.erb";
-@source "../../components/**/*.rb";
+@source "../../../components/**/*.html.erb";
+@source "../../../components/**/*.rb";
 
 @theme {
   /* Colors — semantic naming for future dark mode support */

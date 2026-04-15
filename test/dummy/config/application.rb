@@ -4,6 +4,7 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 require "shipwright"
 require "view_component"
+require "tailwindcss-rails"
 
 module Dummy
   class Application < Rails::Application
