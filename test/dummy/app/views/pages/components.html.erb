@@ -1,0 +1,22 @@
+<div style="padding: 2rem; font-family: system-ui;">
+  <h1>Shipwright Components</h1>
+
+  <h2>Button — Variants</h2>
+  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(variant: :primary) { "Primary" } %>
+    <%= render Shipwright::ButtonComponent.new(variant: :secondary) { "Secondary" } %>
+    <%= render Shipwright::ButtonComponent.new(variant: :outline) { "Outline" } %>
+  </div>
+
+  <h2>Button — Sizes</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(size: :sm) { "Small" } %>
+    <%= render Shipwright::ButtonComponent.new(size: :md) { "Medium" } %>
+    <%= render Shipwright::ButtonComponent.new(size: :lg) { "Large" } %>
+  </div>
+
+  <h2>Button — Class Override</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(class: "w-full") { "Full Width Override" } %>
+  </div>
+</div>
