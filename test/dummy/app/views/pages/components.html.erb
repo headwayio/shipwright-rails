@@ -1,11 +1,12 @@
 <div style="padding: 2rem; font-family: system-ui;">
   <h1>Shipwright Components</h1>
 
-  <h2>Button — Variants</h2>
-  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-    <%= render Shipwright::ButtonComponent.new(variant: :primary) { "Primary" } %>
-    <%= render Shipwright::ButtonComponent.new(variant: :secondary) { "Secondary" } %>
-    <%= render Shipwright::ButtonComponent.new(variant: :outline) { "Outline" } %>
+  <h2>Button — Hierarchies</h2>
+  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :primary) { "Primary" } %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :secondary) { "Secondary" } %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :tertiary) { "Tertiary" } %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :destructive) { "Destructive" } %>
   </div>
 
   <h2>Button — Sizes</h2>
@@ -13,6 +14,35 @@
     <%= render Shipwright::ButtonComponent.new(size: :sm) { "Small" } %>
     <%= render Shipwright::ButtonComponent.new(size: :md) { "Medium" } %>
     <%= render Shipwright::ButtonComponent.new(size: :lg) { "Large" } %>
+  </div>
+
+  <h2>Button — Shape</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(shape: :rounded) { "Rounded" } %>
+    <%= render Shipwright::ButtonComponent.new(shape: :pill) { "Pill" } %>
+  </div>
+
+  <h2>Button — Icon Only</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :sm) do %>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+    <% end %>
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :md) do %>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3v14M3 10h14"/></svg>
+    <% end %>
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :lg) do %>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M4 12h16"/></svg>
+    <% end %>
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, shape: :pill) do %>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3v14M3 10h14"/></svg>
+    <% end %>
+  </div>
+
+  <h2>Button — Disabled</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :primary, disabled: true) { "Primary Disabled" } %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :secondary, disabled: true) { "Secondary Disabled" } %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :destructive, disabled: true) { "Destructive Disabled" } %>
   </div>
 
   <h2>Button — Class Override</h2>

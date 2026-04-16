@@ -1,0 +1,6 @@
+<div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; padding: 2rem;">
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :primary) { "Primary" } %>
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :secondary) { "Secondary" } %>
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :tertiary) { "Tertiary" } %>
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :destructive) { "Destructive" } %>
+</div>

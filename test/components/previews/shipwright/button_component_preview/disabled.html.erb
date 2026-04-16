@@ -1,0 +1,6 @@
+<div style="display: flex; gap: 1rem; align-items: center; padding: 2rem;">
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :primary, disabled: true) { "Disabled" } %>
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :secondary, disabled: true) { "Disabled" } %>
+  <%= render Shipwright::ButtonComponent.new(hierarchy: :destructive, disabled: true) { "Disabled" } %>
+  <%= render Shipwright::ButtonComponent.new(icon_only: true, disabled: true) { "×" } %>
+</div>

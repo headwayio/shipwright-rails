@@ -1,12 +1,25 @@
 module Shipwright
   class BaseComponent < ViewComponent::Base
     # Class-level merger singleton — avoids cold cache per component instance.
-    # Configured with custom theme tokens so tailwind_merge recognizes
-    # bg-primary, text-surface, etc. as conflicting within their groups.
+    # Configured with Shipwright Pro's custom theme tokens so tailwind_merge
+    # recognizes conflicts within color/radius groups (e.g., bg-interactive-primary-default
+    # and bg-utility-negative-default are both color utilities and should conflict).
     MERGER = TailwindMerge::Merger.new(config: {
       theme: {
-        "color" => %w[primary secondary surface on-surface muted destructive],
-        "radius" => %w[default sm lg full]
+        "color" => %w[
+          interactive-primary-default
+          interactive-primary-hover
+          interactive-primary-pressed
+          interactive-secondary-default
+          interactive-disable
+          border-interactive
+          utility-negative-default
+          text-primary
+          text-inverse
+          text-disabled
+          background-primary
+        ],
+        "radius" => %w[md]
       }
     }).freeze
 
@@ -20,8 +33,8 @@ module Shipwright
     # @param conditionals [Hash] class_string => boolean pairs
     #
     # Usage:
-    #   classes("px-4 py-2 bg-primary", consumer: @class)
-    #   classes("px-4 py-2", "bg-primary": active?, "opacity-50": disabled?, consumer: @class)
+    #   classes("px-sm py-2xs bg-interactive-primary-default", consumer: @class)
+    #   classes("px-sm", "bg-interactive-primary-default": active?, consumer: @class)
     def classes(*defaults, consumer: nil, **conditionals)
       conditional = conditionals.select { |_, v| v }.keys.map(&:to_s).join(" ")
       combined = [*defaults.compact, conditional, consumer].reject { |s| s.to_s.strip.empty? }.join(" ")
