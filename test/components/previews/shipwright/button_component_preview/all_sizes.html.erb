@@ -1,5 +1,5 @@
 <div style="display: flex; gap: 1rem; align-items: center; padding: 2rem;">
-  <%= render Shipwright::ButtonComponent.new(size: :sm) { "Small" } %>
-  <%= render Shipwright::ButtonComponent.new(size: :md) { "Medium" } %>
-  <%= render Shipwright::ButtonComponent.new(size: :lg) { "Large" } %>
+  <%= render Shipwright::ButtonComponent.new(size: :sm) do %>Small<% end %>
+  <%= render Shipwright::ButtonComponent.new(size: :md) do %>Medium<% end %>
+  <%= render Shipwright::ButtonComponent.new(size: :lg) do %>Large<% end %>
 </div>

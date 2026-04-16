@@ -1,6 +1,6 @@
 <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 1rem; padding: 2rem; justify-content: start;">
-  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :primary) { "Primary" } %>
-  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :secondary) { "Secondary" } %>
-  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :tertiary) { "Tertiary" } %>
-  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :destructive) { "Destructive" } %>
+  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :primary) do %>Primary<% end %>
+  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :secondary) do %>Secondary<% end %>
+  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :tertiary) do %>Tertiary<% end %>
+  <%= render Shipwright::ButtonComponent.new(shape: :pill, hierarchy: :destructive) do %>Destructive<% end %>
 </div>

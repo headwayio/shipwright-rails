@@ -2,22 +2,22 @@ module Shipwright
   class ButtonComponentPreview < Lookbook::Preview
     # @label Primary (default)
     def primary
-      render Shipwright::ButtonComponent.new(hierarchy: :primary) { "Primary" }
+      render(Shipwright::ButtonComponent.new(hierarchy: :primary)) { "Primary" }
     end
 
     # @label Secondary
     def secondary
-      render Shipwright::ButtonComponent.new(hierarchy: :secondary) { "Secondary" }
+      render(Shipwright::ButtonComponent.new(hierarchy: :secondary)) { "Secondary" }
     end
 
     # @label Tertiary
     def tertiary
-      render Shipwright::ButtonComponent.new(hierarchy: :tertiary) { "Tertiary" }
+      render(Shipwright::ButtonComponent.new(hierarchy: :tertiary)) { "Tertiary" }
     end
 
     # @label Destructive
     def destructive
-      render Shipwright::ButtonComponent.new(hierarchy: :destructive) { "Delete" }
+      render(Shipwright::ButtonComponent.new(hierarchy: :destructive)) { "Delete" }
     end
 
     # @label All Hierarchies
@@ -47,7 +47,7 @@ module Shipwright
 
     # @label With Class Override
     def with_class_override
-      render Shipwright::ButtonComponent.new(class: "w-full") { "Full Width" }
+      render(Shipwright::ButtonComponent.new(class: "w-full")) { "Full Width" }
     end
   end
 end
