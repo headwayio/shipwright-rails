@@ -25,16 +25,16 @@
   <h2>Button — Icon Only</h2>
   <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
     <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :sm) do %>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+      <%= render Shipwright::IconComponent.new(name: :plus, size: :sm) %>
     <% end %>
     <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :md) do %>
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3v14M3 10h14"/></svg>
+      <%= render Shipwright::IconComponent.new(name: :plus) %>
     <% end %>
     <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :lg) do %>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M4 12h16"/></svg>
+      <%= render Shipwright::IconComponent.new(name: :plus, size: :lg) %>
     <% end %>
     <%= render Shipwright::ButtonComponent.new(icon_only: true, shape: :pill) do %>
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3v14M3 10h14"/></svg>
+      <%= render Shipwright::IconComponent.new(name: :plus) %>
     <% end %>
   </div>
 
@@ -65,5 +65,12 @@
     <%= render Shipwright::IconComponent.new(name: :info, size: :sm) %>
     <%= render Shipwright::IconComponent.new(name: :info, size: :md) %>
     <%= render Shipwright::IconComponent.new(name: :info, size: :lg) %>
+  </div>
+
+  <h2>Link</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render(Shipwright::LinkComponent.new(href: "#")) { "Default" } %>
+    <%= render(Shipwright::LinkComponent.new(href: "#", decoration: :none)) { "No decoration" } %>
+    <%= render(Shipwright::LinkComponent.new(href: "#", disabled: true)) { "Disabled" } %>
   </div>
 </div>
