@@ -1,0 +1,7 @@
+<div style="display: flex; gap: 1.5rem; align-items: center; padding: 2rem;">
+  <%= render Shipwright::BadgeComponent.new(sentiment: :neutral) %>
+  <%= render Shipwright::BadgeComponent.new(sentiment: :informative) %>
+  <%= render Shipwright::BadgeComponent.new(sentiment: :positive) %>
+  <%= render Shipwright::BadgeComponent.new(sentiment: :negative) %>
+  <%= render Shipwright::BadgeComponent.new(sentiment: :warning) %>
+</div>

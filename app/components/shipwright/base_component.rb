@@ -13,7 +13,12 @@ module Shipwright
           interactive-secondary-default
           interactive-disable
           border-interactive
+          border-inverse
+          utility-neutral-default
+          utility-information-default
+          utility-positive-default
           utility-negative-default
+          utility-warning-default
           text-primary
           text-inverse
           text-disabled

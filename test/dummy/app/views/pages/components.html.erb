@@ -49,4 +49,28 @@
   <div style="margin-bottom: 1rem;">
     <%= render Shipwright::ButtonComponent.new(class: "w-full") do %>Full Width Override<% end %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Badge — Sentiments</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::BadgeComponent.new(sentiment: :neutral) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :informative) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :negative) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :warning) %>
+  </div>
+
+  <h2>Badge — Sizes</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive, size: :sm) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive, size: :md) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive, size: :lg) %>
+  </div>
+
+  <h2>Badge — With Text</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :negative, size: :lg)) { "3" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :informative, size: :lg)) { "20" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :warning, size: :lg)) { "99+" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :positive, size: :lg)) { "NEW" } %>
+  </div>
 </div>
