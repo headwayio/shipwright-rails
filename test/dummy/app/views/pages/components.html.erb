@@ -49,4 +49,11 @@
   <div style="margin-bottom: 1rem;">
     <%= render Shipwright::ButtonComponent.new(class: "w-full") do %>Full Width Override<% end %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Link</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render(Shipwright::LinkComponent.new(href: "#")) { "Default" } %>
+    <%= render(Shipwright::LinkComponent.new(href: "#", decoration: :none)) { "No decoration" } %>
+    <%= render(Shipwright::LinkComponent.new(href: "#", disabled: true)) { "Disabled" } %>
+  </div>
 </div>
