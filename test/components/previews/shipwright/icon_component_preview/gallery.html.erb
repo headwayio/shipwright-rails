@@ -1,0 +1,8 @@
+<div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.5rem; padding: 2rem;">
+  <% Shipwright::IconComponent.icon_names.each do |name| %>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+      <%= render Shipwright::IconComponent.new(name: name) %>
+      <span style="font-size: 0.75rem; color: #555;"><%= name %></span>
+    </div>
+  <% end %>
+</div>
