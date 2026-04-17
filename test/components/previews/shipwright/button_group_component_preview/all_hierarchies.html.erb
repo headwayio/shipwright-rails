@@ -1,0 +1,26 @@
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">Primary</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :primary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :primary) do %>Copy<% end %>
+      <% group.with_button(hierarchy: :primary) do %>Delete<% end %>
+    <% end %>
+  </div>
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">Secondary</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Copy<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Delete<% end %>
+    <% end %>
+  </div>
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">Tertiary</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :tertiary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :tertiary) do %>Copy<% end %>
+      <% group.with_button(hierarchy: :tertiary) do %>Delete<% end %>
+    <% end %>
+  </div>
+</div>

@@ -37,18 +37,43 @@ Use an explicit stylesheet tag in your layout — **not** `stylesheet_link_tag :
 ## Usage
 
 ```erb
-<%= render Shipwright::ButtonComponent.new(variant: :primary, size: :md) { "Click me" } %>
+<%= render(Shipwright::ButtonComponent.new(hierarchy: :primary, size: :md)) { "Click me" } %>
 ```
+
+> **Note:** Wrap `render()` in parentheses OR use `do/end` blocks. `render Component.new(args) { "text" }` attaches the block to `.new`, not `render`, leaving the component empty.
 
 ### ButtonComponent
 
 | Param | Values | Default |
 |-------|--------|---------|
-| `variant` | `:primary`, `:secondary`, `:outline` | `:primary` |
-| `size` | `:sm`, `:md`, `:lg` | `:md` |
+| `hierarchy` | `:primary`, `:secondary`, `:tertiary`, `:destructive` | `:primary` |
+| `size` | `:sm` (32h), `:md` (44h), `:lg` (52h) | `:md` |
+| `shape` | `:rounded`, `:pill` | `:rounded` |
+| `icon_only` | `true`/`false` | `false` |
+| `disabled` | `true`/`false` | `false` |
 | `class` | Any Tailwind classes | `nil` |
 
 Additional HTML attributes (`id`, `data-*`, etc.) are passed through.
+
+### ButtonGroupComponent
+
+Collection of buttons that share edges (compact) or spacing (regular). Uses slots for composition:
+
+```erb
+<%= render Shipwright::ButtonGroupComponent.new(density: :compact, orientation: :horizontal) do |group| %>
+  <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+  <% group.with_button(hierarchy: :secondary) do %>Copy<% end %>
+  <% group.with_button(hierarchy: :secondary) do %>Delete<% end %>
+<% end %>
+```
+
+| Param | Values | Default |
+|-------|--------|---------|
+| `density` | `:compact` (shared borders), `:regular` (8px gap) | `:compact` |
+| `orientation` | `:horizontal`, `:vertical` | `:horizontal` |
+| `class` | Any Tailwind classes | `nil` |
+
+The group applies position-aware border-radius to children via Tailwind child selectors — `ButtonComponent` doesn't know or care it's in a group.
 
 ### Class overrides
 

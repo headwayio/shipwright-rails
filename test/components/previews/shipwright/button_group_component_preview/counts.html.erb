@@ -1,0 +1,36 @@
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">2 buttons</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Move<% end %>
+    <% end %>
+  </div>
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">3 buttons</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Copy<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Delete<% end %>
+    <% end %>
+  </div>
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">4 buttons</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Copy<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Delete<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Move<% end %>
+    <% end %>
+  </div>
+  <div>
+    <h3 style="margin-bottom: 0.5rem;">5 buttons</h3>
+    <%= render Shipwright::ButtonGroupComponent.new do |group| %>
+      <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Copy<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Delete<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Layers<% end %>
+      <% group.with_button(hierarchy: :secondary) do %>Move<% end %>
+    <% end %>
+  </div>
+</div>

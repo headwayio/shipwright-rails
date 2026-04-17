@@ -1,0 +1,7 @@
+<div style="padding: 2rem;">
+  <%= render Shipwright::ButtonGroupComponent.new(density: :compact, orientation: :vertical) do |group| %>
+    <% group.with_button(hierarchy: :secondary) do %>Edit<% end %>
+    <% group.with_button(hierarchy: :secondary) do %>Copy<% end %>
+    <% group.with_button(hierarchy: :secondary) do %>Delete<% end %>
+  <% end %>
+</div>

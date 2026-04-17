@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0] - Unreleased
+
+### Added
+
+- `ButtonGroupComponent` with slot-based composition, density (`:compact`/`:regular`),
+  and orientation (`:horizontal`/`:vertical`). Uses Tailwind child selectors for
+  position-aware styling so `ButtonComponent` remains unaware of group context.
+
 ## [0.2.0] - Unreleased
 
 ### Breaking Changes
