@@ -1,0 +1,9 @@
+<%= content_tag :details, class: container_classes, open: open_attr, **html_attrs do %>
+  <summary class="<%= summary_classes %>">
+    <%= render Shipwright::IconComponent.new(name: :"chevron-down", size: :sm, class: chevron_classes) %>
+    <span class="flex-1"><%= title %></span>
+  </summary>
+  <div class="<%= body_classes %>">
+    <%= content %>
+  </div>
+<% end %>

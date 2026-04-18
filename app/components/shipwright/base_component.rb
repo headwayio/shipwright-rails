@@ -13,11 +13,13 @@ module Shipwright
           interactive-secondary-default
           interactive-disable
           border-interactive
+          border-primary
           utility-negative-default
           text-primary
           text-inverse
           text-disabled
           background-primary
+          background-secondary
         ],
         "radius" => %w[md]
       }

@@ -25,6 +25,7 @@
 
   /* Border colors */
   --color-border-interactive: #14161c;
+  --color-border-primary: #eaeaea;
 
   /* Utility colors (destructive, success, warning, info, etc.) */
   --color-utility-negative-default: #b62e2e;
@@ -36,6 +37,7 @@
 
   /* Background colors */
   --color-background-primary: #fdfdfd;
+  --color-background-secondary: #f3f3f3;
 
   /* Typography — font loading is the consuming app's responsibility */
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
