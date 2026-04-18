@@ -1,0 +1,11 @@
+<div style="padding: 2rem; max-width: 640px; display: flex; flex-direction: column; gap: 0.5rem;">
+  <%= render(Shipwright::AccordionComponent.new(title: "What is Shipwright?")) do %>
+    A Rails ViewComponent library implementing the Shipwright Pro design system.
+  <% end %>
+  <%= render(Shipwright::AccordionComponent.new(title: "How do I install it?")) do %>
+    Add it to your Gemfile from the private repo and follow the setup instructions in the README.
+  <% end %>
+  <%= render(Shipwright::AccordionComponent.new(title: "Does it work with React Native?")) do %>
+    No — this library is Rails-only. See the sister project shipwright-ui for React + React Native.
+  <% end %>
+</div>

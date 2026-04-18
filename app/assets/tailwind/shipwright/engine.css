@@ -26,6 +26,7 @@
   /* Border colors */
   --color-border-interactive: #14161c;
   --color-border-inverse: #fdfdfd;
+  --color-border-primary: #eaeaea;
 
   /* Utility colors (semantic sentiments) */
   --color-utility-neutral-default: #292c39;

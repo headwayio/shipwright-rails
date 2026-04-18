@@ -14,6 +14,7 @@ module Shipwright
           interactive-disable
           border-interactive
           border-inverse
+          border-primary
           utility-neutral-default
           utility-information-default
           utility-positive-default

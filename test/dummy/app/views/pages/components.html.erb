@@ -119,4 +119,17 @@
       A simple banner without an icon or header.
     <% end %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Accordion</h2>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 640px; margin-bottom: 1rem;">
+    <%= render(Shipwright::AccordionComponent.new(title: "What is Shipwright?")) do %>
+      A Rails ViewComponent library implementing the Shipwright Pro design system.
+    <% end %>
+    <%= render(Shipwright::AccordionComponent.new(title: "How do I install it?", open: true)) do %>
+      Add it to your Gemfile and follow the setup instructions in the README.
+    <% end %>
+    <%= render(Shipwright::AccordionComponent.new(title: "Does it work with React Native?")) do %>
+      No — this is a Rails-only library. See shipwright-ui for React + React Native.
+    <% end %>
+  </div>
 </div>
