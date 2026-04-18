@@ -29,6 +29,14 @@ module Shipwright
     def container_classes
       classes(
         "group block border border-border-primary rounded-md overflow-hidden font-sans",
+        # Height transition for open/close.
+        # Relies on interpolate-size + the ::details-content pseudo-element
+        # to animate from height 0 ↔ auto without JS measurement.
+        # Browsers without support (older Firefox) fall back to instant toggle.
+        "[interpolate-size:allow-keywords]",
+        "[&::details-content]:h-0 [&::details-content]:overflow-hidden",
+        "[&::details-content]:transition-[height,content-visibility] [&::details-content]:duration-200 [&::details-content]:ease-out",
+        "[&[open]::details-content]:h-auto",
         consumer: @class
       )
     end
@@ -47,7 +55,9 @@ module Shipwright
     end
 
     def body_classes
-      "px-4 pb-3 pt-0 text-sm leading-5 text-text-primary"
+      # pt-2 (8px / spacing-2xs) gives the body a small breathing gap below
+      # the summary's bottom padding. Matches Shipwright Pro's spacing scale.
+      "px-4 pb-3 pt-2 text-sm leading-5 text-text-primary"
     end
 
     def chevron_classes
