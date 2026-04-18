@@ -69,4 +69,22 @@
     <%= render Shipwright::IconComponent.new(name: :info, size: :md) %>
     <%= render Shipwright::IconComponent.new(name: :info, size: :lg) %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Breadcrumb</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render Shipwright::BreadcrumbComponent.new do |crumb| %>
+      <% crumb.with_item(href: "/", icon: :home) { "Home" } %>
+      <% crumb.with_item(href: "/products") { "Products" } %>
+      <% crumb.with_item { "Widget Pro" } %>
+    <% end %>
+  </div>
+
+  <h2>Breadcrumb — slash separator</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render Shipwright::BreadcrumbComponent.new(separator: :slash) do |crumb| %>
+      <% crumb.with_item(href: "/") { "Home" } %>
+      <% crumb.with_item(href: "/products") { "Products" } %>
+      <% crumb.with_item { "Widget Pro" } %>
+    <% end %>
+  </div>
 </div>
