@@ -25,9 +25,13 @@
 
   /* Border colors */
   --color-border-interactive: #14161c;
+  --color-border-inverse: #fdfdfd;
 
-  /* Utility colors (destructive, success, warning, info, etc.) */
+  /* Utility colors (semantic sentiments) */
+  --color-utility-neutral-default: #292c39;
+  --color-utility-positive-default: #48a356;
   --color-utility-negative-default: #b62e2e;
+  --color-utility-warning-default: #c09c17;
 
   /* Text colors */
   --color-text-primary: #050507;

@@ -69,4 +69,28 @@
     <%= render Shipwright::IconComponent.new(name: :info, size: :md) %>
     <%= render Shipwright::IconComponent.new(name: :info, size: :lg) %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Avatar — Sizes</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :xxsm) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :xsm) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :sm) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :md) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg) %>
+  </div>
+
+  <h2>Avatar — Content Types</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::AvatarComponent.new(src: "https://i.pravatar.cc/150?img=12", alt: "Photo") %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS") %>
+    <%= render Shipwright::AvatarComponent.new(alt: "Anonymous") %>
+  </div>
+
+  <h2>Avatar — Status</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :online) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :away) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :busy) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :offline) %>
+  </div>
 </div>
