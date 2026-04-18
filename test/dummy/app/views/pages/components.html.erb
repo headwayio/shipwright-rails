@@ -74,9 +74,12 @@
     <%= render(Shipwright::BadgeComponent.new(sentiment: :positive, size: :lg)) { "NEW" } %>
   </div>
 
-  <h2 style="margin-top: 3rem;">Icons</h2>
+  <h2 style="margin-top: 3rem;">Icons — sample (full gallery in Lookbook)</h2>
+  <p style="font-size: 0.875rem; color: #555; margin-bottom: 0.5rem;">
+    <%= Shipwright::IconComponent.icon_names.size %> icons from Feather Icons (MIT).
+  </p>
   <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
-    <% Shipwright::IconComponent.icon_names.first(10).each do |name| %>
+    <% [:info, :"alert-circle", :"alert-triangle", :check, :x, :"chevron-down", :plus, :search, :menu, :settings, :heart, :star, :"star-filled"].each do |name| %>
       <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
         <%= render Shipwright::IconComponent.new(name: name) %>
         <span style="font-size: 0.7rem; color: #555;"><%= name %></span>
