@@ -1,0 +1,13 @@
+<div style="padding: 2rem; font-family: system-ui; max-width: 640px;">
+  <h3 style="margin-bottom: 0.5rem;">Brand icons are populated by a one-time export from Figma.</h3>
+  <p style="margin-bottom: 1rem; font-size: 0.875rem; color: #555;">
+    Run the exporter with a Figma personal access token
+    (<a href="https://www.figma.com/settings">get one here</a>):
+  </p>
+  <pre style="background: #f3f3f3; padding: 1rem; border-radius: 4px; font-size: 0.8rem; overflow-x: auto;">FIGMA_ACCESS_TOKEN=xxx ruby script/export_brand_icons.rb</pre>
+  <p style="margin-top: 1rem; font-size: 0.875rem; color: #555;">
+    SVGs are written to <code>app/assets/images/shipwright/brand/</code> and loaded automatically
+    on next app boot. Rendering without a matching SVG raises <code>ArgumentError</code> with the
+    full list of available icons.
+  </p>
+</div>
