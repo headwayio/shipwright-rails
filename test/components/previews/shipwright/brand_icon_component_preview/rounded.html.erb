@@ -1,0 +1,9 @@
+<% name = Shipwright::BrandIconComponent.icon_names.first %>
+<% if name %>
+  <div style="display: flex; gap: 1.5rem; align-items: center; padding: 2rem;">
+    <%= render Shipwright::BrandIconComponent.new(name: name, size: :lg, class: "rounded-md overflow-hidden") %>
+    <%= render Shipwright::BrandIconComponent.new(name: name, size: :lg, class: "rounded-full overflow-hidden") %>
+  </div>
+<% else %>
+  <p style="padding: 2rem; font-family: system-ui;">No brand icons installed — run the exporter.</p>
+<% end %>
