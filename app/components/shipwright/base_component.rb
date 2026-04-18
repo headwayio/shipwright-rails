@@ -23,6 +23,7 @@ module Shipwright
           text-inverse
           text-disabled
           background-primary
+          background-secondary
         ],
         "radius" => %w[md]
       }

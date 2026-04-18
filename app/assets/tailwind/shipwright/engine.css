@@ -41,6 +41,7 @@
 
   /* Background colors */
   --color-background-primary: #fdfdfd;
+  --color-background-secondary: #f3f3f3;
 
   /* Typography — font loading is the consuming app's responsibility */
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;

@@ -1,0 +1,16 @@
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 1rem; width: 900px; max-width: 100%;">
+  <%= render Shipwright::BannerComponent.new(header: "Info") do |banner| %>
+    <% banner.with_icon(name: :info) %>
+    Your session will expire in 5 minutes.
+  <% end %>
+
+  <%= render Shipwright::BannerComponent.new(header: "Warning") do |banner| %>
+    <% banner.with_icon(name: :"alert-triangle") %>
+    Some fields were missing before submission.
+  <% end %>
+
+  <%= render Shipwright::BannerComponent.new(header: "Success") do |banner| %>
+    <% banner.with_icon(name: :"check-circle") %>
+    Your changes were saved.
+  <% end %>
+</div>

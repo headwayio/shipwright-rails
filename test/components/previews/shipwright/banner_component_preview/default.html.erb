@@ -1,0 +1,7 @@
+<div style="padding: 2rem; width: 900px; max-width: 100%;">
+  <%= render Shipwright::BannerComponent.new(header: "Alert") do |banner| %>
+    <% banner.with_icon(name: :info) %>
+    <% banner.with_link(href: "#") { "Link" } %>
+    Place holder text for notifications. Enter Text into this container.
+  <% end %>
+</div>
