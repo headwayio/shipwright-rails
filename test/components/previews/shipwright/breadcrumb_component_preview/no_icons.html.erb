@@ -1,0 +1,7 @@
+<div style="padding: 2rem;">
+  <%= render Shipwright::BreadcrumbComponent.new do |crumb| %>
+    <% crumb.with_item(href: "/") { "Home" } %>
+    <% crumb.with_item(href: "/products") { "Products" } %>
+    <% crumb.with_item { "Widget Pro" } %>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+<div style="padding: 2rem;">
+  <%= render Shipwright::BreadcrumbComponent.new do |crumb| %>
+    <% crumb.with_item(href: "/", icon: :home) { "Home" } %>
+    <% crumb.with_item(href: "/products") { "Products" } %>
+    <% crumb.with_item(href: "/products/electronics") { "Electronics" } %>
+    <% crumb.with_item(href: "/products/electronics/audio") { "Audio" } %>
+    <% crumb.with_item(href: "/products/electronics/audio/headphones") { "Headphones" } %>
+    <% crumb.with_item { "Studio Pro 2" } %>
+  <% end %>
+</div>
