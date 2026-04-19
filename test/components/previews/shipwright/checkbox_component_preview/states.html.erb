@@ -1,0 +1,7 @@
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+  <%= render Shipwright::CheckboxComponent.new(name: "s1", label: "Unchecked", caption: "Caption") %>
+  <%= render Shipwright::CheckboxComponent.new(name: "s2", label: "Checked", caption: "Caption", checked: true) %>
+  <%= render Shipwright::CheckboxComponent.new(name: "s3", label: "Indeterminate", caption: "Caption", indeterminate: true) %>
+  <%= render Shipwright::CheckboxComponent.new(name: "s4", label: "Disabled", caption: "Caption", disabled: true) %>
+  <%= render Shipwright::CheckboxComponent.new(name: "s5", label: "Disabled + checked", caption: "Caption", disabled: true, checked: true) %>
+</div>
