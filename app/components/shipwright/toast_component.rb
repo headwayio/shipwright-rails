@@ -110,5 +110,88 @@ module Shipwright
     def icon_circle_classes
       "shrink-0 w-8 h-8 rounded-full flex items-center justify-center #{variant_bg} text-text-inverse"
     end
+
+    # One-time-per-page Toast wiring. Rendered from both ToastComponent and
+    # ToastContainerComponent so either on its own bootstraps the JS; the
+    # `window.__shipwrightToastWired` guard makes duplicate renders a no-op.
+    # Returns an html_safe String so it can be interpolated into ERB with `<%= %>`.
+    # Stored in Ruby (not a partial) because the engine's app/views/ may not
+    # be on the host application's view_paths lookup — the component template
+    # lookup is handled by ViewComponent, but arbitrary partials are not.
+    INIT_SCRIPT = <<~HTML.freeze
+      <script data-shipwright-toast-init>
+        (function () {
+          if (window.__shipwrightToastWired) {
+            if (typeof window.__shipwrightToastActivate === "function") {
+              window.__shipwrightToastActivate();
+            }
+            return;
+          }
+          window.__shipwrightToastWired = true;
+
+          function removeToast(el) {
+            if (!el || el.dataset.shipwrightToastState === "leaving") return;
+            el.dataset.shipwrightToastState = "leaving";
+            el.addEventListener("transitionend", function handler() {
+              el.removeEventListener("transitionend", handler);
+              el.remove();
+            }, { once: true });
+            setTimeout(function () { if (el.isConnected) el.remove(); }, 600);
+          }
+
+          function activate(root) {
+            var scope = root && root.querySelectorAll ? root : document;
+            scope.querySelectorAll("[data-shipwright-toast]:not([data-shipwright-toast-active])").forEach(function (el) {
+              el.dataset.shipwrightToastActive = "true";
+              requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                  el.dataset.shipwrightToastState = "visible";
+                });
+              });
+
+              var duration = parseInt(el.dataset.shipwrightToastDuration, 10) || 0;
+              if (duration > 0) {
+                var remaining = duration;
+                var start = Date.now();
+                var timer = setTimeout(function () { removeToast(el); }, remaining);
+
+                el.addEventListener("mouseenter", function () {
+                  clearTimeout(timer);
+                  remaining -= (Date.now() - start);
+                });
+                el.addEventListener("mouseleave", function () {
+                  if (remaining <= 0) return;
+                  start = Date.now();
+                  timer = setTimeout(function () { removeToast(el); }, remaining);
+                });
+              }
+            });
+          }
+          window.__shipwrightToastActivate = activate;
+
+          document.addEventListener("click", function (event) {
+            var btn = event.target.closest("[data-shipwright-toast-dismiss]");
+            if (!btn) return;
+            removeToast(btn.closest("[data-shipwright-toast]"));
+          });
+
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function () { activate(); });
+          } else {
+            activate();
+          }
+
+          document.addEventListener("turbo:load", function () { activate(); });
+          document.addEventListener("turbo:frame-load", function (e) { activate(e.target); });
+          document.addEventListener("turbo:before-stream-render", function () {
+            requestAnimationFrame(function () { activate(); });
+          });
+        })();
+      </script>
+    HTML
+
+    def self.init_script_html
+      INIT_SCRIPT.html_safe
+    end
   end
 end
