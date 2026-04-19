@@ -120,6 +120,30 @@ class Shipwright::BreadcrumbComponentTest < ViewComponent::TestCase
     end
   end
 
+  def test_item_with_avatar
+    render_inline(Shipwright::BreadcrumbComponent.new) do |crumb|
+      crumb.with_item(href: "/", avatar: { initials: "JD" }) { "John" }
+      crumb.with_item { "Account" }
+    end
+
+    assert_includes rendered_content, "JD"
+  end
+
+  def test_item_with_logo
+    render_inline(Shipwright::BreadcrumbComponent.new) do |crumb|
+      crumb.with_item(href: "/", logo: { alt: "Acme" }) { "Acme" }
+      crumb.with_item { "Settings" }
+    end
+
+    assert_selector "a [role='img'][aria-label='Acme'], a svg"
+  end
+
+  def test_item_raises_when_multiple_leading_visuals
+    assert_raises(ArgumentError) do
+      Shipwright::BreadcrumbComponent::Item.new(icon: :home, avatar: { initials: "JD" })
+    end
+  end
+
   def test_link_styling_applied
     render_inline(Shipwright::BreadcrumbComponent.new) do |crumb|
       crumb.with_item(href: "/") { "Home" }

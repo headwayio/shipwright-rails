@@ -42,6 +42,24 @@ module Shipwright
       end
     end
 
+    # @label With avatars (users)
+    def with_avatars
+      render(Shipwright::DropdownComponent.new(name: "d6", label: "Assignee", placeholder: "Select teammate")) do |d|
+        d.with_item(value: "john",   avatar: { initials: "JD" }, primary: "John Doe",   secondary: "john@acme.com")
+        d.with_item(value: "wendy",  avatar: { initials: "WS" }, primary: "Wendy Sullivan", secondary: "wendy@acme.com")
+        d.with_item(value: "alex",   avatar: { initials: "AL" }, primary: "Alex Lee",   secondary: "alex@acme.com")
+      end
+    end
+
+    # @label With logos (workspaces)
+    def with_logos
+      render(Shipwright::DropdownComponent.new(name: "d7", label: "Workspace", placeholder: "Select workspace")) do |d|
+        d.with_item(value: "acme",    logo: { alt: "Acme" },    primary: "Acme Inc")
+        d.with_item(value: "headway", logo: { alt: "Headway" }, primary: "Headway")
+        d.with_item(value: "shipwright", logo: { alt: "Shipwright" }, primary: "Shipwright Pro")
+      end
+    end
+
     # @label Grid
     def grid
       render_with_template

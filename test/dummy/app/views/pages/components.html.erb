@@ -157,6 +157,23 @@
     <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :offline) %>
   </div>
 
+  <h2 style="margin-top: 3rem;">Logo — Sizes</h2>
+  <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 1rem;">
+    <% %i[xs sm md lg xl].each do |size| %>
+      <%= render Shipwright::LogoComponent.new(alt: "Acme", wordmark: "Acme", size: size) %>
+    <% end %>
+  </div>
+
+  <h2>Logo — Custom mark + link</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render(Shipwright::LogoComponent.new(alt: "Headway", wordmark: "Headway", href: "#", size: :lg)) do %>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-interactive-primary-default">
+        <circle cx="12" cy="12" r="10"/>
+        <text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-weight="700" font-family="system-ui">H</text>
+      </svg>
+    <% end %>
+  </div>
+
   <h2 style="margin-top: 3rem;">Breadcrumb</h2>
   <div style="margin-bottom: 1rem;">
     <%= render Shipwright::BreadcrumbComponent.new do |crumb| %>

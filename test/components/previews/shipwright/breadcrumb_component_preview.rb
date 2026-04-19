@@ -26,5 +26,23 @@ module Shipwright
     def long_trail
       render_with_template
     end
+
+    # @label With avatar item
+    def with_avatar
+      render(Shipwright::BreadcrumbComponent.new) do |crumb|
+        crumb.with_item(href: "/", icon: :home) { "Home" }
+        crumb.with_item(href: "/people", avatar: { initials: "JD" }) { "John Doe" }
+        crumb.with_item { "Profile" }
+      end
+    end
+
+    # @label With logo item
+    def with_logo
+      render(Shipwright::BreadcrumbComponent.new) do |crumb|
+        crumb.with_item(href: "/", logo: { alt: "Acme" }) { "Acme" }
+        crumb.with_item(href: "/projects") { "Projects" }
+        crumb.with_item { "Widget" }
+      end
+    end
   end
 end

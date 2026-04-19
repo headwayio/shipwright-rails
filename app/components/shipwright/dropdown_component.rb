@@ -20,12 +20,22 @@ module Shipwright
 
     # Lambda slot returning an Item component so the parent template can
     # access per-item attributes via method_missing delegation.
+    #
+    # Each item may render ONE leading visual — an icon, an avatar, or a logo.
+    # Pass exactly one of `icon:`, `avatar:`, or `logo:`. `avatar:` and `logo:`
+    # accept a hash of props forwarded to Avatar/LogoComponent respectively.
     class Item < ViewComponent::Base
-      attr_reader :value, :icon, :primary, :secondary
+      attr_reader :value, :icon, :avatar, :logo, :primary, :secondary
 
-      def initialize(value:, primary:, icon: nil, secondary: nil)
+      def initialize(value:, primary:, icon: nil, avatar: nil, logo: nil, secondary: nil)
+        if [icon, avatar, logo].compact.size > 1
+          raise ArgumentError, "DropdownComponent item: pass only one of :icon, :avatar, :logo"
+        end
+
         @value = value
         @icon = icon
+        @avatar = avatar
+        @logo = logo
         @primary = primary
         @secondary = secondary
       end
@@ -35,8 +45,8 @@ module Shipwright
       end
     end
 
-    renders_many :items, ->(value:, primary:, icon: nil, secondary: nil) {
-      Item.new(value: value, primary: primary, icon: icon, secondary: secondary)
+    renders_many :items, ->(value:, primary:, icon: nil, avatar: nil, logo: nil, secondary: nil) {
+      Item.new(value: value, primary: primary, icon: icon, avatar: avatar, logo: logo, secondary: secondary)
     }
 
     # `class:` is a Ruby reserved word used as a keyword arg — requires

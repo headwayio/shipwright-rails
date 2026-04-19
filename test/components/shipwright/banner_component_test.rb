@@ -85,4 +85,24 @@ class Shipwright::BannerComponentTest < ViewComponent::TestCase
     assert_selector "svg"
     assert_text "Body only."
   end
+
+  def test_renders_avatar_slot_as_leading_visual
+    render_inline(Shipwright::BannerComponent.new(header: "From John")) do |banner|
+      banner.with_avatar(initials: "JD")
+      "Body."
+    end
+
+    assert_selector "[data-banner-header] span", text: "JD"
+    assert_text "From John"
+  end
+
+  def test_renders_logo_slot_as_leading_visual
+    render_inline(Shipwright::BannerComponent.new(header: "Acme update")) do |banner|
+      banner.with_logo(alt: "Acme")
+      "Body."
+    end
+
+    assert_selector "[data-banner-header] [role='img'][aria-label='Acme'], [data-banner-header] svg"
+    assert_text "Acme update"
+  end
 end
