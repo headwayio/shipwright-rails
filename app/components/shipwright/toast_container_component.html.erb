@@ -1,0 +1,14 @@
+<%= content_tag :div,
+  content,
+  id: id,
+  class: container_classes,
+  "aria-live": "polite",
+  "aria-label": "Notifications",
+  **html_attrs %>
+
+<%# Toast JS wiring — rendered here so the script is present even when no
+    initial toasts are in the DOM (e.g. container rendered in layout,
+    toasts appended later via Turbo Stream or JS). Guarded by the same
+    __shipwrightToastWired flag the ToastComponent template uses, so
+    rendering both in the same page is a no-op after the first. %>
+<%= render "shipwright/toast_init_script" %>
