@@ -1,0 +1,19 @@
+<div style="padding: 2rem;">
+  <%= render(Shipwright::TableComponent.new(selectable: true)) do |t| %>
+    <% t.with_column(label: "Name", sortable: true, sort_direction: :asc) %>
+    <% t.with_column(label: "Role", sortable: true) %>
+    <% t.with_column(label: "Status", sortable: true) %>
+    <% t.with_column(label: "Joined", sortable: true, align: :right) %>
+
+    <% [["Wendy Sullivan", "Designer", "Active", "Jan 2023", true],
+        ["John Legend", "Senior Designer", "Active", "Mar 2022", false],
+        ["Alex Lee", "Engineer", "Away", "Sep 2024", false]].each do |name, role, status, joined, selected| %>
+      <% t.with_row(selected: selected) do |row| %>
+        <% row.with_cell { name } %>
+        <% row.with_cell { role } %>
+        <% row.with_cell { status } %>
+        <% row.with_cell(align: :right) { joined } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

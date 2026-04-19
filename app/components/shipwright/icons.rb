@@ -60,6 +60,9 @@ module Shipwright
     "chevron-left" => %(<polyline points="15 18 9 12 15 6"></polyline>).html_safe,
     "chevron-right" => %(<polyline points="9 18 15 12 9 6"></polyline>).html_safe,
     "chevron-up" => %(<polyline points="18 15 12 9 6 15"></polyline>).html_safe,
+    # Lucide-style "chevrons-up-down" — used by Shipwright for bidirectional
+    # sort indicators. Not in base Feather icons, added for table headers.
+    "chevrons-up-down" => %(<path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path>).html_safe,
     "chevrons-down" => %(<polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline>).html_safe,
     "chevrons-left" => %(<polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline>).html_safe,
     "chevrons-right" => %(<polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline>).html_safe,
