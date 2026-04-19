@@ -8,27 +8,19 @@ module Shipwright
   #   <%= render Shipwright::CheckboxComponent.new(name: "x", label: "Yes", caption: "Opt-in") %>
   #   <%= render Shipwright::CheckboxComponent.new(name: "danger", label: "Delete", variant: :destructive) %>
   #
+  # Styling strategy: the <label> is a Tailwind `.group` and carries
+  # `data-indeterminate="true"` when applicable. Descendants react to state
+  # via `group-has-checked:` and `group-data-[indeterminate=true]:` arbitrary
+  # variants. Using literal class strings (not interpolated) so Tailwind's
+  # scanner picks them up.
+  #
   # Indeterminate state: the component emits data-indeterminate="true" on the
-  # label wrapper for CSS targeting, but the DOM `input.indeterminate`
-  # property is JS-only. Consuming apps should call
-  #   document.querySelectorAll('[data-indeterminate="true"] input').forEach(i => i.indeterminate = true)
-  # after render (Stimulus controller, MutationObserver, etc.) if they need
-  # the native `:indeterminate` pseudo-class to apply. The visual treatment
-  # works via the data-indeterminate attribute regardless.
+  # label wrapper for CSS targeting. The native `input.indeterminate` DOM
+  # property is JS-only; consuming apps can bootstrap it with a small script
+  # if they need the `:indeterminate` pseudo-class to apply. The visual
+  # treatment works via the data-indeterminate attribute without JS.
   class CheckboxComponent < BaseComponent
-    VARIANTS = {
-      default: {
-        bg: "bg-interactive-primary-default",
-        border: "border-interactive-primary-default",
-        ring: "focus-visible:ring-interactive-primary-default"
-      },
-      destructive: {
-        bg: "bg-utility-negative-default",
-        border: "border-utility-negative-default",
-        ring: "focus-visible:ring-utility-negative-default"
-      }
-    }.freeze
-
+    VARIANTS = %i[default destructive].freeze
     LABEL_POSITIONS = %i[right left].freeze
 
     # `class:` is a Ruby reserved word used as a keyword arg — requires
@@ -47,8 +39,8 @@ module Shipwright
       class: nil,
       **html_attrs
     )
-      unless VARIANTS.key?(variant)
-        raise ArgumentError, "#{self.class}: unknown variant :#{variant}. Valid: #{VARIANTS.keys.join(', ')}"
+      unless VARIANTS.include?(variant)
+        raise ArgumentError, "#{self.class}: unknown variant :#{variant}. Valid: #{VARIANTS.join(', ')}"
       end
       unless LABEL_POSITIONS.include?(label_position)
         raise ArgumentError, "#{self.class}: unknown label_position :#{label_position}. Valid: #{LABEL_POSITIONS.join(', ')}"
@@ -82,39 +74,40 @@ module Shipwright
       @indeterminate
     end
 
-    def variant_classes
-      VARIANTS.fetch(@variant)
+    def destructive?
+      @variant == :destructive
     end
 
     def label_classes
       classes(
-        "inline-flex items-start gap-2 font-sans text-sm leading-5 text-text-primary",
+        "group inline-flex items-start gap-2 font-sans text-sm leading-5 text-text-primary",
         @label_position == :left ? "flex-row-reverse justify-end" : nil,
         @disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer",
         consumer: @class
       )
     end
 
-    # The visual "box" element styled via peer-* selectors on the hidden native
-    # input. Uses CSS to flip between unchecked/checked/indeterminate/disabled
-    # visuals without JavaScript (except for native `:indeterminate` pseudo-
-    # class which requires setting input.indeterminate in JS).
+    # Classes on the visual "box". Two complete class strings per variant —
+    # literal (no Ruby interpolation) so Tailwind's source scanner picks them
+    # up and generates the corresponding CSS rules.
     def visual_classes
-      v = variant_classes
-      [
-        "relative flex items-center justify-center shrink-0",
-        "w-5 h-5 rounded-md",
-        # Unchecked border
-        "border-2 #{v[:border]} bg-transparent",
-        # Checked/indeterminate: fill with variant bg
-        "peer-checked:#{v[:bg]} peer-indeterminate:#{v[:bg]}",
-        # Focused ring (via peer-focus-visible on hidden input)
-        "peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-primary #{v[:ring]}",
-        # Disabled: dim to interactive-disable
-        "peer-disabled:bg-interactive-disable peer-disabled:border-interactive-disable",
-        # Transition
-        "transition-colors"
-      ].join(" ")
+      base = "relative flex items-center justify-center shrink-0 w-5 h-5 rounded-md border-2 bg-transparent transition-colors " \
+             "peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-primary " \
+             "peer-disabled:bg-interactive-disable peer-disabled:border-interactive-disable"
+
+      variant_styles = if destructive?
+        "border-utility-negative-default " \
+          "group-has-checked:bg-utility-negative-default group-has-checked:border-utility-negative-default " \
+          "group-data-[indeterminate=true]:bg-utility-negative-default group-data-[indeterminate=true]:border-utility-negative-default " \
+          "peer-focus-visible:ring-utility-negative-default"
+      else
+        "border-interactive-primary-default " \
+          "group-has-checked:bg-interactive-primary-default group-has-checked:border-interactive-primary-default " \
+          "group-data-[indeterminate=true]:bg-interactive-primary-default group-data-[indeterminate=true]:border-interactive-primary-default " \
+          "peer-focus-visible:ring-interactive-primary-default"
+      end
+
+      "#{base} #{variant_styles}"
     end
   end
 end
