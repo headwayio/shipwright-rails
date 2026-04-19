@@ -1,7 +1,7 @@
 <%= content_tag :div, class: container_classes, **html_attrs do %>
   <% if header_present? %>
     <div class="flex items-center gap-1 pr-6 shrink-0" data-banner-header>
-      <%= icon if icon? %>
+      <%= leading_visual if leading_visual? %>
       <% if header.present? %>
         <p class="text-sm leading-4 text-text-primary"><%= header %></p>
       <% end %>

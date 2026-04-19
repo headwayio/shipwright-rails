@@ -28,6 +28,10 @@
                   <% if value && item.value.to_s == value.to_s %>aria-selected="true"<% end %>>
             <% if item.icon %>
               <%= render Shipwright::IconComponent.new(name: item.icon, size: :sm, class: "mt-0.5 shrink-0 text-text-primary") %>
+            <% elsif item.avatar %>
+              <%= render Shipwright::AvatarComponent.new(**item.avatar.reverse_merge(size: :xsm)) %>
+            <% elsif item.logo %>
+              <%= render Shipwright::LogoComponent.new(**item.logo.reverse_merge(size: :xs)) %>
             <% end %>
             <span class="flex flex-col gap-0.5 min-w-0 flex-1">
               <span class="font-medium truncate"><%= item.primary %></span>

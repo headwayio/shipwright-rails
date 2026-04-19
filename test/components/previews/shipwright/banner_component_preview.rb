@@ -28,5 +28,21 @@ module Shipwright
         "Place holder text for notifications."
       end
     end
+
+    # @label Avatar + header + body
+    def with_avatar
+      render(Shipwright::BannerComponent.new(header: "From John Doe")) do |banner|
+        banner.with_avatar(initials: "JD", size: :xsm)
+        "New comment on the design review thread."
+      end
+    end
+
+    # @label Logo + header + body
+    def with_logo
+      render(Shipwright::BannerComponent.new(header: "Acme announcement")) do |banner|
+        banner.with_logo(alt: "Acme", size: :xs)
+        "New features available in the latest release."
+      end
+    end
   end
 end

@@ -7,6 +7,10 @@
           <%= link_to item.href, class: link_classes do %>
             <% if item.icon %>
               <%= render Shipwright::IconComponent.new(name: item.icon, size: :sm) %>
+            <% elsif item.avatar %>
+              <%= render Shipwright::AvatarComponent.new(**item.avatar.reverse_merge(size: :xxsm)) %>
+            <% elsif item.logo %>
+              <%= render Shipwright::LogoComponent.new(**item.logo.reverse_merge(size: :xs)) %>
             <% end %>
             <span><%= item.label %></span>
           <% end %>
@@ -14,6 +18,10 @@
           <span class="<%= current_classes %>" <%= 'aria-current="page"'.html_safe if is_last %>>
             <% if item.icon %>
               <%= render Shipwright::IconComponent.new(name: item.icon, size: :sm) %>
+            <% elsif item.avatar %>
+              <%= render Shipwright::AvatarComponent.new(**item.avatar.reverse_merge(size: :xxsm)) %>
+            <% elsif item.logo %>
+              <%= render Shipwright::LogoComponent.new(**item.logo.reverse_merge(size: :xs)) %>
             <% end %>
             <span><%= item.label %></span>
           </span>

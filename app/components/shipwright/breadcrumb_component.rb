@@ -18,11 +18,17 @@ module Shipwright
     # Slot#method_missing. The call method returns an empty string because
     # rendering is driven by the parent template, not the slot itself.
     class Item < ViewComponent::Base
-      attr_reader :href, :icon, :label
+      attr_reader :href, :icon, :avatar, :logo, :label
 
-      def initialize(href: nil, icon: nil, label: nil)
+      def initialize(href: nil, icon: nil, avatar: nil, logo: nil, label: nil)
+        if [icon, avatar, logo].compact.size > 1
+          raise ArgumentError, "BreadcrumbComponent item: pass only one of :icon, :avatar, :logo"
+        end
+
         @href = href
         @icon = icon
+        @avatar = avatar
+        @logo = logo
         @label = label
       end
 
@@ -35,9 +41,9 @@ module Shipwright
       end
     end
 
-    renders_many :items, ->(href: nil, icon: nil, &block) {
+    renders_many :items, ->(href: nil, icon: nil, avatar: nil, logo: nil, &block) {
       label = block ? view_context.capture(&block) : ""
-      Item.new(href: href, icon: icon, label: label)
+      Item.new(href: href, icon: icon, avatar: avatar, logo: logo, label: label)
     }
 
     # `class:` is a Ruby reserved word used as a keyword arg — requires

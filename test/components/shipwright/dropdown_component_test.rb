@@ -104,6 +104,28 @@ class Shipwright::DropdownComponentTest < ViewComponent::TestCase
     assert_selector "summary svg"
   end
 
+  def test_item_with_avatar
+    render_inline(Shipwright::DropdownComponent.new(name: "x")) do |d|
+      d.with_item(value: "a", primary: "John", avatar: { initials: "JD" })
+    end
+
+    assert_includes rendered_content, "JD"
+  end
+
+  def test_item_with_logo
+    render_inline(Shipwright::DropdownComponent.new(name: "x")) do |d|
+      d.with_item(value: "a", primary: "Acme", logo: { alt: "Acme" })
+    end
+
+    assert_selector "[data-dropdown-item] [role='img'][aria-label='Acme'], [data-dropdown-item] svg", visible: :all
+  end
+
+  def test_item_raises_when_multiple_leading_visuals_given
+    assert_raises(ArgumentError) do
+      Shipwright::DropdownComponent::Item.new(value: "a", primary: "X", icon: :folder, avatar: { initials: "JD" })
+    end
+  end
+
   def test_label_associates_with_trigger_via_id
     render_inline(Shipwright::DropdownComponent.new(name: "x", label: "L"))
 

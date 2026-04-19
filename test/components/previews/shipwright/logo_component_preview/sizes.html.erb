@@ -1,0 +1,8 @@
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 2rem;">
+  <% %i[xs sm md lg xl].each do |size| %>
+    <div style="display: flex; align-items: center; gap: 2rem;">
+      <span style="width: 3rem; font-family: monospace; color: #888; font-size: 0.8rem;"><%= size %></span>
+      <%= render(Shipwright::LogoComponent.new(alt: "Acme", wordmark: "Acme", size: size)) %>
+    </div>
+  <% end %>
+</div>
