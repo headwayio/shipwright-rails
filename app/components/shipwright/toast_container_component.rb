@@ -44,18 +44,12 @@ module Shipwright
 
     attr_reader :id, :html_attrs
 
-    def call
-      content_tag :div,
-        content,
-        id: id,
-        class: classes(
-          "fixed z-50 flex flex-col gap-2 pointer-events-none",
-          POSITIONS.fetch(@position),
-          consumer: @class
-        ),
-        "aria-live": "polite",
-        "aria-label": "Notifications",
-        **@html_attrs
+    def container_classes
+      classes(
+        "fixed z-50 flex flex-col gap-2 pointer-events-none",
+        POSITIONS.fetch(@position),
+        consumer: @class
+      )
     end
   end
 end
