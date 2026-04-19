@@ -1,0 +1,109 @@
+<%= content_tag :div,
+  id: id,
+  class: wrapper_classes,
+  role: "status",
+  "aria-live": "polite",
+  "aria-atomic": "true",
+  data: {
+    shipwright_toast: true,
+    "shipwright-toast-state": "entering",
+    "shipwright-toast-duration": duration_ms
+  },
+  **html_attrs do %>
+  <span class="<%= icon_circle_classes %>" aria-hidden="true">
+    <%= render Shipwright::IconComponent.new(name: variant_icon, size: :sm) %>
+  </span>
+
+  <div class="flex-1 min-w-0 pt-0.5">
+    <p class="text-sm font-semibold leading-5 truncate"><%= title %></p>
+    <% if body.present? %>
+      <p class="text-sm leading-5 text-text-inverse/80 break-words"><%= body %></p>
+    <% end %>
+  </div>
+
+  <% if dismissible? %>
+    <button type="button"
+            class="shrink-0 self-start p-1 -m-1 rounded-sm text-text-inverse/80 hover:text-text-inverse transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-inverse"
+            data-shipwright-toast-dismiss
+            aria-label="Dismiss notification">
+      <%= render Shipwright::IconComponent.new(name: :x, size: :sm) %>
+    </button>
+  <% end %>
+<% end %>
+
+<%# One-time-per-page wiring: enter animation, auto-dismiss timer with
+    pause-on-hover, dismiss button, and fade-out-before-remove.
+    Safe under Turbo — re-runs on turbo:load and turbo:frame-load. %>
+<script data-shipwright-toast-init>
+  (function () {
+    if (window.__shipwrightToastWired) {
+      if (typeof window.__shipwrightToastActivate === "function") {
+        window.__shipwrightToastActivate();
+      }
+      return;
+    }
+    window.__shipwrightToastWired = true;
+
+    function removeToast(el) {
+      if (!el || el.dataset.shipwrightToastState === "leaving") return;
+      el.dataset.shipwrightToastState = "leaving";
+      el.addEventListener("transitionend", function handler() {
+        el.removeEventListener("transitionend", handler);
+        el.remove();
+      }, { once: true });
+      // Fallback if transitionend doesn't fire
+      setTimeout(function () { if (el.isConnected) el.remove(); }, 600);
+    }
+
+    function activate(root) {
+      var scope = root && root.querySelectorAll ? root : document;
+      scope.querySelectorAll("[data-shipwright-toast]:not([data-shipwright-toast-active])").forEach(function (el) {
+        el.dataset.shipwrightToastActive = "true";
+        // Enter animation: remove initial "entering" state on next frame
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.dataset.shipwrightToastState = "visible";
+          });
+        });
+
+        var duration = parseInt(el.dataset.shipwrightToastDuration, 10) || 0;
+        if (duration > 0) {
+          var remaining = duration;
+          var start = Date.now();
+          var timer = setTimeout(function () { removeToast(el); }, remaining);
+
+          el.addEventListener("mouseenter", function () {
+            clearTimeout(timer);
+            remaining -= (Date.now() - start);
+          });
+          el.addEventListener("mouseleave", function () {
+            if (remaining <= 0) return;
+            start = Date.now();
+            timer = setTimeout(function () { removeToast(el); }, remaining);
+          });
+        }
+      });
+    }
+    window.__shipwrightToastActivate = activate;
+
+    document.addEventListener("click", function (event) {
+      var btn = event.target.closest("[data-shipwright-toast-dismiss]");
+      if (!btn) return;
+      removeToast(btn.closest("[data-shipwright-toast]"));
+    });
+
+    // Activate on initial load
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function () { activate(); });
+    } else {
+      activate();
+    }
+
+    // Turbo hooks — re-scan after frame/page loads + stream insertions
+    document.addEventListener("turbo:load", function () { activate(); });
+    document.addEventListener("turbo:frame-load", function (e) { activate(e.target); });
+    document.addEventListener("turbo:before-stream-render", function () {
+      requestAnimationFrame(function () { activate(); });
+    });
+  })();
+</script>
