@@ -71,10 +71,19 @@ class Shipwright::ToastComponentTest < ViewComponent::TestCase
     assert_selector ".my-8[data-shipwright-toast]"
   end
 
-  def test_icon_override
-    render_inline(Shipwright::ToastComponent.new(title: "x", icon: :bell))
+  def test_icon_override_uses_provided_icon
+    render_inline(Shipwright::ToastComponent.new(title: "x", variant: :success, icon: :mail))
 
+    # Feather's `mail` icon path — confirm override wins over variant default
+    assert_includes rendered_content, "M4 4h16c1.1 0"
+  end
+
+  def test_variant_default_icon_used_when_no_override
+    render_inline(Shipwright::ToastComponent.new(title: "x", variant: :error))
+
+    # alert-circle is the default for :error
     assert_selector "svg"
+    refute_includes rendered_content, "M4 4h16c1.1 0" # not the mail icon
   end
 
   def test_wires_init_script_once

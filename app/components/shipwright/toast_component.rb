@@ -7,6 +7,13 @@ module Shipwright
   # Turbo Stream, or seeded on first page load via
   # Shipwright::FlashHelper#shipwright_flash_toasts.
   #
+  # Each variant ships a sensible default icon (check-circle / alert-circle
+  # / alert-triangle / info / bell). Override with any Feather icon name:
+  #
+  #   render Shipwright::ToastComponent.new(
+  #     title: "New message", icon: :mail, variant: :info
+  #   )
+  #
   # Usage (standalone, e.g. in a partial):
   #   <%= render Shipwright::ToastComponent.new(
   #     title: "Saved",
@@ -20,26 +27,30 @@ module Shipwright
   #
   # Variants map to the leading icon circle color and pick a sensible icon.
   class ToastComponent < BaseComponent
+    # Each variant pairs an icon-circle background color with a sensible
+    # default icon. Pass `icon:` to override the default with any Feather
+    # icon name (see Shipwright::Icons::ICONS) — e.g. `icon: :bell`,
+    # `icon: :"alert-triangle"`, `icon: :zap`.
     VARIANTS = {
       success: {
         bg: "bg-utility-positive-default",
-        icon: :"thumbs-up"
+        icon: :"check-circle"
       },
       error: {
         bg: "bg-utility-negative-default",
-        icon: :"thumbs-down"
+        icon: :"alert-circle"
       },
       warning: {
         bg: "bg-utility-warning-default",
-        icon: :"thumbs-up"
+        icon: :"alert-triangle"
       },
       info: {
         bg: "bg-interactive-primary-default",
-        icon: :"thumbs-up"
+        icon: :info
       },
       neutral: {
         bg: "bg-interactive-primary-pressed",
-        icon: :"thumbs-up"
+        icon: :bell
       }
     }.freeze
 

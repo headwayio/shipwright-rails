@@ -39,6 +39,16 @@ module Shipwright
       render(Shipwright::ToastComponent.new(title: "Sticky", body: "Click ✕ to dismiss", duration: 0))
     end
 
+    # @label Custom icon override
+    def custom_icon
+      render(Shipwright::ToastComponent.new(
+        title: "New message",
+        body: "From Wendy Sullivan",
+        variant: :info,
+        icon: :mail
+      ))
+    end
+
     # @label Container + live demo
     def container
       render_with_template
