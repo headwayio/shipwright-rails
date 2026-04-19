@@ -1,0 +1,8 @@
+<div style="padding: 2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+  <%= render(Shipwright::InputComponent.new(name: "g1", label: "Label", caption: "Caption", placeholder: "giorgio@armani.com", leading_icon: :search, trailing_icon: :"arrow-right")) %>
+  <%= render(Shipwright::InputComponent.new(name: "g2", label: "Label", caption: "Caption", value: "giorgio@armani.com", leading_icon: :search, trailing_icon: :"arrow-right")) %>
+  <%= render(Shipwright::InputComponent.new(name: "g3", label: "Label", caption: "Caption", value: "giorgio@armani.com", disabled: true, leading_icon: :search, trailing_icon: :"arrow-right")) %>
+  <%= render(Shipwright::InputComponent.new(name: "g4", label: "Label", caption: "Looks good", value: "giorgio@armani.com", variant: :success, leading_icon: :search, trailing_icon: :"arrow-right")) %>
+  <%= render(Shipwright::InputComponent.new(name: "g5", label: "Label", value: "giorgio@armani.com", error: "Please enter a valid email", leading_icon: :search, trailing_icon: :"arrow-right")) %>
+  <%= render(Shipwright::InputComponent.new(name: "g6", label: "Label", caption: "Caption", placeholder: "Alex Johnson")) %>
+</div>

@@ -174,6 +174,16 @@
     <% end %>
   </div>
 
+  <h2 style="margin-top: 3rem;">Input</h2>
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem; max-width: 48rem;">
+    <%= render Shipwright::InputComponent.new(name: "i1", label: "Label", caption: "Caption", placeholder: "giorgio@armani.com", leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i2", label: "Label", caption: "Caption", value: "giorgio@armani.com", leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i3", label: "Label", caption: "Caption", value: "giorgio@armani.com", disabled: true, leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i4", label: "Label", caption: "Looks good", value: "giorgio@armani.com", variant: :success, leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i5", label: "Label", value: "giorgio@armani.com", error: "Please enter a valid email", leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i6", label: "Full name", caption: "First and last", placeholder: "Alex Johnson") %>
+  </div>
+
   <h2 style="margin-top: 3rem;">File Upload — inline</h2>
   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; max-width: 32rem;">
     <%= render Shipwright::FileUploadComponent.new(name: "fu1", label: "Upload file", caption: "Caption") %>

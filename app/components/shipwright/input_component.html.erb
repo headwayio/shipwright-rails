@@ -1,0 +1,34 @@
+<%= content_tag :div, class: wrapper_classes do %>
+  <% if label_text %>
+    <label for="<%= id %>" class="text-sm font-medium text-text-primary"><%= label_text %></label>
+  <% end %>
+
+  <div class="<%= field_row_classes %>">
+    <% if leading_icon %>
+      <%= render Shipwright::IconComponent.new(name: leading_icon, size: :sm, class: icon_classes) %>
+    <% end %>
+
+    <%= tag.input(
+      type: type,
+      id: id,
+      name: name,
+      value: value,
+      placeholder: placeholder,
+      disabled: disabled?,
+      readonly: readonly?,
+      required: required?,
+      "aria-invalid": destructive?,
+      "aria-describedby": (error.present? ? "#{id}-message" : nil),
+      class: input_classes,
+      **html_attrs
+    ) %>
+
+    <% if trailing_icon %>
+      <%= render Shipwright::IconComponent.new(name: trailing_icon, size: :sm, class: icon_classes) %>
+    <% end %>
+  </div>
+
+  <% if message_text.present? %>
+    <span id="<%= id %>-message" class="<%= caption_classes %>"><%= message_text %></span>
+  <% end %>
+<% end %>
