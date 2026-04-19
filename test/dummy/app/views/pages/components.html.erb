@@ -49,4 +49,14 @@
   <div style="margin-bottom: 1rem;">
     <%= render Shipwright::ButtonComponent.new(class: "w-full") do %>Full Width Override<% end %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Checkbox</h2>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+    <%= render Shipwright::CheckboxComponent.new(name: "c1", label: "Unchecked") %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c2", label: "Checked", checked: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c3", label: "With caption", caption: "Some help text", checked: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c4", label: "Disabled", disabled: true, checked: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c5", label: "Indeterminate", indeterminate: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c6", label: "Destructive", variant: :destructive, checked: true) %>
+  </div>
 </div>
