@@ -55,7 +55,10 @@ module Shipwright
       @disabled = disabled
       @variant = variant
       @label_position = label_position
-      @id = id || name
+      # Rails form convention: auto-derive id as "name_value" so multiple
+      # checkboxes sharing a name (e.g., an array of options) still get
+      # unique ids. Explicit id: always wins.
+      @id = id || (name ? "#{name}_#{value}" : nil)
       @class = binding.local_variable_get(:class)
       @html_attrs = html_attrs
     end

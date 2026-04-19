@@ -89,11 +89,18 @@ class Shipwright::CheckboxComponentTest < ViewComponent::TestCase
     assert_selector "input[value='yes']"
   end
 
-  def test_auto_generated_id_from_name
+  def test_auto_generated_id_combines_name_and_value
     render_inline(Shipwright::CheckboxComponent.new(name: "accept_terms", label: "L"))
 
-    assert_selector "input[id='accept_terms']"
-    assert_selector "label[for='accept_terms']"
+    # Default value is "1", so id auto-derives to "accept_terms_1"
+    assert_selector "input[id='accept_terms_1']"
+    assert_selector "label[for='accept_terms_1']"
+  end
+
+  def test_shared_name_with_distinct_values_gets_unique_ids
+    render_inline(Shipwright::CheckboxComponent.new(name: "opts", value: "a", label: "A"))
+    assert_selector "input[id='opts_a']"
+    assert_selector "label[for='opts_a']"
   end
 
   def test_custom_id
