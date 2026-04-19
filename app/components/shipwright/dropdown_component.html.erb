@@ -1,0 +1,86 @@
+<%= content_tag :div, class: wrapper_classes, data: { shipwright_dropdown: true }, **html_attrs do %>
+  <% if label_text %>
+    <label for="<%= id %>" data-dropdown-label-text class="text-sm font-medium text-text-primary"><%= label_text %></label>
+  <% end %>
+
+  <details class="group relative">
+    <summary id="<%= id %>"
+             class="<%= trigger_classes %>"
+             aria-disabled="<%= disabled? %>"
+             data-dropdown-trigger>
+      <span data-dropdown-label class="<%= display_text_classes %>"><%= display_label %></span>
+      <%= render Shipwright::IconComponent.new(
+        name: :"chevron-down",
+        size: :sm,
+        class: "shrink-0 transition-transform duration-200 group-open:rotate-180"
+      ) %>
+    </summary>
+
+    <% if items.any? %>
+      <div class="<%= menu_classes %>" role="listbox">
+        <% items.each do |item| %>
+          <button type="button"
+                  role="option"
+                  class="<%= item_classes %>"
+                  data-dropdown-item
+                  data-value="<%= item.value %>"
+                  data-primary="<%= item.primary %>"
+                  <% if value && item.value.to_s == value.to_s %>aria-selected="true"<% end %>>
+            <% if item.icon %>
+              <%= render Shipwright::IconComponent.new(name: item.icon, size: :sm, class: "mt-0.5 shrink-0 text-text-primary") %>
+            <% end %>
+            <span class="flex flex-col gap-0.5 min-w-0 flex-1">
+              <span class="font-medium truncate"><%= item.primary %></span>
+              <% if item.secondary %>
+                <span class="text-xs text-text-disabled truncate"><%= item.secondary %></span>
+              <% end %>
+            </span>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+  </details>
+
+  <%= hidden_field_tag name, value, data: { dropdown_value: true } if name %>
+
+  <% if caption %>
+    <span class="text-xs text-text-disabled leading-4"><%= caption %></span>
+  <% end %>
+<% end %>
+
+<%# One-time-per-page wiring: install on first dropdown render, no-op after.
+    Handles item click → update trigger label, hidden input value, close menu.
+    Also closes open menus when clicking outside any dropdown. %>
+<script data-shipwright-dropdown-init>
+  (function () {
+    if (window.__shipwrightDropdownWired) return;
+    window.__shipwrightDropdownWired = true;
+
+    document.addEventListener("click", function (event) {
+      const item = event.target.closest("[data-dropdown-item]");
+      if (item) {
+        const dropdown = item.closest("[data-shipwright-dropdown]");
+        if (!dropdown) return;
+        const label = dropdown.querySelector("[data-dropdown-label]");
+        const hidden = dropdown.querySelector("[data-dropdown-value]");
+        const details = dropdown.querySelector("details");
+        if (label) {
+          label.textContent = item.dataset.primary;
+          label.classList.remove("text-text-disabled");
+          label.classList.add("text-text-primary");
+        }
+        if (hidden) hidden.value = item.dataset.value;
+        dropdown.querySelectorAll("[data-dropdown-item][aria-selected]").forEach(function (el) {
+          el.removeAttribute("aria-selected");
+        });
+        item.setAttribute("aria-selected", "true");
+        if (details) details.open = false;
+        return;
+      }
+      // Click outside any dropdown — close open ones
+      document.querySelectorAll("[data-shipwright-dropdown] details[open]").forEach(function (details) {
+        if (!details.contains(event.target)) details.open = false;
+      });
+    });
+  })();
+</script>

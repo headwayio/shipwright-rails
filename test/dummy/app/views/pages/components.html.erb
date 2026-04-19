@@ -184,4 +184,25 @@
     <%= render Shipwright::CheckboxComponent.new(name: "c5", label: "Indeterminate", indeterminate: true) %>
     <%= render Shipwright::CheckboxComponent.new(name: "c6", label: "Destructive", variant: :destructive, checked: true) %>
   </div>
+
+  <h2 style="margin-top: 3rem;">Dropdown</h2>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 900px; margin-bottom: 1rem;">
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d1", label: "Label", caption: "Caption")) do |d| %>
+      <% d.with_item(value: "folders", icon: :folder, primary: "Folders", secondary: "Organize your files") %>
+      <% d.with_item(value: "starred", icon: :star, primary: "Starred", secondary: "Your favorites") %>
+      <% d.with_item(value: "trash", icon: :trash, primary: "Trash", secondary: "Deleted items") %>
+    <% end %>
+
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d2", label: "Label", value: "starred", caption: "Caption")) do |d| %>
+      <% d.with_item(value: "folders", icon: :folder, primary: "Folders") %>
+      <% d.with_item(value: "starred", icon: :star, primary: "Starred") %>
+    <% end %>
+
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d3", label: "Label", caption: "Caption", disabled: true)) %>
+
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d4", label: "Label", value: "a", variant: :destructive, caption: "Error state")) do |d| %>
+      <% d.with_item(value: "a", primary: "Primary Text") %>
+      <% d.with_item(value: "b", primary: "Other") %>
+    <% end %>
+  </div>
 </div>
