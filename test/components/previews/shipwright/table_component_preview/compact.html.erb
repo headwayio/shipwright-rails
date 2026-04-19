@@ -1,0 +1,17 @@
+<div style="padding: 2rem;">
+  <%= render(Shipwright::TableComponent.new(density: :compact, striped: true)) do |t| %>
+    <% t.with_column(label: "ID", width: "80px") %>
+    <% t.with_column(label: "Name") %>
+    <% t.with_column(label: "Email") %>
+    <% t.with_column(label: "Role") %>
+
+    <% 8.times do |i| %>
+      <% t.with_row do |row| %>
+        <% row.with_cell { (1000 + i).to_s } %>
+        <% row.with_cell { "User #{i + 1}" } %>
+        <% row.with_cell { "user#{i + 1}@example.com" } %>
+        <% row.with_cell { %w[Admin Member Guest].sample } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

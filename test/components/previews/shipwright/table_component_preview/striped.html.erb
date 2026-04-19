@@ -1,0 +1,15 @@
+<div style="padding: 2rem;">
+  <%= render(Shipwright::TableComponent.new(striped: true)) do |t| %>
+    <% t.with_column(label: "Name") %>
+    <% t.with_column(label: "Role") %>
+    <% t.with_column(label: "Status") %>
+
+    <% 6.times do |i| %>
+      <% t.with_row do |row| %>
+        <% row.with_cell { "Row #{i + 1}" } %>
+        <% row.with_cell { "Role #{i + 1}" } %>
+        <% row.with_cell { i.even? ? "Active" : "Away" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
