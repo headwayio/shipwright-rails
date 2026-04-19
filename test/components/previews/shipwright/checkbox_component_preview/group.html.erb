@@ -35,10 +35,14 @@
       if (!root || root.dataset.selectAllWired === "true") return;
       root.dataset.selectAllWired = "true";
 
-      const parentLabel = root.querySelector('[data-select-all-demo-target="parent"]');
-      const parentInput = parentLabel.querySelector('input[type="checkbox"]');
-      const childLabels = root.querySelectorAll('[data-select-all-demo-target="child"]');
-      const childInputs = Array.from(childLabels).map(l => l.querySelector('input[type="checkbox"]'));
+      // CheckboxComponent forwards **html_attrs (including `data-*`) onto the
+      // hidden <input>, not the outer <label>. The component's CSS key-selector
+      // for indeterminate state is `.group[data-indeterminate=true]` on the
+      // label — so we need to reach UP from the input to its parent <label>
+      // and set the attribute there for the visual to flip.
+      const parentInput = root.querySelector('input[data-select-all-demo-target="parent"]');
+      const parentLabel = parentInput.closest('label');
+      const childInputs = Array.from(root.querySelectorAll('input[data-select-all-demo-target="child"]'));
 
       function syncParent() {
         const checkedCount = childInputs.filter(i => i.checked).length;
