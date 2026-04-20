@@ -1,0 +1,53 @@
+<%= content_tag :nav,
+  class: wrapper_classes,
+  "aria-label": "Pagination",
+  **html_attrs do %>
+
+  <% if simple? %>
+    <div class="<%= simple_layout_classes %>">
+      <% unless label_hidden? %>
+        <span class="text-text-primary" data-pagination-label><%= label_text %></span>
+      <% end %>
+      <div class="<%= pill_classes %>">
+        <%= render_prev_button %>
+        <%= render_next_button %>
+      </div>
+    </div>
+
+  <% else %>
+    <%# numeric variants %>
+    <% if has_rows_per_page? %>
+      <div class="flex items-center gap-2 text-text-primary">
+        <label for="<%= rows_per_page_select_id %>">Rows per page:</label>
+        <%= render_rows_per_page_select %>
+      </div>
+      <div class="flex-1"></div>
+      <% unless label_hidden? %>
+        <span class="text-text-primary" data-pagination-label><%= label_text %></span>
+      <% end %>
+      <div class="<%= pill_classes %>">
+        <%= render_prev_button %>
+        <%= render_next_button %>
+      </div>
+    <% else %>
+      <div class="<%= pill_classes %>">
+        <%= render_prev_button %>
+        <% normalized_series.each do |entry| %>
+          <% if entry == :gap %>
+            <span class="<%= gap_classes %>" aria-hidden="true">…</span>
+          <% else %>
+            <% if current?(entry) %>
+              <span class="<%= button_classes(current: true) %>" aria-current="page"><%= entry %></span>
+            <% else %>
+              <%= link_to entry, page_url_for(entry),
+                  class: button_classes,
+                  "aria-label": "Go to page #{entry}" %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= render_next_button %>
+      </div>
+    <% end %>
+  <% end %>
+
+<% end %>
