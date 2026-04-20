@@ -1,0 +1,10 @@
+<div style="padding: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+  <%= render Shipwright::RadioComponent.new(name: "g1", value: "a", label: "Label", caption: "Caption") %>
+  <%= render Shipwright::RadioComponent.new(name: "g2", value: "a", label: "Label", caption: "Caption", checked: true) %>
+  <%= render Shipwright::RadioComponent.new(name: "g3", value: "a", label: "Label", caption: "Caption", disabled: true) %>
+  <%= render Shipwright::RadioComponent.new(name: "g4", value: "a", label: "Label", caption: "Caption", disabled: true, checked: true) %>
+  <%= render Shipwright::RadioComponent.new(name: "g5", value: "a", label: "Label", caption: "Caption", size: :md) %>
+  <%= render Shipwright::RadioComponent.new(name: "g6", value: "a", label: "Label", caption: "Caption", size: :md, checked: true) %>
+  <%= render Shipwright::RadioComponent.new(name: "g7", value: "a", label: "Label", caption: "Caption", label_position: :left) %>
+  <%= render Shipwright::RadioComponent.new(name: "g8", value: "a", label: "Label", variant: :destructive, checked: true) %>
+</div>

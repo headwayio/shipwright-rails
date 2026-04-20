@@ -1,0 +1,25 @@
+<%= content_tag :label,
+  class: label_classes,
+  for: id do %>
+
+  <span class="relative inline-flex items-center justify-center shrink-0">
+    <%= radio_button_tag name, value, checked?,
+      id: id,
+      disabled: disabled?,
+      class: "peer sr-only",
+      **html_attrs %>
+
+    <span class="<%= visual_classes %>">
+      <span class="<%= dot_classes %>" aria-hidden="true"></span>
+    </span>
+  </span>
+
+  <% if label_text %>
+    <span class="flex flex-col gap-0.5">
+      <span data-radio-label><%= label_text %></span>
+      <% if caption %>
+        <span data-radio-caption class="text-xs text-text-disabled leading-4"><%= caption %></span>
+      <% end %>
+    </span>
+  <% end %>
+<% end %>
