@@ -9,7 +9,14 @@ module Shipwright
   #
   # To add a brand icon (payment/social), use BrandIconComponent instead —
   # those are multi-color SVGs that need different rendering.
-  ICONS = {
+  #
+  # Wrapped in a `Shipwright::Icons` module so the filename (icons.rb) matches
+  # Zeitwerk's expected constant (Shipwright::Icons). Previously defined as a
+  # top-level `Shipwright::ICONS`, which broke eager loading in host apps
+  # (`NameError: expected file .../icons.rb to define Shipwright::Icons`)
+  # under Rails CI configs that set `config.eager_load = true`.
+  module Icons
+    DATA = {
     "activity" => %(<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>).html_safe,
     "airplay" => %(<path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon>).html_safe,
     "alert-circle" => %(<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>).html_safe,
@@ -302,5 +309,6 @@ module Shipwright
     "zap-off" => %(<polyline points="12.41 6.75 13 2 10.57 4.92"></polyline><polyline points="18.57 12.91 21 10 15.66 10"></polyline><polyline points="8 8 3 14 12 14 11 22 16 16"></polyline><line x1="1" y1="1" x2="23" y2="23"></line>).html_safe,
     "zoom-in" => %(<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line>).html_safe,
     "zoom-out" => %(<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line>).html_safe,
-  }.freeze
+    }.freeze
+  end
 end

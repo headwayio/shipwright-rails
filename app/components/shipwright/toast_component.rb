@@ -29,7 +29,7 @@ module Shipwright
   class ToastComponent < BaseComponent
     # Each variant pairs an icon-circle background color with a sensible
     # default icon. Pass `icon:` to override the default with any Feather
-    # icon name (see Shipwright::Icons::ICONS) — e.g. `icon: :bell`,
+    # icon name (see Shipwright::Icons::DATA) — e.g. `icon: :bell`,
     # `icon: :"alert-triangle"`, `icon: :zap`.
     VARIANTS = {
       success: {
