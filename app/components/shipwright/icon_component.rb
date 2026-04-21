@@ -11,7 +11,7 @@ module Shipwright
     class << self
       # Exposed for tests / discoverability. Returns symbol keys.
       def icon_names
-        @icon_names ||= ICONS.keys.map(&:to_sym).freeze
+        @icon_names ||= Icons::DATA.keys.map(&:to_sym).freeze
       end
     end
 
@@ -25,8 +25,8 @@ module Shipwright
     end
 
     def call
-      paths = ICONS.fetch(@name) do
-        raise ArgumentError, "#{self.class}: unknown icon :#{@name}. Available: #{ICONS.keys.sort.join(', ')}"
+      paths = Icons::DATA.fetch(@name) do
+        raise ArgumentError, "#{self.class}: unknown icon :#{@name}. Available: #{Icons::DATA.keys.sort.join(', ')}"
       end
       size_classes = SIZES.fetch(@size) do |v|
         raise ArgumentError, "#{self.class}: unknown size :#{v}. Valid: #{SIZES.keys.join(', ')}"
