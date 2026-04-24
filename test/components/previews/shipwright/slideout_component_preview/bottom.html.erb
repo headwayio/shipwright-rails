@@ -1,0 +1,24 @@
+<div style="padding: 2rem;">
+  <button type="button"
+          data-shipwright-slideout-trigger="preview-bottom"
+          class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">
+    Open bottom sheet
+  </button>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "preview-bottom", position: :bottom, title: "Confirm action")) do |s| %>
+    <p class="text-sm text-text-primary">Are you sure you want to continue? This can be undone for 30 days.</p>
+
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="preview-bottom"
+              class="inline-flex items-center justify-center px-4 py-3 rounded-md border border-border-interactive bg-background-primary text-text-primary text-sm font-medium">
+        Cancel
+      </button>
+    <% end %>
+    <% s.with_action do %>
+      <button type="button"
+              class="inline-flex items-center justify-center px-4 py-3 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium">
+        Confirm
+      </button>
+    <% end %>
+  <% end %>
+</div>
