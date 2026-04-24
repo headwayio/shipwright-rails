@@ -101,6 +101,15 @@ class Shipwright::FileUploadComponentTest < ViewComponent::TestCase
     assert_selector "template[data-file-upload-item-template]", visible: :all
   end
 
+  def test_staged_list_template_is_inside_wrapper
+    # The JS does wrapper.querySelector("[data-file-upload-item-template]"),
+    # which only searches descendants. The template must live inside the
+    # wrapper div, not as a sibling, or stage/remove/render all break.
+    render_inline(Shipwright::FileUploadComponent.new(name: "doc"))
+
+    assert_selector "[data-shipwright-file-upload] template[data-file-upload-item-template]", visible: :all
+  end
+
   def test_wraps_init_script_once
     render_inline(Shipwright::FileUploadComponent.new(name: "doc"))
 
