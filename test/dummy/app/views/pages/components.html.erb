@@ -197,6 +197,46 @@
     <% end %>
   </div>
 
+  <h2 style="margin-top: 3rem;">Slideout</h2>
+  <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+    <button type="button" data-shipwright-slideout-trigger="showcase-right"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Right slideout</button>
+    <button type="button" data-shipwright-slideout-trigger="showcase-left"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Left slideout</button>
+    <button type="button" data-shipwright-slideout-trigger="showcase-bottom"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Bottom sheet</button>
+  </div>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "showcase-right", title: "Edit profile", subtitle: "Update your info")) do |s| %>
+    <p class="text-sm">This panel slides in from the right.</p>
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="showcase-right"
+              class="px-4 py-3 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% s.with_action do %>
+      <button type="button" class="px-4 py-3 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Save</button>
+    <% end %>
+  <% end %>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "showcase-left", position: :left, title: "Navigation")) do %>
+    <nav class="flex flex-col gap-2 text-sm">
+      <% %w[Home Projects Team Settings].each do |label| %>
+        <a href="#" class="px-2 py-1.5 rounded hover:bg-background-secondary"><%= label %></a>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "showcase-bottom", position: :bottom, title: "Confirm action")) do |s| %>
+    <p class="text-sm">Are you sure you want to continue?</p>
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="showcase-bottom"
+              class="px-4 py-3 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% s.with_action do %>
+      <button type="button" class="px-4 py-3 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Confirm</button>
+    <% end %>
+  <% end %>
+
   <h2 style="margin-top: 3rem;">Pagination</h2>
   <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1rem;">
     <%= render Shipwright::PaginationComponent.new(
