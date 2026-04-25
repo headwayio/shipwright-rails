@@ -138,13 +138,18 @@ module Shipwright
              "transition-transform duration-300 ease-out " \
              "backdrop:bg-background-inverse/25 backdrop:transition-opacity backdrop:duration-300"
 
+      # IMPORTANT: <dialog>:modal gets UA inset:0 on all four sides when opened
+      # via showModal(). Setting only one side (e.g. right-0) leaves the
+      # opposite side (left:0) in place, so the panel stretches full-width or
+      # anchors to the wrong edge. Explicitly clear the unused axis with
+      # left-auto / right-auto / top-auto.
       position_base = case position
       when :right
-        "top-0 right-0 bottom-0 h-full"
+        "top-0 right-0 bottom-0 left-auto h-full"
       when :left
-        "top-0 left-0 bottom-0 h-full"
+        "top-0 left-0 bottom-0 right-auto h-full"
       when :bottom
-        "left-0 right-0 bottom-0 w-full"
+        "left-0 right-0 bottom-0 top-auto w-full"
       end
 
       # Entry/exit slide state driven by data-shipwright-slideout-state.

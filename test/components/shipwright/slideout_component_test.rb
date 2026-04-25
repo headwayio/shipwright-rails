@@ -12,6 +12,8 @@ class Shipwright::SlideoutComponentTest < ViewComponent::TestCase
 
     assert_includes rendered_content, "shipwright-slideout-position=\"right\""
     assert_includes rendered_content, "right-0"
+    # MUST clear UA <dialog>:modal inset (left:0) or panel anchors wrong
+    assert_includes rendered_content, "left-auto"
   end
 
   def test_left_position_anchors_left
@@ -19,6 +21,7 @@ class Shipwright::SlideoutComponentTest < ViewComponent::TestCase
 
     assert_includes rendered_content, "shipwright-slideout-position=\"left\""
     assert_includes rendered_content, "left-0"
+    assert_includes rendered_content, "right-auto"
   end
 
   def test_bottom_position_anchors_bottom_full_width
@@ -27,6 +30,7 @@ class Shipwright::SlideoutComponentTest < ViewComponent::TestCase
     assert_includes rendered_content, "shipwright-slideout-position=\"bottom\""
     assert_includes rendered_content, "w-full"
     assert_includes rendered_content, "rounded-t-lg"
+    assert_includes rendered_content, "top-auto"
   end
 
   def test_raises_on_invalid_position
