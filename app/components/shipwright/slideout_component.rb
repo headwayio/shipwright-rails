@@ -25,13 +25,17 @@ module Shipwright
   #   <button data-shipwright-slideout-trigger="profile">Open</button>
   #
   # Options:
-  #   id:            — DOM id; triggers reference it by this value.
-  #   position:      — :right (default) | :left | :bottom
-  #   title:         — optional header title
-  #   subtitle:      — optional header subtitle
-  #   close_button:  — show the circular ✕ button (default true)
-  #   width:         — panel width for side positions (default "428px")
-  #   initially_open:— render the dialog in its open state (useful in Lookbook)
+  #   id:             — DOM id; triggers reference it by this value.
+  #   position:       — :right (default) | :left | :bottom
+  #   title:          — optional header title
+  #   subtitle:       — optional header subtitle
+  #   close_button:   — show the circular ✕ button (default true)
+  #   width:          — panel width for side positions (default "428px")
+  #   initially_open: — render the dialog in its open state (useful in Lookbook)
+  #   header_class:   — extra classes merged onto the header strip (e.g. swap bg)
+  #   body_class:     — extra classes merged onto the scrollable body region
+  #   footer_class:   — extra classes merged onto the actions footer
+  #   class:          — extra classes merged onto the outer <dialog> element
   #
   # Slots:
   #   with_tab(label:, icon: nil, active: false, href: nil) — segmented nav
@@ -43,11 +47,16 @@ module Shipwright
     DEFAULT_SIDE_WIDTH = "428px".freeze
 
     # Lightweight tab slot — data only; the component template renders it.
+    # `value:` is what the JS uses to match tabs to panels (consumers add
+    # `data-shipwright-tab-panel="<value>"` to body sections that should
+    # show only when that tab is active). It defaults to the label
+    # parameterized so simple cases don't need to pass it explicitly.
     class Tab < ViewComponent::Base
-      attr_reader :label, :icon, :href, :active
+      attr_reader :label, :icon, :href, :active, :value
 
-      def initialize(label:, icon: nil, href: nil, active: false)
+      def initialize(label:, value: nil, icon: nil, href: nil, active: false)
         @label = label
+        @value = value || label.to_s.parameterize
         @icon = icon
         @href = href
         @active = active
@@ -70,6 +79,9 @@ module Shipwright
       close_button: true,
       width: nil,
       initially_open: false,
+      header_class: nil,
+      body_class: nil,
+      footer_class: nil,
       class: nil,
       **html_attrs
     )
@@ -84,6 +96,9 @@ module Shipwright
       @close_button = close_button
       @width = width || (bottom? ? nil : DEFAULT_SIDE_WIDTH)
       @initially_open = initially_open
+      @header_class = header_class
+      @body_class = body_class
+      @footer_class = footer_class
       @class = binding.local_variable_get(:class)
       @html_attrs = html_attrs
     end
@@ -177,7 +192,10 @@ module Shipwright
     end
 
     def header_classes
-      "relative flex items-start justify-between gap-4 p-sm border-b border-border-primary shrink-0"
+      classes(
+        "relative flex items-start justify-between gap-4 p-sm border-b border-border-primary shrink-0 bg-background-secondary",
+        consumer: @header_class
+      )
     end
 
     def tabs_classes
@@ -193,18 +211,19 @@ module Shipwright
     end
 
     def body_classes
-      "flex-1 min-h-px overflow-y-auto p-sm"
+      classes("flex-1 min-h-px overflow-y-auto p-sm", consumer: @body_class)
     end
 
     def footer_classes
       # Mobile-style stacked actions by default; tablet+ lays them out
       # horizontally. Bottom-positioned sheets always use the horizontal
       # right-aligned layout.
-      if bottom?
+      base = if bottom?
         "flex items-center justify-end gap-xs p-sm border-t border-border-primary shrink-0"
       else
         "flex flex-col sm:flex-row sm:items-center sm:justify-end gap-xs p-sm border-t border-border-primary shrink-0"
       end
+      classes(base, consumer: @footer_class)
     end
 
     def close_button_classes
@@ -242,6 +261,37 @@ module Shipwright
             }, 400);
           }
 
+          // Tab click → swap active tab + matching panel within the same slideout.
+          // Tabs rendered as <a href> are NOT intercepted (they navigate normally).
+          // Panels are any [data-shipwright-tab-panel="<value>"] inside the dialog.
+          function activateTab(button) {
+            var dialog = button.closest("dialog.shipwright-slideout");
+            if (!dialog) return;
+            var value = button.getAttribute("data-shipwright-slideout-tab");
+
+            // Update tab buttons within this dialog only.
+            dialog.querySelectorAll("[data-shipwright-slideout-tab]").forEach(function (tab) {
+              var active = tab === button;
+              tab.setAttribute("aria-selected", active ? "true" : "false");
+              if (active) {
+                tab.classList.add("border-border-interactive", "text-text-primary", "font-medium");
+                tab.classList.remove("border-transparent", "text-text-secondary");
+              } else {
+                tab.classList.remove("border-border-interactive", "text-text-primary", "font-medium");
+                tab.classList.add("border-transparent", "text-text-secondary");
+              }
+            });
+
+            // Toggle panel visibility within this dialog only.
+            dialog.querySelectorAll("[data-shipwright-tab-panel]").forEach(function (panel) {
+              if (panel.getAttribute("data-shipwright-tab-panel") === value) {
+                panel.removeAttribute("hidden");
+              } else {
+                panel.setAttribute("hidden", "");
+              }
+            });
+          }
+
           document.addEventListener("click", function (event) {
             var trigger = event.target.closest("[data-shipwright-slideout-trigger]");
             if (trigger) {
@@ -257,6 +307,13 @@ module Shipwright
               var closeId = closer.getAttribute("data-shipwright-slideout-close");
               var dialog = closeId ? document.getElementById(closeId) : closer.closest("dialog.shipwright-slideout");
               close(dialog);
+              return;
+            }
+
+            var tabButton = event.target.closest("button[data-shipwright-slideout-tab]");
+            if (tabButton) {
+              event.preventDefault();
+              activateTab(tabButton);
               return;
             }
 

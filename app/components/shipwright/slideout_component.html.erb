@@ -46,7 +46,8 @@
           <% tab_attrs = {
             class: tab_item_classes(tab.active),
             role: "tab",
-            "aria-selected": tab.active
+            "aria-selected": tab.active,
+            "data-shipwright-slideout-tab": tab.value
           } %>
           <% tab_attrs[:href] = tab.href if tab.href %>
           <% tab_attrs[:type] = "button" unless tab.href %>

@@ -87,6 +87,24 @@ class Shipwright::SlideoutComponentTest < ViewComponent::TestCase
     assert_selector "[role='tab'][aria-selected='true']", text: "Details"
   end
 
+  def test_tabs_carry_value_data_attribute_for_panel_switching
+    render_inline(Shipwright::SlideoutComponent.new(id: "x")) do |s|
+      s.with_tab(value: "details", label: "Details")
+      s.with_tab(value: "security", label: "Security")
+    end
+
+    assert_selector "[data-shipwright-slideout-tab='details']"
+    assert_selector "[data-shipwright-slideout-tab='security']"
+  end
+
+  def test_tab_value_auto_derived_from_label_when_omitted
+    render_inline(Shipwright::SlideoutComponent.new(id: "x")) do |s|
+      s.with_tab(label: "Account Settings")
+    end
+
+    assert_selector "[data-shipwright-slideout-tab='account-settings']"
+  end
+
   def test_tabs_with_href_render_as_links
     render_inline(Shipwright::SlideoutComponent.new(id: "x")) do |s|
       s.with_tab(label: "Details", href: "/details", active: true)
@@ -149,6 +167,37 @@ class Shipwright::SlideoutComponentTest < ViewComponent::TestCase
     render_inline(Shipwright::SlideoutComponent.new(id: "x"))
 
     assert_includes rendered_content, "__shipwrightSlideoutWired"
+  end
+
+  def test_header_has_secondary_background_by_default
+    render_inline(Shipwright::SlideoutComponent.new(id: "x", title: "t"))
+
+    assert_includes rendered_content, "bg-background-secondary"
+  end
+
+  def test_header_class_override_merges
+    render_inline(Shipwright::SlideoutComponent.new(id: "x", title: "t", header_class: "bg-utility-positive-default"))
+
+    assert_includes rendered_content, "bg-utility-positive-default"
+  end
+
+  def test_body_class_override_merges
+    render_inline(Shipwright::SlideoutComponent.new(id: "x", body_class: "px-md"))
+
+    assert_includes rendered_content, "px-md"
+  end
+
+  def test_footer_class_override_merges
+    render_inline(Shipwright::SlideoutComponent.new(id: "x")) do |s|
+      s.with_action { "x".html_safe }
+    end
+    # baseline: no override, default footer classes
+    assert_includes rendered_content, "border-border-primary"
+
+    render_inline(Shipwright::SlideoutComponent.new(id: "x", footer_class: "bg-background-tertiary")) do |s|
+      s.with_action { "x".html_safe }
+    end
+    assert_includes rendered_content, "bg-background-tertiary"
   end
 
   def test_no_header_block_rendered_when_no_title_close_or_header_slot
