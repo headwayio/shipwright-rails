@@ -110,7 +110,7 @@ module Shipwright
       classes(
         "shipwright-toast flex items-start gap-3 p-3 pr-4 rounded-md font-sans",
         "bg-interactive-primary-pressed text-text-inverse shadow-lg",
-        "min-w-64 max-w-md pointer-events-auto",
+        "min-w-64 max-w-[28rem] pointer-events-auto",
         "transition-all duration-300 ease-out",
         "data-[shipwright-toast-state=entering]:opacity-0 data-[shipwright-toast-state=entering]:translate-y-2",
         "data-[shipwright-toast-state=leaving]:opacity-0 data-[shipwright-toast-state=leaving]:translate-y-1",
