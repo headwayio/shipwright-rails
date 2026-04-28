@@ -1,0 +1,20 @@
+<div style="padding: 2rem;">
+  <button type="button" data-shipwright-modal-trigger="preview-modal-lg"
+          class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Open large modal</button>
+
+  <%= render(Shipwright::ModalComponent.new(id: "preview-modal-lg", title: "Project details", size: :lg)) do |m| %>
+    <div class="space-y-3">
+      <p class="text-sm">Large modal — fits a form or a detail panel.</p>
+      <input type="text" placeholder="Project name" class="w-full px-3 py-2 border border-border-primary rounded-md text-sm">
+      <textarea placeholder="Description" rows="4" class="w-full px-3 py-2 border border-border-primary rounded-md text-sm"></textarea>
+    </div>
+
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="preview-modal-lg"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% m.with_action do %>
+      <button type="button" class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Save</button>
+    <% end %>
+  <% end %>
+</div>

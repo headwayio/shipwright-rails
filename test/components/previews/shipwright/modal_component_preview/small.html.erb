@@ -1,0 +1,12 @@
+<div style="padding: 2rem;">
+  <button type="button" data-shipwright-modal-trigger="preview-modal-sm"
+          class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Open small modal</button>
+
+  <%= render(Shipwright::ModalComponent.new(id: "preview-modal-sm", title: "Quick prompt", size: :sm)) do |m| %>
+    <p class="text-sm">Small modal — best for short prompts.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="preview-modal-sm"
+              class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm">OK</button>
+    <% end %>
+  <% end %>
+</div>
