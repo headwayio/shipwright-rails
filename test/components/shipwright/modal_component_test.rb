@@ -11,11 +11,13 @@ class Shipwright::ModalComponentTest < ViewComponent::TestCase
     render_inline(Shipwright::ModalComponent.new(id: "x"))
 
     assert_includes rendered_content, 'shipwright-modal-size="md"'
-    assert_includes rendered_content, "max-w-md"
+    assert_includes rendered_content, "max-w-[448px]"
   end
 
   def test_each_size_applies_max_width_class
-    {sm: "max-w-sm", md: "max-w-md", lg: "max-w-2xl", xl: "max-w-4xl"}.each do |size, css|
+    # Arbitrary px values rather than max-w-sm/md/lg, because Shipwright's
+    # @theme defines --spacing-sm/md/lg tokens that hijack those utilities.
+    {sm: "max-w-[384px]", md: "max-w-[448px]", lg: "max-w-[672px]", xl: "max-w-[896px]"}.each do |size, css|
       render_inline(Shipwright::ModalComponent.new(id: "x", size: size))
       assert_includes rendered_content, css, "size :#{size} should produce #{css}"
     end

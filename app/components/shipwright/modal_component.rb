@@ -41,11 +41,17 @@ module Shipwright
   #   with_action    — footer buttons (multiple permitted)
   #   content        — body
   class ModalComponent < BaseComponent
+    # Use arbitrary pixel widths instead of `max-w-sm`/`max-w-md`/`max-w-lg` —
+    # Shipwright's @theme defines `--spacing-sm`/`-md`/`-lg` tokens, and
+    # Tailwind 4's `max-w-{size}` utilities fall back to `--spacing-{size}`
+    # when no `--container-{size}` is defined, hijacking `max-w-md` to mean
+    # 16px. See the tailwind-v4-spacing-container-collision skill for the
+    # full explanation. Literal arbitrary values bypass the lookup entirely.
     SIZES = {
-      sm: "max-w-sm",   # 384px
-      md: "max-w-md",   # 448px
-      lg: "max-w-2xl",  # 672px
-      xl: "max-w-4xl"   # 896px
+      sm: "max-w-[384px]",
+      md: "max-w-[448px]",
+      lg: "max-w-[672px]",
+      xl: "max-w-[896px]"
     }.freeze
 
     renders_many :actions
