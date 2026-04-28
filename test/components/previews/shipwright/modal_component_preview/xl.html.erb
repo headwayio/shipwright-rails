@@ -1,0 +1,23 @@
+<div style="padding: 2rem;">
+  <button type="button" data-shipwright-modal-trigger="preview-modal-xl"
+          class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Open XL modal</button>
+
+  <%= render(Shipwright::ModalComponent.new(id: "preview-modal-xl", title: "Activity feed", size: :xl)) do |m| %>
+    <div class="space-y-2">
+      <% 8.times do |i| %>
+        <div class="flex items-center gap-3 p-2 border border-border-primary rounded-md">
+          <span class="w-8 h-8 rounded-full bg-background-secondary"></span>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium">Event <%= i + 1 %></p>
+            <p class="text-xs text-text-secondary">Description for activity <%= i + 1 %>.</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="preview-modal-xl"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Close</button>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,13 @@
+<div style="padding: 2rem;">
+  <button type="button" data-shipwright-modal-trigger="preview-modal-noclose"
+          class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Open no-close modal</button>
+
+  <%= render(Shipwright::ModalComponent.new(id: "preview-modal-noclose", title: "Action required", close_button: false)) do |m| %>
+    <p class="text-sm">No ✕ button — user must click an action to dismiss.</p>
+
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="preview-modal-noclose"
+              class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Acknowledge</button>
+    <% end %>
+  <% end %>
+</div>

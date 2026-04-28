@@ -197,6 +197,46 @@
     <% end %>
   </div>
 
+  <h2 style="margin-top: 3rem;">Modal</h2>
+  <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+    <button type="button" data-shipwright-modal-trigger="showcase-modal-md"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Default modal</button>
+    <button type="button" data-shipwright-modal-trigger="showcase-modal-lg"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Large modal</button>
+    <button type="button" data-shipwright-modal-trigger="showcase-modal-confirm"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-utility-negative-default text-text-inverse text-sm font-medium cursor-pointer">Delete (confirm)</button>
+  </div>
+
+  <%= render(Shipwright::ModalComponent.new(id: "showcase-modal-md", title: "Edit profile", subtitle: "Update your account info")) do |m| %>
+    <p class="text-sm">Default-size modal body.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="showcase-modal-md"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% m.with_action do %>
+      <button type="button" class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Save</button>
+    <% end %>
+  <% end %>
+
+  <%= render(Shipwright::ModalComponent.new(id: "showcase-modal-lg", title: "Project details", size: :lg)) do |m| %>
+    <p class="text-sm">Large-size modal — fits a form or detail panel.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="showcase-modal-lg"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Close</button>
+    <% end %>
+  <% end %>
+
+  <%= render(Shipwright::ModalComponent.new(id: "showcase-modal-confirm", title: "Delete project?", subtitle: "This cannot be undone.", size: :sm)) do |m| %>
+    <p class="text-sm">All associated data will be permanently removed.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="showcase-modal-confirm"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% m.with_action do %>
+      <button type="button" class="px-4 py-2 rounded-md bg-utility-negative-default text-text-inverse text-sm font-medium">Delete</button>
+    <% end %>
+  <% end %>
+
   <h2 style="margin-top: 3rem;">Slideout</h2>
   <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
     <button type="button" data-shipwright-slideout-trigger="showcase-right"
