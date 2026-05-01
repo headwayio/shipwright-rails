@@ -1,0 +1,74 @@
+name: sync-shipwright-theme
+
+# Pulls the latest tokens.css from headwayio/shipwright-ui's
+# packages/theme/src/tokens.css and opens a PR if anything changed.
+#
+# CODEOWNERS routes the PR to @headwayio/shipwrightdevs for review.
+# The PR is intentionally NOT auto-merged: a human eyeballs the token
+# diff (color changes can ripple through every component) and confirms
+# tests pass before merging.
+
+on:
+  schedule:
+    # 09:00 PT every weekday — early enough to land before standup.
+    - cron: '0 16 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Source ref (branch / tag / SHA in headwayio/shipwright-ui)'
+        required: false
+        default: 'main'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync from shipwright-ui
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bin/sync-shipwright-theme "${{ github.event.inputs.ref || 'main' }}"
+
+      - name: Detect changes
+        id: detect
+        run: |
+          if git diff --quiet -- app/assets/tailwind/shipwright/tokens.css .shipwright-theme-sha; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No token changes — nothing to do."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "sha=$(cat .shipwright-theme-sha)" >> "$GITHUB_OUTPUT"
+            echo "short_sha=$(cut -c1-7 < .shipwright-theme-sha)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open PR
+        if: steps.detect.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/sync-shipwright-theme
+          delete-branch: true
+          commit-message: |
+            chore: sync shipwright-ui theme @${{ steps.detect.outputs.short_sha }}
+          title: 'chore: sync shipwright-ui theme @${{ steps.detect.outputs.short_sha }}'
+          labels: |
+            design-system
+            automated
+          body: |
+            Automated sync of design tokens from
+            [headwayio/shipwright-ui@${{ steps.detect.outputs.short_sha }}](https://github.com/headwayio/shipwright-ui/commit/${{ steps.detect.outputs.sha }}).
+
+            ## Review checklist
+            - [ ] Token diff in `app/assets/tailwind/shipwright/tokens.css` looks intentional
+            - [ ] No component class strings need to change (compare with the upstream commit)
+            - [ ] Lookbook previews still render the way the new tokens intend (visual diff)
+            - [ ] `bundle exec rake test` passes
+
+            > Source of truth: [shipwright-ui/packages/theme/src/tokens.css](https://github.com/headwayio/shipwright-ui/blob/${{ steps.detect.outputs.sha }}/packages/theme/src/tokens.css)
+            >
+            > Triggered by: ${{ github.event_name == 'workflow_dispatch' && 'manual dispatch' || 'scheduled run' }}
