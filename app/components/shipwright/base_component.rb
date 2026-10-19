@@ -27,10 +27,13 @@ module Shipwright
           utility-negative-default
           utility-warning-default
           text-primary
+          text-secondary
           text-inverse
           text-disabled
           background-primary
           background-secondary
+          background-tertiary
+          background-inverse
         ],
         "radius" => %w[md]
       }

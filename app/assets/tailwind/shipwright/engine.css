@@ -53,12 +53,17 @@
 
   /* Text colors */
   --color-text-primary: #050507;
+  --color-text-secondary: #333747;
   --color-text-inverse: #fdfdfd;
   --color-text-disabled: #595d6a;
 
-  /* Background colors */
+  /* Background colors.
+     primary/secondary/tertiary follow upstream tokens.css's
+     surface-{high,medium,low}-emphasis; inverse follows surface-inverse. */
   --color-background-primary: #fdfdfd;
   --color-background-secondary: #f3f3f3;
+  --color-background-tertiary: #eaeaea;
+  --color-background-inverse: #1f212b;
 
   /* Typography — font loading is the consuming app's responsibility */
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;

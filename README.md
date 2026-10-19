@@ -251,11 +251,14 @@ components actually read.
 | `--color-utility-on-warning` | `#fdfdfd` |
 | **Text colors** | |
 | `--color-text-primary` | `#050507` |
+| `--color-text-secondary` | `#333747` |
 | `--color-text-inverse` | `#fdfdfd` |
 | `--color-text-disabled` | `#595d6a` |
 | **Background colors** | |
 | `--color-background-primary` | `#fdfdfd` |
 | `--color-background-secondary` | `#f3f3f3` |
+| `--color-background-tertiary` | `#eaeaea` |
+| `--color-background-inverse` | `#1f212b` |
 | **Typography** | |
 | `--font-sans` | `"Manrope", ui-sans-serif, system-ui, sans-serif` |
 | `--text-base` | `1rem` |
