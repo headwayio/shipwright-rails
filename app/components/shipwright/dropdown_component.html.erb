@@ -55,7 +55,7 @@
 <%# One-time-per-page wiring: install on first dropdown render, no-op after.
     Handles item click → update trigger label, hidden input value, close menu.
     Also closes open menus when clicking outside any dropdown. %>
-<script data-shipwright-dropdown-init>
+<%= init_script_tag("data-shipwright-dropdown-init") do %>
   (function () {
     if (window.__shipwrightDropdownWired) return;
     window.__shipwrightDropdownWired = true;
@@ -87,4 +87,4 @@
       });
     });
   })();
-</script>
+<% end %>

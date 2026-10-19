@@ -34,6 +34,22 @@ Use an explicit stylesheet tag in your layout — **not** `stylesheet_link_tag :
 <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 ```
 
+### Content Security Policy
+
+Several components (toast, modal, slideout, dropdown, file upload) bootstrap
+themselves with a small inline `<script>`. If your app sets a nonce generator:
+
+```ruby
+config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(16) }
+```
+
+Shipwright reads it and emits `<script nonce="...">` automatically — no
+configuration needed. Apps with no nonce generator get the same markup as
+before, without the attribute.
+
+If you render Shipwright components in a context with no request (a mailer, a
+standalone `render`), the nonce is simply omitted.
+
 ## Usage
 
 ```erb

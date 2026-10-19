@@ -32,6 +32,40 @@ module Shipwright
 
     private
 
+    # Renders a component's one-time init <script>.
+    #
+    # Carries the host application's CSP nonce when one is configured. An app
+    # with a nonce-based `script-src` refuses inline <script> that has no
+    # nonce, and the failure is silent from Rails' side: the markup renders,
+    # the JavaScript never runs, and the component simply does nothing.
+    #
+    #   init_script_tag("data-shipwright-toast-init", ToastComponent::INIT_SCRIPT_BODY)
+    #
+    # or, from a template, with the body as a block:
+    #
+    #   <%= init_script_tag("data-shipwright-dropdown-init") do %>
+    #     (function () { ... })();
+    #   <% end %>
+    #
+    # @param marker [String] the `data-shipwright-*-init` attribute used to
+    #   identify the tag; kept as a hook for debugging and for hosts that want
+    #   to find or allow-list these scripts.
+    def init_script_tag(marker, body = nil, &block)
+      body = capture(&block) if block
+      content_tag(:script, body.to_s.html_safe, marker => "", "nonce" => csp_nonce)
+    end
+
+    # The request's CSP nonce, or nil when the app has not configured a nonce
+    # generator — in which case the attribute is omitted and behaviour is
+    # exactly as it was before.
+    def csp_nonce
+      helpers.content_security_policy_nonce
+    rescue NoMethodError
+      # Rendered without a request (standalone render, some preview setups).
+      nil
+    end
+
+
     # Merges component default classes with consumer overrides.
     # Consumer class is always applied LAST so it wins over defaults and conditionals.
     #

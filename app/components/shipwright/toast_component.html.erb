@@ -31,4 +31,4 @@
   <% end %>
 <% end %>
 
-<%= Shipwright::ToastComponent.init_script_html %>
+<%= init_script_tag("data-shipwright-toast-init", Shipwright::ToastComponent::INIT_SCRIPT_BODY) %>
