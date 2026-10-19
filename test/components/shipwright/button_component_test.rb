@@ -30,6 +30,16 @@ class Shipwright::ButtonComponentTest < ViewComponent::TestCase
     assert_selector "button.text-utility-on-negative"
   end
 
+  # Pressed uses the hover's 90% fill: at 80% a mid-tone negative (#B34124) leaves its white
+  # label at 3.9:1, below AA's 4.5:1; at 90% it holds 4.7:1.
+  def test_destructive_pressed_state_keeps_the_hover_fill
+    render_inline(Shipwright::ButtonComponent.new(hierarchy: :destructive)) { "Delete" }
+
+    classes = page.find("button")[:class].split
+    assert_includes classes, "active:bg-utility-negative-default/90"
+    refute_includes classes, "active:bg-utility-negative-default/80"
+  end
+
   def test_renders_small_size
     render_inline(Shipwright::ButtonComponent.new(size: :sm)) { "Small" }
 

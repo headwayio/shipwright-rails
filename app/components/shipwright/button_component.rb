@@ -22,7 +22,7 @@ module Shipwright
         ring: "focus-visible:ring-2 focus-visible:ring-interactive-primary-default focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary focus-visible:outline-none"
       },
       destructive: {
-        bg: "bg-utility-negative-default hover:bg-utility-negative-default/90 active:bg-utility-negative-default/80",
+        bg: "bg-utility-negative-default hover:bg-utility-negative-default/90 active:bg-utility-negative-default/90",
         text: "text-utility-on-negative",
         border: "border-0",
         ring: "focus-visible:ring-2 focus-visible:ring-utility-negative-default focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary focus-visible:outline-none"

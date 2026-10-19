@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- The pressed destructive button kept its white label below AA (4.5:1) on mid-tone negative
+  colors (#B34124: 3.9:1 at the 80% fill). Pressed now uses the same 90% fill as hover.
+
 ## [0.2.0] - 2026-10-19
 
 ### Breaking Changes
