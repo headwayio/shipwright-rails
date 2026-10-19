@@ -5,25 +5,25 @@ module Shipwright
     HIERARCHIES = {
       primary: {
         bg: "bg-interactive-primary-default hover:bg-interactive-primary-hover active:bg-interactive-primary-pressed",
-        text: "text-text-inverse",
+        text: "text-interactive-on-primary",
         border: "border-0",
         ring: "focus-visible:ring-2 focus-visible:ring-interactive-primary-default focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary focus-visible:outline-none"
       },
       secondary: {
         bg: "bg-interactive-secondary-default hover:bg-interactive-primary-hover active:bg-interactive-primary-pressed",
-        text: "text-text-primary hover:text-text-inverse active:text-text-inverse",
+        text: "text-text-primary hover:text-interactive-on-primary active:text-interactive-on-primary",
         border: "border border-border-interactive",
         ring: "focus-visible:ring-2 focus-visible:ring-interactive-primary-default focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary focus-visible:outline-none"
       },
       tertiary: {
         bg: "bg-transparent hover:bg-interactive-disable active:bg-interactive-primary-pressed",
-        text: "text-text-primary active:text-text-inverse",
+        text: "text-text-primary active:text-interactive-on-primary",
         border: "border-0",
         ring: "focus-visible:ring-2 focus-visible:ring-interactive-primary-default focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary focus-visible:outline-none"
       },
       destructive: {
         bg: "bg-utility-negative-default hover:bg-utility-negative-default/90 active:bg-utility-negative-default/80",
-        text: "text-text-inverse",
+        text: "text-utility-on-negative",
         border: "border-0",
         ring: "focus-visible:ring-2 focus-visible:ring-utility-negative-default focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary focus-visible:outline-none"
       }

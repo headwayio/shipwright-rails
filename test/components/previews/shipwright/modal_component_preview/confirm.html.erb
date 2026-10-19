@@ -1,6 +1,6 @@
 <div style="padding: 2rem;">
   <button type="button" data-shipwright-modal-trigger="preview-modal-confirm"
-          class="px-4 py-2 rounded-md bg-utility-negative-default text-text-inverse text-sm font-medium cursor-pointer">Delete project</button>
+          class="px-4 py-2 rounded-md bg-utility-negative-default text-utility-on-negative text-sm font-medium cursor-pointer">Delete project</button>
 
   <%= render(Shipwright::ModalComponent.new(id: "preview-modal-confirm", title: "Delete project?", subtitle: "This cannot be undone.", size: :sm)) do |m| %>
     <p class="text-sm">All associated data will be permanently removed.</p>
@@ -10,7 +10,7 @@
               class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
     <% end %>
     <% m.with_action do %>
-      <button type="button" class="px-4 py-2 rounded-md bg-utility-negative-default text-text-inverse text-sm font-medium">Delete</button>
+      <button type="button" class="px-4 py-2 rounded-md bg-utility-negative-default text-utility-on-negative text-sm font-medium">Delete</button>
     <% end %>
   <% end %>
 </div>

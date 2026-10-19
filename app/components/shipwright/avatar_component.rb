@@ -106,10 +106,10 @@ module Shipwright
           class: "w-full h-full object-cover rounded-full"
       elsif @initials
         content_tag :span, @initials,
-          class: "w-full h-full flex items-center justify-center rounded-full bg-interactive-primary-default text-text-inverse font-sans font-medium #{size[:text]}"
+          class: "w-full h-full flex items-center justify-center rounded-full bg-interactive-primary-default text-interactive-on-primary font-sans font-medium #{size[:text]}"
       else
         content_tag :span, nil,
-          class: "w-full h-full flex items-center justify-center rounded-full bg-interactive-primary-default text-text-inverse",
+          class: "w-full h-full flex items-center justify-center rounded-full bg-interactive-primary-default text-interactive-on-primary",
           "aria-label": @alt do
           Shipwright::IconComponent.new(name: :user, size: size[:icon], class: "w-3/5 h-3/5").render_in(self)
         end

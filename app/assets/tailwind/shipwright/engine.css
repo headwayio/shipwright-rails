@@ -35,6 +35,22 @@
   --color-utility-negative-default: #b62e2e;
   --color-utility-warning-default: #c09c17;
 
+  /* Foreground colors — the label/icon color ON each filled surface.
+     One token per fill, because the foreground is a property of the background
+     it sits on. A brand whose primary is LIGHT needs a dark on-primary; the
+     utility fills stay dark whatever the primary is and keep light labels. A
+     shared token cannot satisfy both, which is the bug this replaces.
+     Distinct from --color-text-inverse, which means "text on an inverted
+     background" rather than "text on this particular fill".
+     Upstream tokens.css calls these --color-sentiment-on-{critical,positive,
+     warning,info}; see issue #34 on reconciling the two vocabularies. */
+  --color-interactive-on-primary: #fdfdfd;  /* on bg-interactive-primary-* */
+  --color-utility-on-neutral: #fdfdfd;      /* on bg-utility-neutral-default */
+  --color-utility-on-information: #fdfdfd;  /* on bg-utility-information-default */
+  --color-utility-on-positive: #fdfdfd;     /* on bg-utility-positive-default */
+  --color-utility-on-negative: #fdfdfd;     /* on bg-utility-negative-default */
+  --color-utility-on-warning: #fdfdfd;      /* on bg-utility-warning-default */
+
   /* Text colors */
   --color-text-primary: #050507;
   --color-text-inverse: #fdfdfd;

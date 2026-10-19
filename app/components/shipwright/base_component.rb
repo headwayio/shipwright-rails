@@ -12,6 +12,12 @@ module Shipwright
           interactive-primary-pressed
           interactive-secondary-default
           interactive-disable
+          interactive-on-primary
+          utility-on-neutral
+          utility-on-information
+          utility-on-positive
+          utility-on-negative
+          utility-on-warning
           border-interactive
           border-inverse
           border-primary
