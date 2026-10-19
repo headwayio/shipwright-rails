@@ -1,52 +1,73 @@
-# `develop` integration branch
+# Branches and releases
 
-While individual component PRs are in review, the `develop` branch
-aggregates them so that consuming apps can target a single branch to
-preview the full in-flight work without juggling multiple PR branches.
+| Branch | What it is |
+|--------|------------|
+| `main` | Released code. Every release is tagged here. |
+| `develop` | Integration branch. Feature and fix PRs land here, and it is promoted to `main` at each release. |
 
-## What's included
+## Consuming Shipwright
 
-Currently integrates:
+Pin a tag:
 
-| Branch / PR | Adds |
-|-------------|------|
-| `fix/lookbook-button-previews` (#1) | Button & ButtonGroup fixes, Shipwright Pro tokens, Manrope, Lookbook block binding fix |
-| `feat/badge-component` (#3) | BadgeComponent, utility color palette |
-| `feat/icon-component` (#4) | IconComponent + Feather icon manifest |
-| `feat/link-component` (#5) | LinkComponent |
-| `feat/banner-component` (#6) | BannerComponent (molecule composing Icon + Link) |
+```ruby
+gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.0"
+```
 
-## How to consume
+That is what an application should use. A tag is reviewable (the CHANGELOG
+tells you what moved between two of them), and `bundle update` cannot drag you
+onto unreleased work.
 
-Point your app's Gemfile at this branch:
+`develop` is available if you need something that hasn't been released yet:
 
 ```ruby
 gem "shipwright", github: "headwayio/shipwright-rails", branch: "develop"
 ```
 
-## Maintenance
+Prefer a `ref:` SHA over `branch:` if you do — a branch ref means any
+`bundle install` can pick up work in progress, and dependency scanners flag it.
+Treat it as temporary and move back to a tag once the work ships.
 
-### When a feature branch merges to `main`
+## Contributing a change
 
-1. `git checkout develop && git fetch origin && git merge origin/main`
-2. Resolve any conflicts (usually `tailwind.css`, `components.html.erb`,
-   `CHANGELOG.md`) and re-run `cd test/dummy && bundle exec rake tailwindcss:build`
-3. `bundle exec rake test` — confirm still green
-4. `git push origin develop`
+1. Branch from `develop`.
+2. Open a PR against `develop`.
+3. Add a CHANGELOG entry under the current `Unreleased` heading, in the
+   `Added` / `Fixed` / `Breaking Changes` section that fits.
+4. `bundle exec rake test` must pass. If you touched component classes or
+   tokens, also run `cd test/dummy && bundle exec rake tailwindcss:build` and
+   confirm the utilities you used actually compiled — a `@theme` token does not
+   always produce the utility you expect.
 
-### When a new feature branch opens
+Don't open PRs against `main`. It only moves at release time.
 
-1. `git checkout develop`
-2. `git merge feat/<new-branch>`
-3. Resolve conflicts, rebuild Tailwind, run tests
-4. Push
+## Cutting a release
 
-### When develop drifts too far from main
+1. Confirm `develop` is green and the CHANGELOG's `Unreleased` section
+   describes everything that landed.
+2. On `develop`: bump `lib/shipwright/version.rb`, date the CHANGELOG heading,
+   and point the README's install snippet at the new tag. One PR, merged last.
+3. Open a PR from `develop` to `main`. `main` is always an ancestor of
+   `develop`, so there is nothing to resolve — the PR exists to be reviewed,
+   not to be merged into shape.
+4. Merge it, then tag `main`:
 
-Once all in-flight PRs are merged, consider deleting and recreating
-develop from main so it doesn't accumulate stale merge commits.
+   ```bash
+   git checkout main && git pull
+   git tag -a v0.2.0 -m "v0.2.0"
+   git push origin v0.2.0
+   ```
 
-## Not intended for merging to `main`
+5. Add a new `## [Unreleased]` heading to the CHANGELOG on `develop`.
 
-`develop` is a preview branch. Don't merge it into `main`. Individual
-feature PRs are the source of truth.
+## History
+
+Until October 2026 this file described `develop` as a preview branch that must
+*not* be merged to `main`, with individual feature PRs as the source of truth.
+That stopped reflecting reality: `main` sat at 2 components while `develop`
+accumulated 76 commits and all 23, the feature PRs fanned out from a single
+long-lived branch rather than stacking, and consuming apps pinned SHAs on
+`develop` because it was the only branch with the library on it.
+
+`develop` was promoted to `main` for `v0.2.0`, and the April-era feature PRs
+were superseded by that promotion rather than replayed. See
+[#39](https://github.com/headwayio/shipwright-rails/issues/39).
