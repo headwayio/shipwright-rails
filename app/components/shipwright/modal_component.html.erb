@@ -52,5 +52,5 @@
     <% end %>
   </div>
 
-  <%= Shipwright::ModalComponent.init_script_html %>
+  <%= init_script_tag("data-shipwright-modal-init", Shipwright::ModalComponent::INIT_SCRIPT_BODY) %>
 <% end %>

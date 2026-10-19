@@ -234,8 +234,7 @@ module Shipwright
     # [data-shipwright-slideout-trigger] element; closes via
     # [data-shipwright-slideout-close] or backdrop click. Syncs the
     # `data-shipwright-slideout-state` attribute for CSS transitions.
-    INIT_SCRIPT = <<~HTML.freeze
-      <script data-shipwright-slideout-init>
+    INIT_SCRIPT_BODY = <<~JS.freeze
         (function () {
           if (window.__shipwrightSlideoutWired) return;
           window.__shipwrightSlideoutWired = true;
@@ -347,11 +346,6 @@ module Shipwright
           }
           document.addEventListener("turbo:load", activate);
         })();
-      </script>
-    HTML
-
-    def self.init_script_html
-      INIT_SCRIPT.html_safe
-    end
+    JS
   end
 end

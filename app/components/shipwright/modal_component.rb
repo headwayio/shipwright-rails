@@ -151,8 +151,7 @@ module Shipwright
       "shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full text-text-primary hover:bg-background-tertiary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interactive-primary-default"
     end
 
-    INIT_SCRIPT = <<~HTML.freeze
-      <script data-shipwright-modal-init>
+    INIT_SCRIPT_BODY = <<~JS.freeze
         (function () {
           if (window.__shipwrightModalWired) return;
           window.__shipwrightModalWired = true;
@@ -223,11 +222,6 @@ module Shipwright
           }
           document.addEventListener("turbo:load", activate);
         })();
-      </script>
-    HTML
-
-    def self.init_script_html
-      INIT_SCRIPT.html_safe
-    end
+    JS
   end
 end

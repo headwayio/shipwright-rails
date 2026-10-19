@@ -6,4 +6,4 @@
   "aria-label": "Notifications",
   **html_attrs %>
 
-<%= Shipwright::ToastComponent.init_script_html %>
+<%= init_script_tag("data-shipwright-toast-init", Shipwright::ToastComponent::INIT_SCRIPT_BODY) %>

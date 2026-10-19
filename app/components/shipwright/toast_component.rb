@@ -125,12 +125,12 @@ module Shipwright
     # One-time-per-page Toast wiring. Rendered from both ToastComponent and
     # ToastContainerComponent so either on its own bootstraps the JS; the
     # `window.__shipwrightToastWired` guard makes duplicate renders a no-op.
-    # Returns an html_safe String so it can be interpolated into ERB with `<%= %>`.
+    # Rendered through BaseComponent#init_script_tag so the tag carries the
+    # host app's CSP nonce when one is configured.
     # Stored in Ruby (not a partial) because the engine's app/views/ may not
     # be on the host application's view_paths lookup — the component template
     # lookup is handled by ViewComponent, but arbitrary partials are not.
-    INIT_SCRIPT = <<~HTML.freeze
-      <script data-shipwright-toast-init>
+    INIT_SCRIPT_BODY = <<~JS.freeze
         (function () {
           if (window.__shipwrightToastWired) {
             if (typeof window.__shipwrightToastActivate === "function") {
@@ -198,11 +198,6 @@ module Shipwright
             requestAnimationFrame(function () { activate(); });
           });
         })();
-      </script>
-    HTML
-
-    def self.init_script_html
-      INIT_SCRIPT.html_safe
-    end
+    JS
   end
 end

@@ -94,7 +94,7 @@
 <%# One-time-per-page wiring: click-to-browse, drag-drop, staged list,
     remove, client-side validation. Modifies <input type=file> via
     DataTransfer so removal is reflected in the submitted FileList. %>
-<script data-shipwright-file-upload-init>
+<%= init_script_tag("data-shipwright-file-upload-init") do %>
   (function () {
     if (window.__shipwrightFileUploadWired) return;
     window.__shipwrightFileUploadWired = true;
@@ -282,4 +282,4 @@
       addFiles(wrapper, event.dataTransfer.files);
     });
   })();
-</script>
+<% end %>
