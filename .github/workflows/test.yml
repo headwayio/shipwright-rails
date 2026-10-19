@@ -14,6 +14,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      # test/dummy has its own Gemfile (which only evals this one) and its own
+      # lockfile, but setup-ruby installs the root bundle alone — so `bundle
+      # exec` inside test/dummy looked for a bundle that was never installed.
+      # Pinning every step to the root Gemfile gives the whole job one bundle.
+      BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
+
     steps:
       - uses: actions/checkout@v4
 
