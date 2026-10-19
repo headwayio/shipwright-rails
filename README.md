@@ -66,6 +66,51 @@ standalone `render`), the nonce is simply omitted.
 
 Additional HTML attributes (`id`, `data-*`, etc.) are passed through.
 
+### Toasts
+
+Render the container once in your layout and hand it the flash:
+
+```erb
+<%= render Shipwright::ToastContainerComponent.new(flash: flash) %>
+```
+
+The container is `position: fixed`, and toasts must be its **children**. This
+looks equivalent and is not — the toasts render outside the container, at
+normal body flow position, usually below the fold:
+
+```erb
+<%# Wrong: the toasts are siblings of the container, not inside it %>
+<%= render Shipwright::ToastContainerComponent.new %>
+<%= shipwright_flash_toasts %>
+```
+
+If you want to pass options to the helper, use a block:
+
+```erb
+<%= render Shipwright::ToastContainerComponent.new(position: :bottom_right) do %>
+  <%= shipwright_flash_toasts(duration: 8000) %>
+<% end %>
+```
+
+Flash keys map to variants: `notice`/`success` → success, `alert`/`error` →
+error, `warning` → warning, `info` → info. Anything else is ignored, so
+`flash[:form_id]` and friends don't become toasts. Pass `mapping:` to change
+that.
+
+To raise a toast from a controller action with Turbo, append to the container
+by its DOM id:
+
+```ruby
+render turbo_stream: turbo_stream.append(
+  Shipwright::ToastContainerComponent::DOM_ID,
+  Shipwright::ToastComponent.new(body: "Saved", variant: :success)
+)
+```
+
+`ToastComponent` takes `title:` (a one-line heading, truncated) and `body:`
+(wraps). Either may be omitted, but not both. Flash messages go to `body:`,
+since a flash is one string and may be long.
+
 ### Class overrides
 
 All components accept a `class:` keyword. Consumer classes are merged with component defaults using `tailwind_merge` — conflicting utilities are resolved intelligently:

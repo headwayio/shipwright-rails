@@ -24,6 +24,18 @@
 - Hover/pressed/focused states on all button hierarchies
 - Icon-only button support with square dimensions (32/44/52)
 - Disabled state with dedicated styling
+- `ToastContainerComponent.new(flash: flash)` renders flash toasts as children
+  of the container (#37). Rendering `shipwright_flash_toasts` as a sibling put
+  them outside the fixed-position wrapper, where they laid out at body flow
+  position — in the DOM, correctly styled, and off-screen.
+
+### Fixed
+
+- `shipwright_flash_toasts` now passes the message as `body:` rather than
+  `title:` (#38). `title` is styled `truncate`, so any flash longer than one
+  line was clipped with an ellipsis and the rest was unreachable.
+- `ToastComponent` accepts a body with no title (previously `title:` was
+  required), and no longer renders an empty heading element above it.
 
 ### Fixed
 

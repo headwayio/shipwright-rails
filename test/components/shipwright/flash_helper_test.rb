@@ -56,4 +56,30 @@ class Shipwright::FlashHelperTest < ActionView::TestCase
     assert_includes html, "Saved"
     assert_includes html, "One issue"
   end
+
+  # A flash is one string, and the toast's `title` slot truncates to a single
+  # line. Routing the message there silently ate the tail of any message long
+  # enough to matter — which is exactly the messages that carry a reason.
+  LONG = "We could not process your payment because the card issuer declined " \
+         "the transaction. Try another card or contact your bank."
+
+  def test_message_lands_in_the_wrapping_slot_not_the_truncating_one
+    html = shipwright_flash_toasts({ "alert" => LONG })
+
+    assert_match %r{<p class="[^"]*break-words[^"]*">#{Regexp.escape(LONG)}</p>}, html
+    refute_match %r{<p class="[^"]*truncate[^"]*">#{Regexp.escape(LONG)}</p>}, html
+  end
+
+  def test_no_empty_heading_is_rendered_above_the_message
+    html = shipwright_flash_toasts({ "notice" => "Saved" })
+
+    refute_match %r{<p class="[^"]*truncate[^"]*"></p>}, html
+  end
+
+  def test_a_title_can_still_be_supplied
+    html = shipwright_flash_toasts({ "notice" => "Saved" }, title: "Success")
+
+    assert_match %r{<p class="[^"]*truncate[^"]*">Success</p>}, html
+    assert_includes html, "Saved"
+  end
 end
