@@ -25,7 +25,7 @@ class Shipwright::AvatarComponentTest < ViewComponent::TestCase
     render_inline(Shipwright::AvatarComponent.new(initials: "WS"))
 
     assert_selector ".bg-interactive-primary-default"
-    assert_selector ".text-text-inverse"
+    assert_selector ".text-interactive-on-primary"
   end
 
   def test_falls_back_to_user_icon_when_neither_src_nor_initials

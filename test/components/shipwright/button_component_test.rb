@@ -6,7 +6,7 @@ class Shipwright::ButtonComponentTest < ViewComponent::TestCase
 
     assert_selector "button", text: "Click me"
     assert_selector "button.bg-interactive-primary-default"
-    assert_selector "button.text-text-inverse"
+    assert_selector "button.text-interactive-on-primary"
   end
 
   def test_renders_secondary_hierarchy
@@ -27,7 +27,7 @@ class Shipwright::ButtonComponentTest < ViewComponent::TestCase
     render_inline(Shipwright::ButtonComponent.new(hierarchy: :destructive)) { "Delete" }
 
     assert_selector "button.bg-utility-negative-default"
-    assert_selector "button.text-text-inverse"
+    assert_selector "button.text-utility-on-negative"
   end
 
   def test_renders_small_size
@@ -121,5 +121,17 @@ class Shipwright::ButtonComponentTest < ViewComponent::TestCase
     assert_raises(ArgumentError) do
       render_inline(Shipwright::ButtonComponent.new(shape: :square)) { "Bad" }
     end
+  end
+  # The point of splitting the foreground tokens: a brand whose primary is
+  # light sets --color-interactive-on-primary dark. If destructive buttons
+  # read the same token they render dark-on-dark, and there is no value a
+  # consumer can choose that satisfies both.
+  def test_primary_and_destructive_do_not_share_a_foreground_token
+    render_inline(Shipwright::ButtonComponent.new(hierarchy: :primary)) { "Save" }
+    assert_selector "button.text-interactive-on-primary"
+
+    render_inline(Shipwright::ButtonComponent.new(hierarchy: :destructive)) { "Delete" }
+    assert_selector "button.text-utility-on-negative"
+    assert_no_selector "button.text-interactive-on-primary"
   end
 end

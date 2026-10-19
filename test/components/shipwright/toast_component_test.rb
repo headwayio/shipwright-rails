@@ -102,13 +102,13 @@ class Shipwright::ToastComponentTest < ViewComponent::TestCase
   def test_body_without_a_title_is_not_dimmed
     render_inline(Shipwright::ToastComponent.new(body: "Standalone"))
 
-    assert_no_selector "p.text-text-inverse\\/80"
+    assert_no_selector "p.text-interactive-on-primary\\/80"
   end
 
   def test_body_under_a_title_is_dimmed
     render_inline(Shipwright::ToastComponent.new(title: "Saved", body: "Secondary"))
 
-    assert_selector "p.text-text-inverse\\/80", text: "Secondary"
+    assert_selector "p.text-interactive-on-primary\\/80", text: "Secondary"
   end
 
   def test_no_empty_heading_when_there_is_no_title
@@ -121,5 +121,32 @@ class Shipwright::ToastComponentTest < ViewComponent::TestCase
     error = assert_raises(ArgumentError) { Shipwright::ToastComponent.new }
 
     assert_match(/title:.*body:/, error.message)
+  end
+  # The icon circle is filled with the VARIANT color, not the toast's own
+  # background, so its label must follow the variant. Reading the primary
+  # foreground here gives a brand with a dark on-primary dark icons on
+  # saturated green and red — the exact failure #33 fixes for badges.
+  ICON_CIRCLE_FILL_AND_LABEL = {
+    success: [ "bg-utility-positive-default",    "text-utility-on-positive" ],
+    error:   [ "bg-utility-negative-default",    "text-utility-on-negative" ],
+    warning: [ "bg-utility-warning-default",     "text-utility-on-warning" ],
+    info:    [ "bg-interactive-primary-default", "text-interactive-on-primary" ],
+    neutral: [ "bg-interactive-primary-pressed", "text-interactive-on-primary" ]
+  }.freeze
+
+  def test_icon_circle_label_follows_the_variant_fill
+    ICON_CIRCLE_FILL_AND_LABEL.each do |variant, (bg, fg)|
+      render_inline(Shipwright::ToastComponent.new(title: "Saved", variant: variant))
+
+      assert_selector "span.#{bg}.#{fg}"
+    end
+  end
+
+  def test_sentiment_icon_circles_do_not_use_the_primary_foreground
+    %i[success error warning].each do |variant|
+      render_inline(Shipwright::ToastComponent.new(title: "Saved", variant: variant))
+
+      assert_no_selector "span.text-interactive-on-primary"
+    end
   end
 end

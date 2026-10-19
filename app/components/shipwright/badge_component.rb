@@ -1,12 +1,14 @@
 module Shipwright
   class BadgeComponent < BaseComponent
-    # Sentiment maps to a utility color token, matching the Figma "Sentiment" variant.
+    # Sentiment maps to a utility color token, matching the Figma "Sentiment"
+    # variant. Each fill carries its own label color: the foreground is a
+    # property of the background it sits on, so they must travel together.
     SENTIMENTS = {
-      neutral: "bg-utility-neutral-default",
-      informative: "bg-utility-information-default",
-      positive: "bg-utility-positive-default",
-      negative: "bg-utility-negative-default",
-      warning: "bg-utility-warning-default"
+      neutral:     { bg: "bg-utility-neutral-default",     fg: "text-utility-on-neutral" },
+      informative: { bg: "bg-utility-information-default", fg: "text-utility-on-information" },
+      positive:    { bg: "bg-utility-positive-default",    fg: "text-utility-on-positive" },
+      negative:    { bg: "bg-utility-negative-default",    fg: "text-utility-on-negative" },
+      warning:     { bg: "bg-utility-warning-default",     fg: "text-utility-on-warning" }
     }.freeze
 
     # Dot dimensions (used when no content block is given). Shipwright Pro spec:
@@ -36,15 +38,15 @@ module Shipwright
     end
 
     def call
-      sentiment_bg = SENTIMENTS.fetch(@sentiment) { |s| raise ArgumentError, "#{self.class}: unknown sentiment :#{s}. Valid: #{SENTIMENTS.keys.join(', ')}" }
+      sentiment = SENTIMENTS.fetch(@sentiment) { |s| raise ArgumentError, "#{self.class}: unknown sentiment :#{s}. Valid: #{SENTIMENTS.keys.join(', ')}" }
       size_classes = (content.present? ? TEXT_SIZES : DOT_SIZES).fetch(@size) { |v| raise ArgumentError, "#{self.class}: unknown size :#{v}. Valid: #{DOT_SIZES.keys.join(', ')}" }
 
       content_tag :span, content,
         class: classes(
           "inline-flex items-center justify-center rounded-full border-2 border-border-inverse font-sans font-normal",
-          sentiment_bg,
+          sentiment[:bg],
           size_classes,
-          content.present? ? "text-text-inverse" : nil,
+          content.present? ? sentiment[:fg] : nil,
           consumer: @class
         ),
         **@html_attrs

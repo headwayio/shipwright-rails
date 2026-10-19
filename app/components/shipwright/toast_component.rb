@@ -34,22 +34,27 @@ module Shipwright
     VARIANTS = {
       success: {
         bg: "bg-utility-positive-default",
+        fg: "text-utility-on-positive",
         icon: :"check-circle"
       },
       error: {
         bg: "bg-utility-negative-default",
+        fg: "text-utility-on-negative",
         icon: :"alert-circle"
       },
       warning: {
         bg: "bg-utility-warning-default",
+        fg: "text-utility-on-warning",
         icon: :"alert-triangle"
       },
       info: {
         bg: "bg-interactive-primary-default",
+        fg: "text-interactive-on-primary",
         icon: :info
       },
       neutral: {
         bg: "bg-interactive-primary-pressed",
+        fg: "text-interactive-on-primary",
         icon: :bell
       }
     }.freeze
@@ -94,6 +99,13 @@ module Shipwright
       VARIANTS.fetch(@variant)[:bg]
     end
 
+    # The icon circle is filled with the VARIANT color, not the toast's own
+    # background, so its label follows the variant — otherwise a brand with a
+    # dark on-primary paints dark icons onto saturated green and red.
+    def variant_fg
+      VARIANTS.fetch(@variant)[:fg]
+    end
+
     def variant_icon
       @icon_override || VARIANTS.fetch(@variant)[:icon]
     end
@@ -104,7 +116,7 @@ module Shipwright
     def body_classes
       classes(
         "text-sm leading-5 break-words",
-        "text-text-inverse/80": title.present?
+        "text-interactive-on-primary/80": title.present?
       )
     end
 
@@ -123,7 +135,7 @@ module Shipwright
     def wrapper_classes
       classes(
         "shipwright-toast flex items-start gap-3 p-3 pr-4 rounded-md font-sans",
-        "bg-interactive-primary-pressed text-text-inverse shadow-lg",
+        "bg-interactive-primary-pressed text-interactive-on-primary shadow-lg",
         "min-w-64 max-w-[28rem] pointer-events-auto",
         "transition-all duration-300 ease-out",
         "data-[shipwright-toast-state=entering]:opacity-0 data-[shipwright-toast-state=entering]:translate-y-2",
@@ -133,7 +145,7 @@ module Shipwright
     end
 
     def icon_circle_classes
-      "shrink-0 w-8 h-8 rounded-full flex items-center justify-center #{variant_bg} text-text-inverse"
+      "shrink-0 w-8 h-8 rounded-full flex items-center justify-center #{variant_bg} #{variant_fg}"
     end
 
     # One-time-per-page Toast wiring. Rendered from both ToastComponent and

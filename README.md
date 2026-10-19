@@ -64,8 +64,15 @@ standalone `render`), the nonce is simply omitted.
 `toast_container`
 
 Every component's full parameter list is in its own file under
-`app/components/shipwright/`, and Lookbook (`bin/dev`, then `/lookbook`) has a
-live preview of each one with its variants.
+`app/components/shipwright/`. For a live preview of each one with its
+variants, run the dummy app and open Lookbook:
+
+```bash
+cd test/dummy && bin/dev
+# then http://localhost:3000/lookbook
+```
+
+See [Development](#development) for the first-run steps.
 
 ### ButtonComponent
 
@@ -178,6 +185,40 @@ Shipwright defines design tokens via Tailwind 4's `@theme`. Override them in you
 }
 ```
 
+### Theming a brand
+
+Override tokens in a `@theme` block that comes **after** the Shipwright
+import, so your values win:
+
+```css
+@import "../builds/tailwind/shipwright.css";
+
+@theme {
+  --color-interactive-primary-default: #e8c547;  /* a light primary */
+  --color-interactive-on-primary:      #1c1c1c;  /* so its label must be dark */
+}
+```
+
+That is usually the whole re-brand. Foregrounds are **one token per fill**,
+because the readable label colour is a property of the background it sits on:
+
+| Fill | Label token |
+|------|-------------|
+| `bg-interactive-primary-*` | `--color-interactive-on-primary` |
+| `bg-utility-neutral-default` | `--color-utility-on-neutral` |
+| `bg-utility-information-default` | `--color-utility-on-information` |
+| `bg-utility-positive-default` | `--color-utility-on-positive` |
+| `bg-utility-negative-default` | `--color-utility-on-negative` |
+| `bg-utility-warning-default` | `--color-utility-on-warning` |
+
+The utility fills are saturated colours that stay dark whatever your primary
+is, so their labels are usually left alone — you change `on-primary` and
+nothing else. They exist as separate tokens so that *if* you do restyle a
+sentiment colour, you can fix its label without touching the others.
+
+`--color-text-inverse` remains for genuine "text on an inverted background",
+as opposed to "text on this particular fill".
+
 ### Available tokens
 
 Defined in `app/assets/tailwind/shipwright/engine.css`, which is the theme the
@@ -201,6 +242,13 @@ components actually read.
 | `--color-utility-positive-default` | `#48a356` |
 | `--color-utility-negative-default` | `#b62e2e` |
 | `--color-utility-warning-default` | `#c09c17` |
+| **Foreground colors** | |
+| `--color-interactive-on-primary` | `#fdfdfd` |
+| `--color-utility-on-neutral` | `#fdfdfd` |
+| `--color-utility-on-information` | `#fdfdfd` |
+| `--color-utility-on-positive` | `#fdfdfd` |
+| `--color-utility-on-negative` | `#fdfdfd` |
+| `--color-utility-on-warning` | `#fdfdfd` |
 | **Text colors** | |
 | `--color-text-primary` | `#050507` |
 | `--color-text-inverse` | `#fdfdfd` |
@@ -222,7 +270,8 @@ components actually read.
 
 Token defaults come from Shipwright Pro. Override the colour tokens for your
 brand in a `@theme` block that comes after the Shipwright import, so your
-values win.
+values win — see [Theming a brand](#theming-a-brand), which covers the
+light-primary case that needs more than a one-token change.
 
 Font loading is the consuming app's responsibility — Shipwright sets
 `--font-sans` but does not bundle font files.
@@ -239,10 +288,14 @@ Run the dummy app for Lookbook previews:
 ```bash
 cd test/dummy
 bundle exec rake tailwindcss:build
-bundle exec rails server -p 3030
+bin/dev                     # bin/rails server; add -p to change the port
 ```
 
-Visit `http://localhost:3030/lookbook` for component previews, or `http://localhost:3030/components` for the showcase page.
+Visit `http://localhost:3000/lookbook` for component previews, or
+`http://localhost:3000/components` for the showcase page.
+
+`bin/dev` uses a relative `./bin/rails`, so run it from `test/dummy` — it
+won't work from the repo root, which has no `bin/dev` of its own.
 
 ### Tests
 

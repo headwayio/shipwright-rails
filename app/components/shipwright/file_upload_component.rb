@@ -136,11 +136,11 @@ module Shipwright
              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-background-primary"
       state = case @button_variant
       when :primary
-        "bg-interactive-primary-default text-text-inverse hover:bg-interactive-primary-hover focus-visible:ring-interactive-primary-default"
+        "bg-interactive-primary-default text-interactive-on-primary hover:bg-interactive-primary-hover focus-visible:ring-interactive-primary-default"
       when :secondary
         "bg-interactive-secondary-default text-text-primary hover:opacity-90 focus-visible:ring-interactive-primary-default"
       when :on_primary
-        "bg-interactive-primary-pressed text-text-inverse hover:opacity-90 focus-visible:ring-text-inverse"
+        "bg-interactive-primary-pressed text-interactive-on-primary hover:opacity-90 focus-visible:ring-interactive-on-primary"
       end
       disable = disabled? ? " opacity-50 cursor-not-allowed pointer-events-none" : ""
       "#{base} #{state}#{disable}"

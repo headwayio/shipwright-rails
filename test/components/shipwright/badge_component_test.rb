@@ -47,7 +47,7 @@ class Shipwright::BadgeComponentTest < ViewComponent::TestCase
     render_inline(Shipwright::BadgeComponent.new(sentiment: :informative)) { "20" }
 
     assert_selector "span", text: "20"
-    assert_selector "span.text-text-inverse"
+    assert_selector "span.text-utility-on-information"
     # Text badge should not use dot dimensions (no fixed w-3 h-3)
     assert_no_selector "span.w-3.h-3"
   end
@@ -89,5 +89,29 @@ class Shipwright::BadgeComponentTest < ViewComponent::TestCase
 
     assert_selector "span.rounded-full"
     assert_selector "span.border-2"
+  end
+
+  # Saturated sentiment fills stay dark whatever the brand's primary is, so
+  # their label must not follow --color-interactive-on-primary. See #33.
+  #
+  # Each fill carries its OWN foreground rather than a shared sentiment token:
+  # bg-utility-negative-default is also the destructive button's fill, and if
+  # the two read different tokens a brand can make identical red surfaces
+  # disagree about their label color.
+  FILL_AND_LABEL = {
+    neutral:     [ "bg-utility-neutral-default",     "text-utility-on-neutral" ],
+    informative: [ "bg-utility-information-default", "text-utility-on-information" ],
+    positive:    [ "bg-utility-positive-default",    "text-utility-on-positive" ],
+    negative:    [ "bg-utility-negative-default",    "text-utility-on-negative" ],
+    warning:     [ "bg-utility-warning-default",     "text-utility-on-warning" ]
+  }.freeze
+
+  def test_each_sentiment_pairs_its_fill_with_its_own_label_color
+    FILL_AND_LABEL.each do |sentiment, (bg, fg)|
+      render_inline(Shipwright::BadgeComponent.new(sentiment: sentiment)) { "Label" }
+
+      assert_selector "span.#{bg}.#{fg}"
+      assert_no_selector "span.text-interactive-on-primary"
+    end
   end
 end
