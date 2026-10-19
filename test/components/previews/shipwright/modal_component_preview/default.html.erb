@@ -1,0 +1,18 @@
+<div style="padding: 2rem;">
+  <button type="button" data-shipwright-modal-trigger="preview-modal-default"
+          class="px-4 py-2 rounded-md bg-interactive-primary-default text-interactive-on-primary text-sm font-medium cursor-pointer">
+    Open modal
+  </button>
+
+  <%= render(Shipwright::ModalComponent.new(id: "preview-modal-default", title: "Edit profile", subtitle: "Update your account info")) do |m| %>
+    <p class="text-sm">Modal body content. Click ✕, press Escape, or click the backdrop to close.</p>
+
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="preview-modal-default"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% m.with_action do %>
+      <button type="button" class="px-4 py-2 rounded-md bg-interactive-primary-default text-interactive-on-primary text-sm">Save</button>
+    <% end %>
+  <% end %>
+</div>

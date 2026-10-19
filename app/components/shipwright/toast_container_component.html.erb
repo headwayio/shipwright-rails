@@ -1,0 +1,9 @@
+<%= content_tag :div,
+  toast_content,
+  id: id,
+  class: container_classes,
+  "aria-live": "polite",
+  "aria-label": "Notifications",
+  **html_attrs %>
+
+<%= init_script_tag("data-shipwright-toast-init", Shipwright::ToastComponent::INIT_SCRIPT_BODY) %>

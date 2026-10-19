@@ -1,0 +1,245 @@
+/*
+ * GENERATED FROM headwayio/shipwright-ui@e6c518a57cdfa369ffc2febc8f075eec5b2faf81 — DO NOT EDIT
+ *
+ * To update, run: bin/sync-shipwright-theme [ref]
+ * Source: https://github.com/headwayio/shipwright-ui/blob/e6c518a57cdfa369ffc2febc8f075eec5b2faf81/packages/theme/src/tokens.css
+ */
+
+/* Generated from DESIGN.md — do not edit. */
+
+@theme {
+  /* === Colors === */
+  --color-primary: #6350d4;
+  --color-background-default: #eaeaea;
+  --color-border-high-emphasis: #1f212b;
+  --color-border-default: #595d6a;
+  --color-border-low-emphasis: #eaeaea;
+  --color-border-focus: #6350d4;
+  --color-border-disabled: #f3f3f3;
+  --color-border-inverse: #fdfdfd;
+  --color-surface-high-emphasis: #fdfdfd;
+  --color-surface-medium-emphasis: #f3f3f3;
+  --color-surface-low-emphasis: #eaeaea;
+  --color-surface-inverse: #1f212b;
+  --color-surface-bold: #050507;
+  --color-text-primary: #050507;
+  --color-text-primary-inverse: #fdfdfd;
+  --color-text-secondary: #333747;
+  --color-text-on-bold: #fdfdfd;
+  --color-interactive-primary: #6350d4;
+  --color-interactive-on-primary: #fdfdfd;
+  --color-interactive-secondary: #eaeaea;
+  --color-interactive-on-secondary: #2a1e66;
+  --color-state-disabled: #eaeaea;
+  --color-state-on-disabled: #595d6a;
+  --color-state-hover: #a4a6ad26;
+  --color-state-focus: #0000000d;
+  --color-state-press: #0000001a;
+  --color-state-select: #333747;
+  --color-state-on-select: #fdfdfd;
+  --color-state-select-inverse: #fdfdfd;
+  --color-state-on-select-inverse: #1f212b;
+  --color-sentiment-critical-high-emphasis: #e96161;
+  --color-sentiment-critical-low-emphasis: #f4b0b0;
+  --color-sentiment-on-critical: #2e0c0b;
+  --color-sentiment-positive-high-emphasis: #7bd689;
+  --color-sentiment-positive-low-emphasis: #def5e1;
+  --color-sentiment-on-positive: #24522b;
+  --color-sentiment-info-high-emphasis: #7eb5fb;
+  --color-sentiment-info-low-emphasis: #d4e6fe;
+  --color-sentiment-on-info: #081a32;
+  --color-sentiment-warning-high-emphasis: #f3cf4a;
+  --color-sentiment-warning-low-emphasis: #f9e7a4;
+  --color-sentiment-on-warning: #302706;
+
+  /* === Spacing === */
+  --spacing-0: 0px;
+  --spacing-025: 2px;
+  --spacing-050: 4px;
+  --spacing-075: 6px;
+  --spacing-100: 8px;
+  --spacing-150: 12px;
+  --spacing-200: 16px;
+  --spacing-300: 24px;
+  --spacing-400: 32px;
+  --spacing-500: 40px;
+  --spacing-600: 48px;
+  --spacing-800: 64px;
+  --spacing-1000: 80px;
+  --spacing-1200: 96px;
+  --spacing-1600: 128px;
+  --spacing-2000: 160px;
+  --spacing-2400: 192px;
+  --spacing-2800: 224px;
+  --spacing-3200: 256px;
+
+  /* === Radius === */
+  --radius-0: 0px;
+  --radius-xsm: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* === Border width === */
+  --border-width-0: 0px;
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 4px;
+  --border-width-xl: 8px;
+}
+
+/* === Typography composites === */
+
+@utility text-display-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 96px;
+  line-height: 112px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-display-medium {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 52px;
+  line-height: 64px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+}
+
+@utility text-display-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 44px;
+  line-height: 52px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-display-x-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-heading-xx-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 40px;
+  line-height: 52px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-heading-x-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-heading-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-heading-medium {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-heading-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-heading-x-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility text-label-x-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-label-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-label-medium {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-label-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-label-x-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-paragraph-large {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-paragraph-medium {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-paragraph-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility text-paragraph-x-small {
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0px;
+  font-weight: 400;
+}

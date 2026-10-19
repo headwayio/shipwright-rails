@@ -1,0 +1,29 @@
+<%= content_tag :fieldset,
+  id: id,
+  class: fieldset_classes,
+  **html_attrs do %>
+  <% if label_text %>
+    <legend class="<%= legend_classes %>">
+      <%= label_text %>
+      <% if required? %>
+        <span class="text-xs font-normal text-text-disabled">(required)</span>
+      <% end %>
+    </legend>
+  <% end %>
+
+  <div class="<%= options_layout_classes %>">
+    <% options.each do |option| %>
+      <%= render Shipwright::RadioComponent.new(
+        name: name,
+        value: option.value,
+        label: option.label,
+        caption: option.caption,
+        checked: option.checked,
+        disabled: option.disabled,
+        variant: option.variant || group_variant,
+        size: option.size || group_size,
+        label_position: option.label_position
+      ) %>
+    <% end %>
+  </div>
+<% end %>

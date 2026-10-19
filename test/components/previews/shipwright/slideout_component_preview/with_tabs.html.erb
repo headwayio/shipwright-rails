@@ -1,0 +1,33 @@
+<div style="padding: 2rem;">
+  <button type="button"
+          data-shipwright-slideout-trigger="preview-tabs"
+          class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-interactive-on-primary text-sm font-medium cursor-pointer">
+    Open tabbed slideout
+  </button>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "preview-tabs", title: "Settings", subtitle: "Manage your workspace")) do |s| %>
+    <% s.with_tab(value: "details",  label: "Details",  icon: :info,           active: true) %>
+    <% s.with_tab(value: "security", label: "Security", icon: :lock) %>
+    <% s.with_tab(value: "billing",  label: "Billing",  icon: :"credit-card") %>
+
+    <section data-shipwright-tab-panel="details">
+      <h3 class="text-sm font-medium mb-2">Details</h3>
+      <p class="text-sm text-text-secondary">Workspace name, owner, and basic info.</p>
+    </section>
+
+    <section data-shipwright-tab-panel="security" hidden>
+      <h3 class="text-sm font-medium mb-2">Security</h3>
+      <p class="text-sm text-text-secondary">Two-factor auth, session lifetime, and IP allowlist.</p>
+    </section>
+
+    <section data-shipwright-tab-panel="billing" hidden>
+      <h3 class="text-sm font-medium mb-2">Billing</h3>
+      <p class="text-sm text-text-secondary">Plan, invoices, and payment method.</p>
+    </section>
+
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="preview-tabs"
+              class="px-4 py-3 rounded-md border border-border-interactive text-sm">Close</button>
+    <% end %>
+  <% end %>
+</div>

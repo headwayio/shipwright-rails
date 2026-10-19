@@ -5,3 +5,7 @@
 /test/dummy/tmp/
 /pkg/
 /Gemfile.lock
+# tailwindcss-rails generates this stub with an ABSOLUTE path into the engine's
+# install location, so it is only valid on the machine that generated it.
+# Regenerated before every Tailwind build — see the Rakefile hook.
+/test/dummy/app/assets/builds/tailwind/

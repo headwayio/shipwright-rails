@@ -1,0 +1,22 @@
+<div style="display: flex; flex-direction: column; gap: 0.75rem; padding: 2rem;">
+  <div>
+    <strong style="font-size: 0.75rem;">Decoration: underline</strong>
+    <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.25rem;">
+      <%= render(Shipwright::LinkComponent.new(href: "#")) { "Default" } %>
+      <%= render(Shipwright::LinkComponent.new(href: "#", disabled: true)) { "Disabled" } %>
+    </div>
+  </div>
+  <div>
+    <strong style="font-size: 0.75rem;">Decoration: none</strong>
+    <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.25rem;">
+      <%= render(Shipwright::LinkComponent.new(href: "#", decoration: :none)) { "Default" } %>
+      <%= render(Shipwright::LinkComponent.new(href: "#", decoration: :none, disabled: true)) { "Disabled" } %>
+    </div>
+  </div>
+  <div>
+    <strong style="font-size: 0.75rem;">Within paragraph text</strong>
+    <p style="max-width: 480px; margin-top: 0.25rem; font-size: 0.875rem;">
+      This is a sentence with <%= render(Shipwright::LinkComponent.new(href: "#")) { "an inline link" } %> that should wrap naturally and maintain the baseline of the surrounding text.
+    </p>
+  </div>
+</div>

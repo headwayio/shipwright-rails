@@ -1,0 +1,54 @@
+<%= content_tag :div, class: wrapper_classes, id: id, **html_attrs do %>
+  <table class="<%= table_classes %>">
+    <thead>
+      <tr class="<%= header_row_classes %>">
+        <% if selectable? %>
+          <th class="<%= cell_padding %> w-0 align-middle">
+            <%= render Shipwright::CheckboxComponent.new(name: "_select_all", value: "all", label: nil) %>
+          </th>
+        <% end %>
+        <% columns.each do |column| %>
+          <th class="<%= header_cell_classes(column) %>" <%= "style=\"width: #{column.width}\"".html_safe if column.width %>>
+            <% if column.sortable %>
+              <button type="button"
+                      class="inline-flex items-center gap-1 font-medium text-text-primary hover:text-interactive-primary-default transition-colors"
+                      data-table-sort
+                      data-table-sort-key="<%= column.sort_key || column.label.to_s.parameterize.underscore %>"
+                      data-table-sort-direction="<%= column.sort_direction %>">
+                <span><%= column.label %></span>
+                <%= render Shipwright::IconComponent.new(name: sort_icon_for(column), size: :sm, class: "shrink-0 text-text-disabled") %>
+              </button>
+            <% else %>
+              <span><%= column.label %></span>
+            <% end %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% rows.each_with_index do |row, row_index| %>
+        <tr class="<%= body_row_classes(row_index, row) %>"
+            <%= "id=\"#{row.id}\"".html_safe if row.id %>
+            <%= "data-table-row-selected=\"#{row.selected}\"".html_safe if row.selected %>
+            <%= row.html_attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ").html_safe %>>
+          <% if selectable? %>
+            <td class="<%= body_cell_classes %> w-0">
+              <%= render Shipwright::CheckboxComponent.new(
+                name: "selected[]",
+                value: row.id || row_index.to_s,
+                label: nil,
+                checked: row.selected
+              ) %>
+            </td>
+          <% end %>
+          <% row.cells.each do |cell| %>
+            <td class="<%= body_cell_classes %> <%= cell.align_classes %>">
+              <%= cell.rendered %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

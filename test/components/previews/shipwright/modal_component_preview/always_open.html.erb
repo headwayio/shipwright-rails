@@ -1,0 +1,12 @@
+<div style="min-height: 60vh; padding: 2rem;">
+  <p class="text-sm" style="color: #555;">This preview auto-opens the modal at page load.</p>
+
+  <%= render(Shipwright::ModalComponent.new(id: "preview-modal-always", title: "Always open", subtitle: "initially_open: true", initially_open: true)) do |m| %>
+    <p class="text-sm">Visible without clicking a trigger — useful for inspecting layout.</p>
+
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="preview-modal-always"
+              class="px-4 py-2 rounded-md bg-interactive-primary-default text-interactive-on-primary text-sm">Close</button>
+    <% end %>
+  <% end %>
+</div>

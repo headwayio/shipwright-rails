@@ -1,0 +1,285 @@
+<%= content_tag :div,
+  class: wrapper_classes,
+  data: {
+    shipwright_file_upload: true,
+    "file-upload-multiple": multiple?,
+    "file-upload-accept": accept,
+    "file-upload-max-size": max_size_attr
+  },
+  **html_attrs do %>
+  <% if label_text %>
+    <label for="<%= label_for %>" class="text-sm font-medium text-text-primary"><%= label_text %></label>
+  <% end %>
+
+  <%# Native hidden file input — the real form control. %>
+  <input type="file"
+         id="<%= label_for %>"
+         name="<%= name %>"
+         class="sr-only"
+         <% if accept %>accept="<%= accept %>"<% end %>
+         <%= 'multiple' if multiple? %>
+         <%= 'disabled' if disabled? %>
+         data-file-upload-input>
+
+  <% if inline? %>
+    <div class="<%= field_row_classes %>">
+      <% if button_left? %>
+        <button type="button"
+                class="<%= button_classes %>"
+                <%= 'disabled' if disabled? %>
+                data-file-upload-trigger>Choose file</button>
+        <span class="<%= filename_display_classes %>" data-file-upload-filename><%= placeholder_text %></span>
+        <button type="button"
+                class="shrink-0 px-2 text-text-disabled hover:text-text-primary hidden"
+                data-file-upload-clear
+                aria-label="Remove file">
+          <%= render Shipwright::IconComponent.new(name: :"x-circle", size: :sm) %>
+        </button>
+      <% else %>
+        <span class="<%= filename_display_classes %>" data-file-upload-filename><%= placeholder_text %></span>
+        <button type="button"
+                class="shrink-0 px-2 text-text-disabled hover:text-text-primary hidden"
+                data-file-upload-clear
+                aria-label="Remove file">
+          <%= render Shipwright::IconComponent.new(name: :"x-circle", size: :sm) %>
+        </button>
+        <button type="button"
+                class="<%= button_classes %>"
+                <%= 'disabled' if disabled? %>
+                data-file-upload-trigger>Choose file</button>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="<%= dropzone_classes %>"
+         data-file-upload-dropzone
+         role="button"
+         tabindex="<%= disabled? ? -1 : 0 %>">
+      <%= render Shipwright::IconComponent.new(name: :"upload-cloud", size: :md, class: "text-text-primary") %>
+      <div class="text-sm leading-5 font-medium">Click to upload or drag and drop</div>
+      <% if caption %>
+        <div class="text-xs text-text-disabled"><%= caption %></div>
+      <% end %>
+      <button type="button"
+              class="mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-border-primary bg-background-primary text-xs font-medium text-text-primary hover:bg-background-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interactive-primary-default"
+              <%= 'disabled' if disabled? %>
+              data-file-upload-trigger>
+        <%= render Shipwright::IconComponent.new(name: :search, size: :sm) %>
+        Browse files
+      </button>
+    </div>
+  <% end %>
+
+  <%# Staged files list — filled by JS when files are selected. %>
+  <ul class="flex flex-col gap-1 mt-1 hidden" data-file-upload-list></ul>
+
+  <%# Inline error message area — populated by client validation. %>
+  <p class="<%= caption_classes %>" data-file-upload-message>
+    <%= error.presence || caption %>
+  </p>
+
+  <%# Hidden template for rendering staged file rows. JS clones this per file.
+      MUST live inside the wrapper div so wrapper.querySelector("[data-file-upload-item-template]")
+      finds it — querySelector only searches descendants, not siblings. %>
+  <template data-file-upload-item-template>
+    <li class="flex items-center gap-2 text-sm text-text-primary" data-file-upload-item>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+      <span class="flex-1 min-w-0 truncate" data-file-upload-item-name></span>
+      <button type="button" class="shrink-0 text-text-disabled hover:text-text-primary" data-file-upload-item-remove aria-label="Remove file">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+      </button>
+    </li>
+  </template>
+<% end %>
+
+<%# One-time-per-page wiring: click-to-browse, drag-drop, staged list,
+    remove, client-side validation. Modifies <input type=file> via
+    DataTransfer so removal is reflected in the submitted FileList. %>
+<%= init_script_tag("data-shipwright-file-upload-init") do %>
+  (function () {
+    if (window.__shipwrightFileUploadWired) return;
+    window.__shipwrightFileUploadWired = true;
+
+    function fmtBytes(n) {
+      if (n < 1024) return n + " B";
+      if (n < 1024 * 1024) return (n / 1024).toFixed(1) + " KB";
+      return (n / 1024 / 1024).toFixed(1) + " MB";
+    }
+
+    function matchesAccept(file, accept) {
+      if (!accept) return true;
+      var tokens = accept.split(",").map(function (s) { return s.trim().toLowerCase(); });
+      var name = file.name.toLowerCase();
+      var type = (file.type || "").toLowerCase();
+      return tokens.some(function (tok) {
+        if (!tok) return false;
+        if (tok.startsWith(".")) return name.endsWith(tok);
+        if (tok.endsWith("/*")) return type.startsWith(tok.slice(0, -1));
+        return type === tok;
+      });
+    }
+
+    function validate(file, accept, maxSize) {
+      if (!matchesAccept(file, accept)) return "File type not accepted: " + file.name;
+      if (maxSize && file.size > maxSize) return file.name + " exceeds max size (" + fmtBytes(maxSize) + ")";
+      return null;
+    }
+
+    function getWrapper(el) { return el.closest("[data-shipwright-file-upload]"); }
+
+    function render(wrapper) {
+      var input = wrapper.querySelector("[data-file-upload-input]");
+      var filename = wrapper.querySelector("[data-file-upload-filename]");
+      var clear = wrapper.querySelector("[data-file-upload-clear]");
+      var list = wrapper.querySelector("[data-file-upload-list]");
+      var tmpl = wrapper.querySelector("[data-file-upload-item-template]");
+      var multiple = wrapper.dataset.fileUploadMultiple === "true";
+      var files = Array.from(input.files || []);
+
+      // Inline single-file filename display
+      if (filename) {
+        if (files.length === 0) {
+          filename.textContent = "No file selected";
+          if (clear) clear.classList.add("hidden");
+        } else {
+          filename.textContent = multiple ? files.length + " files selected" : files[0].name;
+          if (clear) clear.classList.remove("hidden");
+        }
+      }
+
+      // Staged list (rendered for multiple, or dropzone variant)
+      if (list && tmpl) {
+        list.innerHTML = "";
+        if (files.length && (multiple || wrapper.querySelector("[data-file-upload-dropzone]"))) {
+          files.forEach(function (file, idx) {
+            var frag = tmpl.content.cloneNode(true);
+            frag.querySelector("[data-file-upload-item-name]").textContent = file.name;
+            frag.querySelector("[data-file-upload-item-remove]").dataset.index = idx;
+            list.appendChild(frag);
+          });
+          list.classList.remove("hidden");
+        } else {
+          list.classList.add("hidden");
+        }
+      }
+    }
+
+    function replaceFiles(wrapper, files) {
+      var input = wrapper.querySelector("[data-file-upload-input]");
+      var dt = new DataTransfer();
+      files.forEach(function (f) { dt.items.add(f); });
+      input.files = dt.files;
+      render(wrapper);
+    }
+
+    function addFiles(wrapper, incoming) {
+      var input = wrapper.querySelector("[data-file-upload-input]");
+      var msg = wrapper.querySelector("[data-file-upload-message]");
+      var accept = wrapper.dataset.fileUploadAccept;
+      var maxSize = parseInt(wrapper.dataset.fileUploadMaxSize, 10) || null;
+      var multiple = wrapper.dataset.fileUploadMultiple === "true";
+
+      var errors = [];
+      var ok = [];
+      Array.from(incoming).forEach(function (file) {
+        var err = validate(file, accept, maxSize);
+        if (err) errors.push(err); else ok.push(file);
+      });
+
+      var existing = multiple ? Array.from(input.files || []) : [];
+      var combined = existing.concat(ok);
+      if (!multiple) combined = combined.slice(-1);
+
+      replaceFiles(wrapper, combined);
+
+      if (msg) {
+        if (errors.length) {
+          msg.textContent = errors[0];
+          msg.classList.add("text-utility-negative-default");
+          msg.classList.remove("text-text-disabled");
+          wrapper.dataset.fileUploadError = "true";
+        } else {
+          // Restore caption if present in the original message content
+          msg.classList.remove("text-utility-negative-default");
+          msg.classList.add("text-text-disabled");
+          delete wrapper.dataset.fileUploadError;
+        }
+      }
+    }
+
+    document.addEventListener("click", function (event) {
+      var trigger = event.target.closest("[data-file-upload-trigger]");
+      if (trigger) {
+        var wrapper = getWrapper(trigger);
+        if (!wrapper) return;
+        var input = wrapper.querySelector("[data-file-upload-input]");
+        if (!input.disabled) input.click();
+        return;
+      }
+
+      var clear = event.target.closest("[data-file-upload-clear]");
+      if (clear) {
+        var w = getWrapper(clear);
+        if (w) replaceFiles(w, []);
+        return;
+      }
+
+      var remove = event.target.closest("[data-file-upload-item-remove]");
+      if (remove) {
+        var w2 = getWrapper(remove);
+        if (!w2) return;
+        var idx = parseInt(remove.dataset.index, 10);
+        var input2 = w2.querySelector("[data-file-upload-input]");
+        var files = Array.from(input2.files || []);
+        files.splice(idx, 1);
+        replaceFiles(w2, files);
+        return;
+      }
+
+      var dz = event.target.closest("[data-file-upload-dropzone]");
+      if (dz && !event.target.closest("[data-file-upload-trigger]")) {
+        var w3 = getWrapper(dz);
+        if (!w3) return;
+        var input3 = w3.querySelector("[data-file-upload-input]");
+        if (!input3.disabled) input3.click();
+      }
+    });
+
+    document.addEventListener("change", function (event) {
+      var input = event.target.closest("[data-file-upload-input]");
+      if (!input) return;
+      var wrapper = getWrapper(input);
+      if (!wrapper) return;
+      var incoming = Array.from(input.files || []);
+      // Reset then re-add through validation pipeline
+      replaceFiles(wrapper, []);
+      addFiles(wrapper, incoming);
+    });
+
+    // Drag & drop on dropzones
+    ["dragenter", "dragover"].forEach(function (type) {
+      document.addEventListener(type, function (event) {
+        var dz = event.target.closest("[data-file-upload-dropzone]");
+        if (!dz) return;
+        event.preventDefault();
+        dz.classList.add("border-interactive-primary-default", "bg-background-secondary");
+      });
+    });
+    ["dragleave", "drop"].forEach(function (type) {
+      document.addEventListener(type, function (event) {
+        var dz = event.target.closest("[data-file-upload-dropzone]");
+        if (!dz) return;
+        dz.classList.remove("border-interactive-primary-default", "bg-background-secondary");
+      });
+    });
+    document.addEventListener("drop", function (event) {
+      var dz = event.target.closest("[data-file-upload-dropzone]");
+      if (!dz) return;
+      event.preventDefault();
+      var wrapper = getWrapper(dz);
+      if (!wrapper) return;
+      var input = wrapper.querySelector("[data-file-upload-input]");
+      if (input.disabled) return;
+      addFiles(wrapper, event.dataTransfer.files);
+    });
+  })();
+<% end %>

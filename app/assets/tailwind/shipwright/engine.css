@@ -4,25 +4,73 @@
  *
  * @source directives tell Tailwind to scan Shipwright's component
  * templates for utility classes so they are not purged.
+ *
+ * Token names mirror Shipwright Pro's Figma namespace:
+ *   Interactive/* → --color-interactive-*
+ *   Text/*        → --color-text-*
+ *   Border/*      → --color-border-*
+ *   Utility/*     → --color-utility-*
+ *   Background/*  → --color-background-*
  */
 @source "../../../components/**/*.html.erb";
 @source "../../../components/**/*.rb";
 
 @theme {
-  /* Colors — semantic naming for future dark mode support */
-  --color-primary: oklch(0.6 0.2 260);
-  --color-secondary: oklch(0.65 0.15 330);
-  --color-surface: oklch(0.98 0 0);
-  --color-on-surface: oklch(0.2 0 0);
-  --color-muted: oklch(0.55 0.02 260);
-  --color-destructive: oklch(0.55 0.25 30);
+  /* Interactive colors (backgrounds, fills, interaction states) */
+  --color-interactive-primary-default: #14161c;
+  --color-interactive-primary-hover: #595d6a;
+  --color-interactive-primary-pressed: #333747;
+  --color-interactive-secondary-default: #fdfdfd;
+  --color-interactive-disable: #eaeaea;
 
-  /* Typography */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Border colors */
+  --color-border-interactive: #14161c;
+  --color-border-inverse: #fdfdfd;
+  --color-border-primary: #eaeaea;
 
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-default: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-full: 9999px;
+  /* Utility colors (semantic sentiments) */
+  --color-utility-neutral-default: #292c39;
+  --color-utility-information-default: #206ac7;
+  --color-utility-positive-default: #48a356;
+  --color-utility-negative-default: #b62e2e;
+  --color-utility-warning-default: #c09c17;
+
+  /* Foreground colors — the label/icon color ON each filled surface.
+     One token per fill, because the foreground is a property of the background
+     it sits on. A brand whose primary is LIGHT needs a dark on-primary; the
+     utility fills stay dark whatever the primary is and keep light labels. A
+     shared token cannot satisfy both, which is the bug this replaces.
+     Distinct from --color-text-inverse, which means "text on an inverted
+     background" rather than "text on this particular fill".
+     Upstream tokens.css calls these --color-sentiment-on-{critical,positive,
+     warning,info}; see issue #34 on reconciling the two vocabularies. */
+  --color-interactive-on-primary: #fdfdfd;  /* on bg-interactive-primary-* */
+  --color-utility-on-neutral: #fdfdfd;      /* on bg-utility-neutral-default */
+  --color-utility-on-information: #fdfdfd;  /* on bg-utility-information-default */
+  --color-utility-on-positive: #fdfdfd;     /* on bg-utility-positive-default */
+  --color-utility-on-negative: #fdfdfd;     /* on bg-utility-negative-default */
+  --color-utility-on-warning: #fdfdfd;      /* on bg-utility-warning-default */
+
+  /* Text colors */
+  --color-text-primary: #050507;
+  --color-text-inverse: #fdfdfd;
+  --color-text-disabled: #595d6a;
+
+  /* Background colors */
+  --color-background-primary: #fdfdfd;
+  --color-background-secondary: #f3f3f3;
+
+  /* Typography — font loading is the consuming app's responsibility */
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --text-base: 1rem;
+  --leading-2xs: 1.25rem;
+  --tracking-base: 0;
+
+  /* Spacing (Shipwright Pro scale) */
+  --spacing-2xs: 8px;
+  --spacing-xs: 12px;
+  --spacing-sm: 16px;
+
+  /* Border radius (Shipwright Pro scale) */
+  --radius-md: 6px;
 }

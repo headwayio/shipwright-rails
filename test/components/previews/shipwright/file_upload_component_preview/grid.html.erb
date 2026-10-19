@@ -1,0 +1,19 @@
+<div style="padding: 2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+  <%= render(Shipwright::FileUploadComponent.new(name: "g1", label: "Upload file", caption: "Caption")) %>
+  <%= render(Shipwright::FileUploadComponent.new(name: "g2", label: "Upload file", button_position: :left, caption: "Caption")) %>
+  <%= render(Shipwright::FileUploadComponent.new(name: "g3", label: "Upload file", button_variant: :on_primary, caption: "Caption")) %>
+  <%= render(Shipwright::FileUploadComponent.new(name: "g4", label: "Upload file", disabled: true, caption: "Caption")) %>
+  <%= render(Shipwright::FileUploadComponent.new(name: "g5", label: "Upload file", error: "File type not accepted")) %>
+  <%= render(Shipwright::FileUploadComponent.new(name: "g6[]", label: "Upload file", multiple: true, caption: "Select multiple")) %>
+
+  <div style="grid-column: span 2;">
+    <%= render(Shipwright::FileUploadComponent.new(
+      name: "g7[]",
+      variant: :dropzone,
+      multiple: true,
+      accept: ".pdf,.doc,.jpg,.png",
+      max_size: 10 * 1024 * 1024,
+      caption: "Accepted file types: JPEG, Doc, PDF, PNG"
+    )) %>
+  </div>
+</div>

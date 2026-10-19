@@ -1,0 +1,8 @@
+<div style="padding: 2rem; display: flex; gap: 1.5rem; align-items: center;">
+  <% [:online, :away, :busy, :offline].each do |status| %>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: system-ui; font-size: 0.75rem; color: #555;">
+      <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: status) %>
+      <span><%= status %></span>
+    </div>
+  <% end %>
+</div>

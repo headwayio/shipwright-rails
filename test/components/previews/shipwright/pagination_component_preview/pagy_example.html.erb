@@ -1,0 +1,38 @@
+<%#
+  Pagy-style example. In a real app you'd have:
+    @pagy, @records = pagy(Model.all)
+  Then in your view:
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: @pagy.page,
+      total_pages:  @pagy.pages,
+      series:       @pagy.series,
+      page_url:     ->(p) { url_for(page: p) }
+    ) %>
+  This preview fakes a Pagy-like object with the same shape.
+%>
+<% pagy = Struct.new(:page, :pages, :series).new(3, 12, ["1", "2", "3", "4", "5", :gap, "11", "12"]) %>
+
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <p style="font-family: monospace; color: #555; font-size: 0.8rem; margin-bottom: 0.5rem;">Pagy-driven numeric</p>
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: pagy.page,
+      total_pages: pagy.pages,
+      series: pagy.series,
+      page_url: ->(p) { "#page-#{p}" }
+    ) %>
+  </div>
+
+  <div>
+    <p style="font-family: monospace; color: #555; font-size: 0.8rem; margin-bottom: 0.5rem;">Pagy-driven with rows-per-page</p>
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: pagy.page,
+      total_pages: pagy.pages,
+      series: pagy.series,
+      rows_per_page: 10,
+      rows_per_page_options: [10, 25, 50, 100],
+      rows_per_page_url: ->(n) { "#per=#{n}" },
+      page_url: ->(p) { "#page-#{p}" }
+    ) %>
+  </div>
+</div>

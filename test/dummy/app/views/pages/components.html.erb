@@ -1,22 +1,419 @@
 <div style="padding: 2rem; font-family: system-ui;">
   <h1>Shipwright Components</h1>
 
-  <h2>Button — Variants</h2>
-  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-    <%= render Shipwright::ButtonComponent.new(variant: :primary) { "Primary" } %>
-    <%= render Shipwright::ButtonComponent.new(variant: :secondary) { "Secondary" } %>
-    <%= render Shipwright::ButtonComponent.new(variant: :outline) { "Outline" } %>
+  <h2>Button — Hierarchies</h2>
+  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :primary) do %>Primary<% end %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :secondary) do %>Secondary<% end %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :tertiary) do %>Tertiary<% end %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :destructive) do %>Destructive<% end %>
   </div>
 
   <h2>Button — Sizes</h2>
   <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
-    <%= render Shipwright::ButtonComponent.new(size: :sm) { "Small" } %>
-    <%= render Shipwright::ButtonComponent.new(size: :md) { "Medium" } %>
-    <%= render Shipwright::ButtonComponent.new(size: :lg) { "Large" } %>
+    <%= render Shipwright::ButtonComponent.new(size: :sm) do %>Small<% end %>
+    <%= render Shipwright::ButtonComponent.new(size: :md) do %>Medium<% end %>
+    <%= render Shipwright::ButtonComponent.new(size: :lg) do %>Large<% end %>
+  </div>
+
+  <h2>Button — Shape</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(shape: :rounded) do %>Rounded<% end %>
+    <%= render Shipwright::ButtonComponent.new(shape: :pill) do %>Pill<% end %>
+  </div>
+
+  <h2>Button — Icon Only</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :sm) do %>
+      <%= render Shipwright::IconComponent.new(name: :plus, size: :sm) %>
+    <% end %>
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :md) do %>
+      <%= render Shipwright::IconComponent.new(name: :plus) %>
+    <% end %>
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, size: :lg) do %>
+      <%= render Shipwright::IconComponent.new(name: :plus, size: :lg) %>
+    <% end %>
+    <%= render Shipwright::ButtonComponent.new(icon_only: true, shape: :pill) do %>
+      <%= render Shipwright::IconComponent.new(name: :plus) %>
+    <% end %>
+  </div>
+
+  <h2>Button — Disabled</h2>
+  <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :primary, disabled: true) do %>Primary Disabled<% end %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :secondary, disabled: true) do %>Secondary Disabled<% end %>
+    <%= render Shipwright::ButtonComponent.new(hierarchy: :destructive, disabled: true) do %>Destructive Disabled<% end %>
   </div>
 
   <h2>Button — Class Override</h2>
   <div style="margin-bottom: 1rem;">
-    <%= render Shipwright::ButtonComponent.new(class: "w-full") { "Full Width Override" } %>
+    <%= render Shipwright::ButtonComponent.new(class: "w-full") do %>Full Width Override<% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Badge — Sentiments</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::BadgeComponent.new(sentiment: :neutral) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :informative) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :negative) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :warning) %>
+  </div>
+
+  <h2>Badge — Sizes</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive, size: :sm) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive, size: :md) %>
+    <%= render Shipwright::BadgeComponent.new(sentiment: :positive, size: :lg) %>
+  </div>
+
+  <h2>Badge — With Text</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :negative, size: :lg)) { "3" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :informative, size: :lg)) { "20" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :warning, size: :lg)) { "99+" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :positive, size: :lg)) { "NEW" } %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Icons — sample (full gallery in Lookbook)</h2>
+  <p style="font-size: 0.875rem; color: #555; margin-bottom: 0.5rem;">
+    <%= Shipwright::IconComponent.icon_names.size %> icons from Feather Icons (MIT).
+  </p>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
+    <% [:info, :"alert-circle", :"alert-triangle", :check, :x, :"chevron-down", :plus, :search, :menu, :settings, :heart, :star, :"star-filled"].each do |name| %>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+        <%= render Shipwright::IconComponent.new(name: name) %>
+        <span style="font-size: 0.7rem; color: #555;"><%= name %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <h2>Icon — Sizes</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::IconComponent.new(name: :info, size: :sm) %>
+    <%= render Shipwright::IconComponent.new(name: :info, size: :md) %>
+    <%= render Shipwright::IconComponent.new(name: :info, size: :lg) %>
+  </div>
+
+  <h2>Link</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render(Shipwright::LinkComponent.new(href: "#")) { "Default" } %>
+    <%= render(Shipwright::LinkComponent.new(href: "#", decoration: :none)) { "No decoration" } %>
+    <%= render(Shipwright::LinkComponent.new(href: "#", disabled: true)) { "Disabled" } %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Banner</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; max-width: 900px;">
+    <%= render Shipwright::BannerComponent.new(header: "Alert") do |banner| %>
+      <% banner.with_icon(name: :info) %>
+      <% banner.with_link(href: "#") { "Link" } %>
+      Place holder text for notifications. Enter text into this container.
+    <% end %>
+
+    <%= render Shipwright::BannerComponent.new(header: "Success") do |banner| %>
+      <% banner.with_icon(name: :"check-circle") %>
+      Your changes were saved.
+    <% end %>
+
+    <%= render Shipwright::BannerComponent.new do |banner| %>
+      <% banner.with_link(href: "#") { "Learn more" } %>
+      A simple banner without an icon or header.
+    <% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Accordion</h2>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 640px; margin-bottom: 1rem;">
+    <%= render(Shipwright::AccordionComponent.new(title: "What is Shipwright?")) do %>
+      A Rails ViewComponent library implementing the Shipwright Pro design system.
+    <% end %>
+    <%= render(Shipwright::AccordionComponent.new(title: "How do I install it?", open: true)) do %>
+      Add it to your Gemfile and follow the setup instructions in the README.
+    <% end %>
+    <%= render(Shipwright::AccordionComponent.new(title: "Does it work with React Native?")) do %>
+      No — this is a Rails-only library. See shipwright-ui for React + React Native.
+    <% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Avatar — Sizes</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :xxsm) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :xsm) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :sm) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :md) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg) %>
+  </div>
+
+  <h2>Avatar — Content Types</h2>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::AvatarComponent.new(src: "https://i.pravatar.cc/150?img=12", alt: "Photo") %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS") %>
+    <%= render Shipwright::AvatarComponent.new(alt: "Anonymous") %>
+  </div>
+
+  <h2>Avatar — Status</h2>
+  <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :online) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :away) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :busy) %>
+    <%= render Shipwright::AvatarComponent.new(initials: "WS", size: :lg, status: :offline) %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Logo — Sizes</h2>
+  <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 1rem;">
+    <% %i[xs sm md lg xl].each do |size| %>
+      <%= render Shipwright::LogoComponent.new(alt: "Acme", wordmark: "Acme", size: size) %>
+    <% end %>
+  </div>
+
+  <h2>Logo — Custom mark + link</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render(Shipwright::LogoComponent.new(alt: "Headway", wordmark: "Headway", href: "#", size: :lg)) do %>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-interactive-primary-default">
+        <circle cx="12" cy="12" r="10"/>
+        <text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-weight="700" font-family="system-ui">H</text>
+      </svg>
+    <% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Radio</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem;">
+    <div style="display: flex; gap: 2rem; align-items: center;">
+      <%= render Shipwright::RadioComponent.new(name: "r1", value: "a", label: "Label", caption: "Caption") %>
+      <%= render Shipwright::RadioComponent.new(name: "r2", value: "a", label: "Label", caption: "Caption", checked: true) %>
+      <%= render Shipwright::RadioComponent.new(name: "r3", value: "a", label: "Label", caption: "Caption", disabled: true) %>
+      <%= render Shipwright::RadioComponent.new(name: "r4", value: "a", label: "Label", caption: "Caption", disabled: true, checked: true) %>
+      <%= render Shipwright::RadioComponent.new(name: "r5", value: "a", label: "Label", caption: "Caption", size: :md) %>
+    </div>
+
+    <%= render Shipwright::RadioGroupComponent.new(name: "plan_h", label: "Group Label", required: true) do |g| %>
+      <% g.with_option(value: "free", label: "Free") %>
+      <% g.with_option(value: "pro", label: "Pro", checked: true) %>
+      <% g.with_option(value: "team", label: "Team") %>
+    <% end %>
+
+    <%= render Shipwright::RadioGroupComponent.new(name: "plan_v", label: "Group Label", required: true, layout: :vertical) do |g| %>
+      <% g.with_option(value: "free", label: "Free", caption: "For getting started") %>
+      <% g.with_option(value: "pro", label: "Pro", caption: "Most popular", checked: true) %>
+      <% g.with_option(value: "team", label: "Team", caption: "For organizations") %>
+    <% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Modal</h2>
+  <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+    <button type="button" data-shipwright-modal-trigger="showcase-modal-md"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Default modal</button>
+    <button type="button" data-shipwright-modal-trigger="showcase-modal-lg"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Large modal</button>
+    <button type="button" data-shipwright-modal-trigger="showcase-modal-confirm"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-utility-negative-default text-text-inverse text-sm font-medium cursor-pointer">Delete (confirm)</button>
+  </div>
+
+  <%= render(Shipwright::ModalComponent.new(id: "showcase-modal-md", title: "Edit profile", subtitle: "Update your account info")) do |m| %>
+    <p class="text-sm">Default-size modal body.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="showcase-modal-md"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% m.with_action do %>
+      <button type="button" class="px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Save</button>
+    <% end %>
+  <% end %>
+
+  <%= render(Shipwright::ModalComponent.new(id: "showcase-modal-lg", title: "Project details", size: :lg)) do |m| %>
+    <p class="text-sm">Large-size modal — fits a form or detail panel.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="showcase-modal-lg"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Close</button>
+    <% end %>
+  <% end %>
+
+  <%= render(Shipwright::ModalComponent.new(id: "showcase-modal-confirm", title: "Delete project?", subtitle: "This cannot be undone.", size: :sm)) do |m| %>
+    <p class="text-sm">All associated data will be permanently removed.</p>
+    <% m.with_action do %>
+      <button type="button" data-shipwright-modal-close="showcase-modal-confirm"
+              class="px-4 py-2 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% m.with_action do %>
+      <button type="button" class="px-4 py-2 rounded-md bg-utility-negative-default text-text-inverse text-sm font-medium">Delete</button>
+    <% end %>
+  <% end %>
+
+  <h2 style="margin-top: 3rem;">Slideout</h2>
+  <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+    <button type="button" data-shipwright-slideout-trigger="showcase-right"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Right slideout</button>
+    <button type="button" data-shipwright-slideout-trigger="showcase-left"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Left slideout</button>
+    <button type="button" data-shipwright-slideout-trigger="showcase-bottom"
+            class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-text-inverse text-sm font-medium cursor-pointer">Bottom sheet</button>
+  </div>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "showcase-right", title: "Edit profile", subtitle: "Update your info")) do |s| %>
+    <p class="text-sm">This panel slides in from the right.</p>
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="showcase-right"
+              class="px-4 py-3 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% s.with_action do %>
+      <button type="button" class="px-4 py-3 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Save</button>
+    <% end %>
+  <% end %>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "showcase-left", position: :left, title: "Navigation")) do %>
+    <nav class="flex flex-col gap-2 text-sm">
+      <% %w[Home Projects Team Settings].each do |label| %>
+        <a href="#" class="px-2 py-1.5 rounded hover:bg-background-secondary"><%= label %></a>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "showcase-bottom", position: :bottom, title: "Confirm action")) do |s| %>
+    <p class="text-sm">Are you sure you want to continue?</p>
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="showcase-bottom"
+              class="px-4 py-3 rounded-md border border-border-interactive text-sm">Cancel</button>
+    <% end %>
+    <% s.with_action do %>
+      <button type="button" class="px-4 py-3 rounded-md bg-interactive-primary-default text-text-inverse text-sm">Confirm</button>
+    <% end %>
+  <% end %>
+
+  <h2 style="margin-top: 3rem;">Pagination</h2>
+  <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1rem;">
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: 2, total_pages: 10,
+      series: [1, 2, 3, 4, 5, :gap, 9, 10],
+      page_url: ->(p) { "#page-#{p}" }
+    ) %>
+
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: 2, total_pages: 10,
+      series: [1, 2, 3, 4, 5, :gap, 9, 10],
+      variant: :numeric_loose,
+      page_url: ->(p) { "#page-#{p}" }
+    ) %>
+
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: 1, total_pages: 10, variant: :simple,
+      page_url: ->(p) { "#page-#{p}" }
+    ) %>
+
+    <%= render Shipwright::PaginationComponent.new(
+      current_page: 1, total_pages: 10,
+      rows_per_page: 10, rows_per_page_options: [10, 25, 50, 100],
+      rows_per_page_url: ->(n) { "#per=#{n}" },
+      page_url: ->(p) { "#page-#{p}" }
+    ) %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Table</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render(Shipwright::TableComponent.new(selectable: true, striped: true)) do |t| %>
+      <% t.with_column(label: "Name", sortable: true, sort_direction: :asc) %>
+      <% t.with_column(label: "Role", sortable: true) %>
+      <% t.with_column(label: "Status") %>
+
+      <% [["Wendy Sullivan", "WS", "Designer", :online, true],
+          ["John Legend", "JL", "Senior Designer", :away, false],
+          ["Alex Lee", "AL", "Engineer", :busy, false]].each do |name, init, role, status, sel| %>
+        <% t.with_row(selected: sel) do |row| %>
+          <% row.with_cell do %>
+            <span class="inline-flex items-center gap-2">
+              <%= render Shipwright::AvatarComponent.new(initials: init, size: :sm, status: status) %>
+              <%= name %>
+            </span>
+          <% end %>
+          <% row.with_cell { role } %>
+          <% row.with_cell { status.to_s.capitalize } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Toast</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem;">
+    <%= render Shipwright::ToastComponent.new(title: "Toast Title", body: "Place holder text for this toast. Enter text here", variant: :success, duration: 0) %>
+    <%= render Shipwright::ToastComponent.new(title: "Something went wrong", body: "Please try again", variant: :error, duration: 0) %>
+    <%= render Shipwright::ToastComponent.new(title: "Heads up", body: "You're nearing your quota", variant: :warning, duration: 0) %>
+    <%= render Shipwright::ToastComponent.new(title: "Did you know?", body: "You can drag to reorder items", variant: :info, duration: 0) %>
+    <%= render Shipwright::ToastComponent.new(title: "Syncing", body: "Just a moment\u2026", variant: :neutral, duration: 0) %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Input</h2>
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem; max-width: 48rem;">
+    <%= render Shipwright::InputComponent.new(name: "i1", label: "Label", caption: "Caption", placeholder: "giorgio@armani.com", leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i2", label: "Label", caption: "Caption", value: "giorgio@armani.com", leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i3", label: "Label", caption: "Caption", value: "giorgio@armani.com", disabled: true, leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i4", label: "Label", caption: "Looks good", value: "giorgio@armani.com", variant: :success, leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i5", label: "Label", value: "giorgio@armani.com", error: "Please enter a valid email", leading_icon: :search, trailing_icon: :"arrow-right") %>
+    <%= render Shipwright::InputComponent.new(name: "i6", label: "Full name", caption: "First and last", placeholder: "Alex Johnson") %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">File Upload — inline</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; max-width: 32rem;">
+    <%= render Shipwright::FileUploadComponent.new(name: "fu1", label: "Upload file", caption: "Caption") %>
+    <%= render Shipwright::FileUploadComponent.new(name: "fu2", label: "Upload file", button_position: :left, caption: "Caption") %>
+    <%= render Shipwright::FileUploadComponent.new(name: "fu3", label: "Upload file", disabled: true, caption: "Caption") %>
+    <%= render Shipwright::FileUploadComponent.new(name: "fu4", label: "Upload file", error: "File type not accepted") %>
+  </div>
+
+  <h2>File Upload — dropzone</h2>
+  <div style="margin-bottom: 1rem; max-width: 32rem;">
+    <%= render Shipwright::FileUploadComponent.new(
+      name: "fu5[]",
+      variant: :dropzone,
+      multiple: true,
+      accept: ".pdf,.doc,.jpg,.png",
+      max_size: 10 * 1024 * 1024,
+      caption: "Accepted file types: JPEG, Doc, PDF, PNG"
+    ) %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Breadcrumb</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render Shipwright::BreadcrumbComponent.new do |crumb| %>
+      <% crumb.with_item(href: "/", icon: :home) { "Home" } %>
+      <% crumb.with_item(href: "/products") { "Products" } %>
+      <% crumb.with_item { "Widget Pro" } %>
+    <% end %>
+  </div>
+
+  <h2>Breadcrumb — slash separator</h2>
+  <div style="margin-bottom: 1rem;">
+    <%= render Shipwright::BreadcrumbComponent.new(separator: :slash) do |crumb| %>
+      <% crumb.with_item(href: "/") { "Home" } %>
+      <% crumb.with_item(href: "/products") { "Products" } %>
+      <% crumb.with_item { "Widget Pro" } %>
+    <% end %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Checkbox</h2>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+    <%= render Shipwright::CheckboxComponent.new(name: "c1", label: "Unchecked") %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c2", label: "Checked", checked: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c3", label: "With caption", caption: "Some help text", checked: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c4", label: "Disabled", disabled: true, checked: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c5", label: "Indeterminate", indeterminate: true) %>
+    <%= render Shipwright::CheckboxComponent.new(name: "c6", label: "Destructive", variant: :destructive, checked: true) %>
+  </div>
+
+  <h2 style="margin-top: 3rem;">Dropdown</h2>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 900px; margin-bottom: 1rem;">
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d1", label: "Label", caption: "Caption")) do |d| %>
+      <% d.with_item(value: "folders", icon: :folder, primary: "Folders", secondary: "Organize your files") %>
+      <% d.with_item(value: "starred", icon: :star, primary: "Starred", secondary: "Your favorites") %>
+      <% d.with_item(value: "trash", icon: :trash, primary: "Trash", secondary: "Deleted items") %>
+    <% end %>
+
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d2", label: "Label", value: "starred", caption: "Caption")) do |d| %>
+      <% d.with_item(value: "folders", icon: :folder, primary: "Folders") %>
+      <% d.with_item(value: "starred", icon: :star, primary: "Starred") %>
+    <% end %>
+
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d3", label: "Label", caption: "Caption", disabled: true)) %>
+
+    <%= render(Shipwright::DropdownComponent.new(name: "sw_d4", label: "Label", value: "a", variant: :destructive, caption: "Error state")) do |d| %>
+      <% d.with_item(value: "a", primary: "Primary Text") %>
+      <% d.with_item(value: "b", primary: "Other") %>
+    <% end %>
   </div>
 </div>

@@ -1,0 +1,36 @@
+<%= content_tag :div,
+  id: id,
+  class: wrapper_classes,
+  role: "status",
+  "aria-live": "polite",
+  "aria-atomic": "true",
+  data: {
+    shipwright_toast: true,
+    "shipwright-toast-state": "entering",
+    "shipwright-toast-duration": duration_ms
+  },
+  **html_attrs do %>
+  <span class="<%= icon_circle_classes %>" aria-hidden="true">
+    <%= render Shipwright::IconComponent.new(name: variant_icon, size: :sm) %>
+  </span>
+
+  <div class="flex-1 min-w-0 pt-0.5">
+    <% if title.present? %>
+      <p class="text-sm font-semibold leading-5 truncate"><%= title %></p>
+    <% end %>
+    <% if body.present? %>
+      <p class="<%= body_classes %>"><%= body %></p>
+    <% end %>
+  </div>
+
+  <% if dismissible? %>
+    <button type="button"
+            class="shrink-0 self-start p-1 -m-1 rounded-sm text-interactive-on-primary/80 hover:text-interactive-on-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-interactive-on-primary"
+            data-shipwright-toast-dismiss
+            aria-label="Dismiss notification">
+      <%= render Shipwright::IconComponent.new(name: :x, size: :sm) %>
+    </button>
+  <% end %>
+<% end %>
+
+<%= init_script_tag("data-shipwright-toast-init", Shipwright::ToastComponent::INIT_SCRIPT_BODY) %>

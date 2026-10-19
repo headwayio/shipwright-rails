@@ -1,0 +1,21 @@
+<div style="display: flex; gap: 1.5rem; align-items: center; padding: 2rem; flex-wrap: wrap;">
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+    <span style="font-size: 0.75rem;">Single char</span>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :negative, size: :sm)) { "3" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :negative, size: :md)) { "3" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :negative, size: :lg)) { "3" } %>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+    <span style="font-size: 0.75rem;">Double digit</span>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :informative, size: :sm)) { "99" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :informative, size: :md)) { "99" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :informative, size: :lg)) { "99" } %>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+    <span style="font-size: 0.75rem;">Overflow</span>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :warning, size: :lg)) { "99+" } %>
+    <%= render(Shipwright::BadgeComponent.new(sentiment: :positive, size: :lg)) { "NEW" } %>
+  </div>
+</div>

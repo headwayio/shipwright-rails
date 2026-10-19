@@ -1,0 +1,19 @@
+<%# initially_open renders with showModal() fired at page load — useful for
+    visualizing the component without clicking a trigger. %>
+<div style="min-height: 60vh; padding: 2rem; font-family: sans-serif;">
+  <p class="text-sm text-gray-600">This preview auto-opens the slideout so you can inspect its layout.</p>
+
+  <%= render(Shipwright::SlideoutComponent.new(
+    id: "preview-always-open",
+    title: "Always open",
+    subtitle: "initially_open: true",
+    initially_open: true
+  )) do |s| %>
+    <p class="text-sm">Normal body content.</p>
+
+    <% s.with_action do %>
+      <button type="button" data-shipwright-slideout-close="preview-always-open"
+              class="px-4 py-3 rounded-md border border-border-interactive text-sm">Close</button>
+    <% end %>
+  <% end %>
+</div>

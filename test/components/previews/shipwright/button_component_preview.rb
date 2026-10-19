@@ -2,37 +2,52 @@ module Shipwright
   class ButtonComponentPreview < Lookbook::Preview
     # @label Primary (default)
     def primary
-      render Shipwright::ButtonComponent.new(variant: :primary) { "Primary Button" }
+      render(Shipwright::ButtonComponent.new(hierarchy: :primary)) { "Primary" }
     end
 
     # @label Secondary
     def secondary
-      render Shipwright::ButtonComponent.new(variant: :secondary) { "Secondary Button" }
+      render(Shipwright::ButtonComponent.new(hierarchy: :secondary)) { "Secondary" }
     end
 
-    # @label Outline
-    def outline
-      render Shipwright::ButtonComponent.new(variant: :outline) { "Outline Button" }
+    # @label Tertiary
+    def tertiary
+      render(Shipwright::ButtonComponent.new(hierarchy: :tertiary)) { "Tertiary" }
     end
 
-    # @label Small
-    def small
-      render Shipwright::ButtonComponent.new(size: :sm) { "Small Button" }
+    # @label Destructive
+    def destructive
+      render(Shipwright::ButtonComponent.new(hierarchy: :destructive)) { "Delete" }
     end
 
-    # @label Large
-    def large
-      render Shipwright::ButtonComponent.new(size: :lg) { "Large Button" }
+    # @label All Hierarchies
+    def all_hierarchies
+      render_with_template
     end
 
-    # @label All Variants
-    def all_variants
+    # @label All Sizes
+    def all_sizes
+      render_with_template
+    end
+
+    # @label Pill Shape
+    def pill_shape
+      render_with_template
+    end
+
+    # @label Icon Only
+    def icon_only
+      render_with_template
+    end
+
+    # @label Disabled
+    def disabled
       render_with_template
     end
 
     # @label With Class Override
     def with_class_override
-      render Shipwright::ButtonComponent.new(class: "w-full") { "Full Width" }
+      render(Shipwright::ButtonComponent.new(class: "w-full")) { "Full Width" }
     end
   end
 end

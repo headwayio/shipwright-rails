@@ -1,0 +1,42 @@
+<%= content_tag :nav, aria: { label: "Breadcrumb" }, class: nav_classes, **html_attrs do %>
+  <ol class="flex flex-wrap items-center gap-2">
+    <% items.each_with_index do |item, index| %>
+      <% is_last = (index == items.size - 1) %>
+      <li class="flex items-center gap-2">
+        <% if item.link? && !is_last %>
+          <%= link_to item.href, class: link_classes do %>
+            <% if item.icon %>
+              <%= render Shipwright::IconComponent.new(name: item.icon, size: :sm) %>
+            <% elsif item.avatar %>
+              <%= render Shipwright::AvatarComponent.new(**item.avatar.reverse_merge(size: :xxsm)) %>
+            <% elsif item.logo %>
+              <%= render Shipwright::LogoComponent.new(**item.logo.reverse_merge(size: :xs)) %>
+            <% end %>
+            <span><%= item.label %></span>
+          <% end %>
+        <% else %>
+          <span class="<%= current_classes %>" <%= 'aria-current="page"'.html_safe if is_last %>>
+            <% if item.icon %>
+              <%= render Shipwright::IconComponent.new(name: item.icon, size: :sm) %>
+            <% elsif item.avatar %>
+              <%= render Shipwright::AvatarComponent.new(**item.avatar.reverse_merge(size: :xxsm)) %>
+            <% elsif item.logo %>
+              <%= render Shipwright::LogoComponent.new(**item.logo.reverse_merge(size: :xs)) %>
+            <% end %>
+            <span><%= item.label %></span>
+          </span>
+        <% end %>
+
+        <% unless is_last %>
+          <span data-breadcrumb-separator class="inline-flex items-center text-text-disabled" aria-hidden="true">
+            <% if separator_slash? %>
+              /
+            <% else %>
+              <%= render Shipwright::IconComponent.new(name: :"chevron-right", size: :sm) %>
+            <% end %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>

@@ -1,0 +1,20 @@
+<% names = Shipwright::BrandIconComponent.icon_names %>
+<div style="padding: 2rem;">
+  <p style="margin-bottom: 1rem; font-family: system-ui; font-size: 0.875rem; color: #555;">
+    <% if names.any? %>
+      <%= names.size %> brand icons installed. Payment + social icons exported from Shipwright Pro Figma.
+    <% else %>
+      No brand icons installed yet. Run
+      <code style="background: #f3f3f3; padding: 2px 4px;">ruby script/export_brand_icons.rb</code>
+      with a <code>FIGMA_ACCESS_TOKEN</code> to populate.
+    <% end %>
+  </p>
+  <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.5rem; align-items: center;">
+    <% names.each do |name| %>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center;">
+        <%= render Shipwright::BrandIconComponent.new(name: name) %>
+        <span style="font-size: 0.7rem; color: #555; word-break: break-all;"><%= name %></span>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div style="padding: 2rem;">
+  <p style="margin-bottom: 1rem; font-family: system-ui; font-size: 0.875rem; color: #555;">
+    <%= Shipwright::IconComponent.icon_names.size %> icons available. Feather Icons (MIT)
+    plus Shipwright additions (<code>code-horizontal</code>, <code>star-filled</code>).
+  </p>
+  <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 1.25rem;">
+    <% Shipwright::IconComponent.icon_names.each do |name| %>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-align: center;">
+        <%= render Shipwright::IconComponent.new(name: name) %>
+        <span style="font-size: 0.65rem; color: #555; line-break: anywhere;"><%= name %></span>
+      </div>
+    <% end %>
+  </div>
+</div>

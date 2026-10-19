@@ -1,0 +1,17 @@
+<div style="padding: 2rem;">
+  <%= render(Shipwright::TableComponent.new) do |t| %>
+    <% t.with_column(label: "Name") %>
+    <% t.with_column(label: "Role") %>
+    <% t.with_column(label: "Team") %>
+
+    <% [["Wendy Sullivan", "Designer", "Brand"],
+        ["John Legend", "Senior Designer", "Product"],
+        ["Alex Lee", "Engineer", "Platform"]].each do |name, role, team| %>
+      <% t.with_row do |row| %>
+        <% row.with_cell { name } %>
+        <% row.with_cell { role } %>
+        <% row.with_cell { team } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

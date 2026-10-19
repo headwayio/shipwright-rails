@@ -1,0 +1,78 @@
+<%= content_tag :dialog,
+  id: id,
+  class: dialog_classes,
+  style: panel_style,
+  data: {
+    shipwright_slideout: true,
+    "shipwright-slideout-state": initially_open? ? "open" : "closed",
+    "shipwright-slideout-position": position,
+    "initially-open": (initially_open? ? "true" : nil)
+  },
+  "aria-labelledby": (title.present? ? "#{id}-title" : nil),
+  **html_attrs do %>
+
+  <div class="<%= panel_classes %>">
+    <% if has_header? %>
+      <div class="<%= header_classes %>">
+        <% if header? %>
+          <%= header %>
+        <% elsif has_default_header? %>
+          <div class="flex flex-col gap-2xs min-w-0">
+            <% if title.present? %>
+              <h2 id="<%= id %>-title" class="text-lg font-semibold truncate"><%= title %></h2>
+            <% end %>
+            <% if subtitle.present? %>
+              <p class="text-sm text-text-secondary"><%= subtitle %></p>
+            <% end %>
+          </div>
+        <% else %>
+          <span></span>
+        <% end %>
+
+        <% if close_button? %>
+          <button type="button"
+                  class="<%= close_button_classes %>"
+                  data-shipwright-slideout-close="<%= id %>"
+                  aria-label="Close">
+            <%= render Shipwright::IconComponent.new(name: :x, size: :sm) %>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if tabs.any? %>
+      <nav class="<%= tabs_classes %>" role="tablist">
+        <% tabs.each do |tab| %>
+          <% tab_attrs = {
+            class: tab_item_classes(tab.active),
+            role: "tab",
+            "aria-selected": tab.active,
+            "data-shipwright-slideout-tab": tab.value
+          } %>
+          <% tab_attrs[:href] = tab.href if tab.href %>
+          <% tab_attrs[:type] = "button" unless tab.href %>
+          <%= content_tag(tab.href ? :a : :button, **tab_attrs) do %>
+            <% if tab.icon %>
+              <%= render Shipwright::IconComponent.new(name: tab.icon, size: :sm) %>
+            <% end %>
+            <span><%= tab.label %></span>
+          <% end %>
+        <% end %>
+      </nav>
+    <% end %>
+
+    <div class="<%= body_classes %>">
+      <%= content %>
+    </div>
+
+    <% if actions.any? %>
+      <div class="<%= footer_classes %>">
+        <% actions.each do |action| %>
+          <%= action %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= init_script_tag("data-shipwright-slideout-init", Shipwright::SlideoutComponent::INIT_SCRIPT_BODY) %>
+<% end %>

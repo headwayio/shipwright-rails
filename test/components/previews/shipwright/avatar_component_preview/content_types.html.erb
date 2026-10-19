@@ -1,0 +1,10 @@
+<div style="padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+  <% [:sm, :md, :lg].each do |size| %>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <%= render Shipwright::AvatarComponent.new(src: "https://i.pravatar.cc/150?img=12", alt: "Photo", size: size) %>
+      <%= render Shipwright::AvatarComponent.new(initials: "WS", size: size) %>
+      <%= render Shipwright::AvatarComponent.new(alt: "User", size: size) %>
+      <span style="font-family: system-ui; font-size: 0.875rem; color: #555;"><%= size %></span>
+    </div>
+  <% end %>
+</div>

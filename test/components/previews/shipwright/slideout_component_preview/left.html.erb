@@ -1,0 +1,15 @@
+<div style="padding: 2rem;">
+  <button type="button"
+          data-shipwright-slideout-trigger="preview-left"
+          class="inline-flex items-center px-4 py-2 rounded-md bg-interactive-primary-default text-interactive-on-primary text-sm font-medium cursor-pointer">
+    Open left slideout
+  </button>
+
+  <%= render(Shipwright::SlideoutComponent.new(id: "preview-left", position: :left, title: "Navigation")) do %>
+    <nav class="flex flex-col gap-2 text-sm">
+      <% %w[Home Projects Team Settings].each do |label| %>
+        <a href="#" class="px-2 py-1.5 rounded hover:bg-background-secondary"><%= label %></a>
+      <% end %>
+    </nav>
+  <% end %>
+</div>
