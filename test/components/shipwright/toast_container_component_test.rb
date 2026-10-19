@@ -46,4 +46,46 @@ class Shipwright::ToastContainerComponentTest < ViewComponent::TestCase
 
     assert_selector "div.my-8"
   end
+  # The container is `position: fixed`. A toast rendered as a SIBLING of it
+  # still appears in the DOM with correct styles, but lays out at normal body
+  # flow position — usually far below the fold — while the container sits
+  # empty in the corner. `flash:` makes the correct form the short one.
+  def test_flash_toasts_render_inside_the_container
+    render_inline(Shipwright::ToastContainerComponent.new(flash: { "alert" => "Not found" }))
+
+    assert_selector "##{Shipwright::ToastContainerComponent::DOM_ID} [data-shipwright-toast]"
+    assert_text "Not found"
+  end
+
+  def test_flash_entries_the_mapping_ignores_produce_no_toast
+    render_inline(Shipwright::ToastContainerComponent.new(flash: { "form_id" => "user" }))
+
+    assert_no_selector "[data-shipwright-toast]"
+  end
+
+  def test_block_content_still_renders_inside_the_container
+    render_inline(Shipwright::ToastContainerComponent.new) do
+      "<div data-shipwright-toast>Saved</div>".html_safe
+    end
+
+    assert_selector "##{Shipwright::ToastContainerComponent::DOM_ID} [data-shipwright-toast]"
+  end
+
+  def test_block_content_wins_over_flash
+    render_inline(Shipwright::ToastContainerComponent.new(flash: { "alert" => "From flash" })) do
+      "<div data-shipwright-toast>From block</div>".html_safe
+    end
+
+    assert_text "From block"
+    assert_no_text "From flash"
+  end
+
+  # The Turbo Stream path appends into the container by DOM id, so an empty
+  # container on first paint is a legitimate state, not a mistake.
+  def test_renders_empty_without_flash_or_block
+    render_inline(Shipwright::ToastContainerComponent.new)
+
+    assert_selector "##{Shipwright::ToastContainerComponent::DOM_ID}"
+    assert_no_selector "[data-shipwright-toast]"
+  end
 end

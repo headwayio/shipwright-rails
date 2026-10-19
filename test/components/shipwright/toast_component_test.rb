@@ -91,4 +91,35 @@ class Shipwright::ToastComponentTest < ViewComponent::TestCase
 
     assert_includes rendered_content, "__shipwrightToastWired"
   end
+  def test_body_only_toast_is_allowed
+    render_inline(Shipwright::ToastComponent.new(body: "Your changes are live."))
+
+    assert_text "Your changes are live."
+  end
+
+  # With a title above it the body is secondary and dimmed; on its own it is
+  # the whole message and takes full emphasis.
+  def test_body_without_a_title_is_not_dimmed
+    render_inline(Shipwright::ToastComponent.new(body: "Standalone"))
+
+    assert_no_selector "p.text-text-inverse\\/80"
+  end
+
+  def test_body_under_a_title_is_dimmed
+    render_inline(Shipwright::ToastComponent.new(title: "Saved", body: "Secondary"))
+
+    assert_selector "p.text-text-inverse\\/80", text: "Secondary"
+  end
+
+  def test_no_empty_heading_when_there_is_no_title
+    render_inline(Shipwright::ToastComponent.new(body: "Standalone"))
+
+    assert_no_selector "p.truncate"
+  end
+
+  def test_raises_without_a_title_or_a_body
+    error = assert_raises(ArgumentError) { Shipwright::ToastComponent.new }
+
+    assert_match(/title:.*body:/, error.message)
+  end
 end

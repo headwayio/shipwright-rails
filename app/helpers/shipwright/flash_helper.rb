@@ -28,6 +28,13 @@ module Shipwright
 
     # Render one ToastComponent per flash entry whose key is in `mapping`.
     # Unrecognized keys (e.g., flash[:form_id]) are ignored by default.
+    #
+    # The message is passed as `body:`, which wraps. (`title:` is a one-line
+    # heading and truncates with an ellipsis — a flash carrying a reason, such
+    # as a validation summary, would lose its tail.) Pass `title:` through
+    # `toast_opts` if you want a heading above every message:
+    #
+    #   <%= shipwright_flash_toasts(title: "Heads up") %>
     def shipwright_flash_toasts(flash_hash = flash, mapping: DEFAULT_FLASH_MAPPING, **toast_opts)
       normalized = mapping.transform_keys(&:to_s)
       safe_join(flash_hash.map { |key, value|
@@ -35,7 +42,7 @@ module Shipwright
         variant = normalized[key.to_s]
         next unless variant
         render Shipwright::ToastComponent.new(
-          title: value.to_s,
+          body: value.to_s,
           variant: variant,
           **toast_opts
         )

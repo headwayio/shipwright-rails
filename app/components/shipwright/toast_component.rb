@@ -59,7 +59,7 @@ module Shipwright
     DEFAULT_DURATION_MS = 5000
 
     def initialize(
-      title:,
+      title: nil,
       body: nil,
       variant: :success,
       duration: DEFAULT_DURATION_MS,
@@ -71,6 +71,10 @@ module Shipwright
     )
       unless VARIANTS.key?(variant)
         raise ArgumentError, "#{self.class}: unknown variant :#{variant}. Valid: #{VARIANTS.keys.join(', ')}"
+      end
+
+      if title.blank? && body.blank?
+        raise ArgumentError, "#{self.class}: pass a title:, a body:, or both"
       end
 
       @title = title
@@ -92,6 +96,16 @@ module Shipwright
 
     def variant_icon
       @icon_override || VARIANTS.fetch(@variant)[:icon]
+    end
+
+    # `title` is a one-line heading and truncates; `body` wraps. A body with no
+    # title above it is the entire message, so it takes the full-emphasis
+    # treatment rather than the dimmed secondary one.
+    def body_classes
+      classes(
+        "text-sm leading-5 break-words",
+        "text-text-inverse/80": title.present?
+      )
     end
 
     def dismissible?

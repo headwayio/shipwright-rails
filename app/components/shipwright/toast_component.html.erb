@@ -15,9 +15,11 @@
   </span>
 
   <div class="flex-1 min-w-0 pt-0.5">
-    <p class="text-sm font-semibold leading-5 truncate"><%= title %></p>
+    <% if title.present? %>
+      <p class="text-sm font-semibold leading-5 truncate"><%= title %></p>
+    <% end %>
     <% if body.present? %>
-      <p class="text-sm leading-5 text-text-inverse/80 break-words"><%= body %></p>
+      <p class="<%= body_classes %>"><%= body %></p>
     <% end %>
   </div>
 
