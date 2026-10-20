@@ -10,7 +10,7 @@
 Pin a tag:
 
 ```ruby
-gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.0"
+gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.1"
 ```
 
 That is what an application should use. A tag is reviewable (the CHANGELOG
@@ -53,8 +53,8 @@ Don't open PRs against `main`. It only moves at release time.
 
    ```bash
    git checkout main && git pull
-   git tag -a v0.2.0 -m "v0.2.0"
-   git push origin v0.2.0
+   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git push origin vX.Y.Z
    ```
 
 5. Add a new `## [Unreleased]` heading to the CHANGELOG on `develop`.
