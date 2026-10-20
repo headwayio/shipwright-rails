@@ -9,3 +9,9 @@
 # install location, so it is only valid on the machine that generated it.
 # Regenerated before every Tailwind build — see the Rakefile hook.
 /test/dummy/app/assets/builds/tailwind/
+
+# Never commit a Rails master key, even a dummy app's — secret scanners flag it
+# and it teaches the wrong habit. The dummy app's credentials held only a
+# secret_key_base, which Rails derives on its own in development and test.
+/test/dummy/config/master.key
+/test/dummy/config/credentials.yml.enc

@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.2.1] - 2026-10-20
+
+### Fixed
+
+- Defined `--color-background-inverse`, `--color-background-tertiary` and
+  `--color-text-secondary`. Modal and slideout already referenced all three, so
+  their backdrops, the modal's close-button hover state, both subtitles and the
+  slideout's inactive tab labels compiled to nothing and rendered unstyled.
+- `test/dummy/config/storage.yml` was missing, so the dummy app could not boot
+  in any environment that eager-loads ActiveStorage.
+
+### Added
+
+- A `test` workflow running the suite, the Tailwind build, a production boot
+  and `gem build` on pushes and PRs to `main` and `develop`.
+- `Shipwright::TokenReferenceTest`, which fails when a component names a colour
+  token `engine.css` does not define.
+
+### Removed
+
+- `test/dummy/config/master.key` and `credentials.yml.enc` are no longer
+  tracked. They held only a generated `secret_key_base`, which Rails derives on
+  its own in development and test.
+
 ## [0.2.0] - 2026-10-19
 
 ### Breaking Changes

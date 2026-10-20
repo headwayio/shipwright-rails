@@ -1,0 +1,11 @@
+# ActiveStorage loads with `require "rails/all"`, and raises at boot in any
+# environment that eager-loads it if this file is absent — RAILS_ENV=production
+# fails with "Couldn't find Active Storage configuration". Nothing in the dummy
+# app uses ActiveStorage; this exists so the app boots.
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>

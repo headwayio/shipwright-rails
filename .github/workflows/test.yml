@@ -1,0 +1,66 @@
+name: test
+
+# Nothing ran the suite before this: the only workflow was the theme sync, so a
+# red `develop` was invisible until someone pulled it. A missing
+# test/dummy/config/storage.yml reached a release that way.
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      # test/dummy has its own Gemfile (which only evals this one) and its own
+      # lockfile, but setup-ruby installs the root bundle alone — so `bundle
+      # exec` inside test/dummy looked for a bundle that was never installed.
+      # Pinning every step to the root Gemfile gives the whole job one bundle.
+      BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Reads .ruby-version. bundler-cache handles install + caching.
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Component tests
+        run: bundle exec rake test
+
+      - name: Tailwind build
+        # The engine stub is generated with an absolute path, so it cannot be
+        # committed and this is the only place a wrong one would surface.
+        working-directory: test/dummy
+        run: bundle exec rake tailwindcss:build
+
+      - name: Engine utilities reached the build
+        working-directory: test/dummy
+        run: |
+          # No leading dot: some of these only appear behind a variant prefix,
+          # e.g. backdrop\:bg-background-inverse\/25::backdrop
+          for utility in bg-interactive-primary-default text-interactive-on-primary \
+                         text-utility-on-positive text-text-secondary \
+                         bg-background-inverse bg-background-tertiary; do
+            if ! grep -qF "${utility}" app/assets/builds/tailwind.css; then
+              echo "::error::${utility} is missing from the compiled CSS"
+              exit 1
+            fi
+          done
+          echo "all checked utilities compiled"
+
+      - name: Boot in production
+        # Catches the class of config gap that only eager loading reveals.
+        working-directory: test/dummy
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE: dummy-key-for-boot-check
+        run: bin/rails runner 'puts "boot ok"'
+
+      - name: Build the gem
+        run: gem build shipwright.gemspec
