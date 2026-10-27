@@ -14,8 +14,17 @@
   could fix this themselves with `bundle update view_component`. Raising the
   floor is what stops a fresh `bundle install` resolving a vulnerable one.
 
-  Shipwright's own lockfiles moved 4.6.0 → 4.20.0. The 385-test suite passes
-  unchanged on it; no component API Shipwright uses has altered.
+  `test/dummy/Gemfile.lock` moved 4.6.0 → 4.20.0 — the only lockfile this repo
+  commits, since a gem's own `Gemfile.lock` is gitignored. The 385-test suite
+  passes unchanged on it; no component API Shipwright uses has altered.
+
+  **Consumers should expect `ViewComponent::ReusedInstanceError`.** The fix
+  works by refusing to render the same component INSTANCE twice, which is how
+  the leaked state was reaching a second render in the first place. An app that
+  memoizes a component and renders it in a loop — `@badge ||=
+  BadgeComponent.new(...)` — now raises where it previously rendered. Build a
+  new instance per render. Shipwright itself does not memoize any component, so
+  nothing here is affected.
 
   **This drops support for ViewComponent 3.x.** Shipwright already requires
   Rails >= 8.1, where 4.x is the current line, so the practical reach is small.
