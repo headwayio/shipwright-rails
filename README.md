@@ -7,7 +7,7 @@ Headway's design system as Rails ViewComponents with Tailwind 4 theme tokens.
 Add to your Gemfile:
 
 ```ruby
-gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.1"
+gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.2"
 ```
 
 Run `bundle install`.

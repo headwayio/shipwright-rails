@@ -10,7 +10,7 @@
 Pin a tag:
 
 ```ruby
-gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.1"
+gem "shipwright", github: "headwayio/shipwright-rails", tag: "v0.2.2"
 ```
 
 That is what an application should use. A tag is reviewable (the CHANGELOG
