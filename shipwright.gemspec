@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "rails", ">= 8.1"
-  spec.add_dependency "view_component", ">= 3.0"
+  spec.add_dependency "view_component", ">= 4.14"
   spec.add_dependency "tailwindcss-rails", ">= 4.0"
   spec.add_dependency "tailwind_merge", "~> 1.4"
 end

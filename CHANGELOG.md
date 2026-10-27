@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.2.2] - 2026-10-27
+
+### Security
+
+- Raised the `view_component` floor to `>= 4.14`, for
+  [GHSA-8qw7-6phv-7q6p](https://github.com/ViewComponent/view_component/security/advisories/GHSA-8qw7-6phv-7q6p)
+  — slot and `with_content` state leaking across reused component instances, an
+  incomplete fix for CVE-2026-54497. Every version below 4.14.0 is affected,
+  including the whole 3.x line.
+
+  The old `>= 3.0` constraint already ALLOWED a patched version, so a consumer
+  could fix this themselves with `bundle update view_component`. Raising the
+  floor is what stops a fresh `bundle install` resolving a vulnerable one.
+
+  Shipwright's own lockfiles moved 4.6.0 → 4.20.0. The 385-test suite passes
+  unchanged on it; no component API Shipwright uses has altered.
+
+  **This drops support for ViewComponent 3.x.** Shipwright already requires
+  Rails >= 8.1, where 4.x is the current line, so the practical reach is small.
+
 ## [0.2.1] - 2026-10-20
 
 ### Fixed

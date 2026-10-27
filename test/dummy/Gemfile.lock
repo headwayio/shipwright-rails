@@ -1,11 +1,11 @@
 PATH
   remote: ../..
   specs:
-    shipwright (0.2.1)
+    shipwright (0.2.2)
       rails (>= 8.1)
       tailwind_merge (~> 1.4)
       tailwindcss-rails (>= 4.0)
-      view_component (>= 3.0)
+      view_component (>= 4.14)
 
 GEM
   remote: https://rubygems.org/
@@ -253,7 +253,13 @@ GEM
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
+    tailwindcss-ruby (4.2.2)
+    tailwindcss-ruby (4.2.2-aarch64-linux-gnu)
+    tailwindcss-ruby (4.2.2-aarch64-linux-musl)
     tailwindcss-ruby (4.2.2-arm64-darwin)
+    tailwindcss-ruby (4.2.2-x86_64-darwin)
+    tailwindcss-ruby (4.2.2-x86_64-linux-gnu)
+    tailwindcss-ruby (4.2.2-x86_64-linux-musl)
     thor (1.5.0)
     timeout (0.6.1)
     tsort (0.2.0)
@@ -261,10 +267,10 @@ GEM
       concurrent-ruby (~> 1.0)
     uri (1.1.1)
     useragent (0.16.11)
-    view_component (4.6.0)
+    view_component (4.20.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
-      concurrent-ruby (~> 1)
+      prism (>= 1.0)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
