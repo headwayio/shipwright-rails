@@ -7,8 +7,11 @@ name: test
 on:
   push:
     branches: [ main, develop ]
+  # EVERY pull request, whatever it targets. Filtering to [main, develop] meant
+  # a PR stacked on another PR — targeting that PR's branch — ran no checks at
+  # all, and reported mergeStateStatus CLEAN because there were none to fail.
+  # An unverified green is worse than a red: #67 sat "clean" with zero runs.
   pull_request:
-    branches: [ main, develop ]
 
 jobs:
   test:
